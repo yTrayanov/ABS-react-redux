@@ -35,14 +35,14 @@ export default function Login(props){
                             <div className="input-group-prepend">
                             <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                             </div>
-                            <input ref={usernameInput} type='text' className="form-control" placeholder="Username" />
+                            <input ref={usernameInput} type='text' className="form-control" placeholder="Username" defaultValue="user1"/>
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                             <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                             </div>
-                            <input ref={passwordInput} type="password" className="form-control"  placeholder="Password" />
+                            <input ref={passwordInput} type="password" className="form-control"  placeholder="Password" defaultValue="user123" />
                         </div>
                         <div className="form-group">
                             <button type="submit" href='/' className="btn btn-primary btn-block" > Sign In </button>

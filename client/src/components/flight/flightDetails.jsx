@@ -1,6 +1,5 @@
 import React from 'react';
 import Section from '../section/section';
-
 import flightService from '../../services/flight.service';
  
 export default function FlightDetails(props){

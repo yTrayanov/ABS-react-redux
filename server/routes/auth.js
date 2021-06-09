@@ -2,6 +2,8 @@ const express = require('express')
 const passport = require('passport')
 const validator = require('validator');
 
+const {BadRequest} =require('./responses');
+
 const router = new express.Router()
 
 function validateSignupForm (payload) {
@@ -97,7 +99,7 @@ router.post('/login', (req, res, next) => {
     })
   }
 
-  return passport.authenticate('local-login', (err, token, userData) => {
+  return passport.authenticate('local-login', (err, token, data) => {
 
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
@@ -115,14 +117,20 @@ router.post('/login', (req, res, next) => {
       })
     }
 
-    
-    
+    req.logIn(data.user, err => {
+      if(err) return BadRequest(res, 'Couldn\'t log in user');
+    })
+
+    req.session.user = req.user;
+    req.session.save()
+
+    res.cookie('auth',req.session.cookie);
     
     return res.json({
       success: true,
       message: 'You have successfully logged in!',
       token,
-      user: userData
+      user: data.userData,
     })
   })(req, res, next)
 })

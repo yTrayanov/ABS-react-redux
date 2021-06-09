@@ -4,10 +4,15 @@ mongoose.Promise = global.Promise;
 const User = require('../models/User');
 
 module.exports = config => {
-  mongoose.connect(config.dbPath,{
-      useNewUrlParser: true,
-      useUnifiedTopology:true
-    });
+  
+  mongoose.set('useNewUrlParser', true);
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
+
+  mongoose.connect(config.dbPath, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
   const db = mongoose.connection;
   db.once('open', err => {
     if (err) throw err;

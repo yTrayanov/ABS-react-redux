@@ -26,12 +26,11 @@ const flightService = {
 
         return res;
     },
-    getFlightById: async (id ,token) =>{
+    getFlightById: async (id) =>{
         return await window.fetch(BASE_URL + id , {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization': `Bearer ${token}`
             }
         });
     }

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = new express.Router();
 const Flight = require('../models/Flight');
 const Airport = require('../models/Airport');
@@ -47,6 +48,7 @@ router.get('/filter/:origin/:destination/:date', async (req, res) => {
 });
 
 router.get('/:id' ,async (req,res) =>{
+
     const flight = await Flight.findById(req.params.id)
         .populate('sections')
         .populate({

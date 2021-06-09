@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import { getUserId } from '../../store/authReducer';
+import {getUserId } from '../../store/authReducer';
 import ticketService from '../../services/ticket.service';
 import Ticket from './ticket';
 
