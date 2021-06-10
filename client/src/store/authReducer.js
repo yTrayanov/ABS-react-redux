@@ -1,5 +1,7 @@
+const token = window.localStorage.getItem('token');
+
 const initialState = {
-    isLogged: false,
+    isLogged: token? true : false,
     token:'',
     isAdmin:false,
     userId:''
@@ -15,7 +17,8 @@ export function authReducer(state = initialState, action) {
         case ACTIONS.LOGIN:
             return { ...state, isLogged:true , token:action.payload.token , isAdmin:action.payload.isAdmin , userId:action.payload.userId}
         case ACTIONS.LOGOUT:
-            return { initialState};
+            window.localStorage.clear();
+            return { ...state , isLogged:false , token:'' , isAdmin:false , userId:''};
         default:
             return state;
     }

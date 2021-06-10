@@ -21,3 +21,12 @@ export const PrivateRoute = ({ component: Component, ...res }) => {
         <Route  {...res} render={props => (isLogged ? (<Component {...props} />) : (history.push('/')))} />
     )
 }
+
+export const PublicRoute = ({ component: Component, ...res }) => {
+    const history = useHistory();
+    const isLogged = useSelector(getIsLogged);
+
+    return (
+        <Route  {...res} render={props => (!isLogged ? (<Component {...props} />) : (history.push('/')))} />
+    )
+}

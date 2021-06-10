@@ -77,7 +77,8 @@ router.delete('/remove', async (req, res) => {
 })
 
 router.get('/user/:Id' , async (req ,res) =>{
-    const user = await User.findById(req.params.Id)
+
+    const user = await User.findById(req.user._id)
     .populate({
         path:'tickets', 
         populate:[{

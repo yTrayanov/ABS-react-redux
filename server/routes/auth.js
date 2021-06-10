@@ -1,12 +1,13 @@
 const express = require('express')
 const passport = require('passport')
 const validator = require('validator');
+const {tokenDecoder} = require('../middleware/auth-check');
 
-const {BadRequest} =require('./responses');
+const { BadRequest, Ok } = require('./responses');
 
 const router = new express.Router()
 
-function validateSignupForm (payload) {
+function validateSignupForm(payload) {
   const errors = {}
   let isFormValid = true
   let message = ''
@@ -37,7 +38,7 @@ function validateSignupForm (payload) {
   }
 }
 
-function validateLoginForm (payload) {
+function validateLoginForm(payload) {
   const errors = {}
   let isFormValid = true
   let message = ''
@@ -64,17 +65,17 @@ function validateLoginForm (payload) {
 }
 
 router.post('/register', (req, res, next) => {
-   const validationResult = validateSignupForm(req.body)
-   if (!validationResult.success) {
-     return res.status(401).json({
-       success: false,
-       message: validationResult.message,
-       errors: validationResult.errors
-     })
-   }
+  const validationResult = validateSignupForm(req.body)
+  if (!validationResult.success) {
+    return res.status(401).json({
+      success: false,
+      message: validationResult.message,
+      errors: validationResult.errors
+    })
+  }
 
 
-  return passport.authenticate('local-signup', (err) => {
+  return passport.authenticate('signup', (err) => {
     if (err) {
       return res.status(401).json({
         success: false,
@@ -86,7 +87,7 @@ router.post('/register', (req, res, next) => {
       success: true,
       message: 'You have successfully signed up! Now you should be able to log in.'
     })
-  })(req, res, next)  
+  })(req, res, next)
 })
 
 router.post('/login', (req, res, next) => {
@@ -99,40 +100,56 @@ router.post('/login', (req, res, next) => {
     })
   }
 
-  return passport.authenticate('local-login', (err, token, data) => {
-
+  return passport.authenticate('login', (err, user, token) => {
     if (err) {
-      if (err.name === 'IncorrectCredentialsError') {
-        console.log('Invalid credentials');
-        
-        return res.status(401).json({
-          success: false,
-          message: err.message
-        })
-      }
-
+      console.log(err);
       return res.status(401).json({
         success: false,
         message: 'Could not process the form.'
       })
     }
 
-    req.logIn(data.user, err => {
-      if(err) return BadRequest(res, 'Couldn\'t log in user');
+    if (!user) {
+      return BadRequest(res, 'User not found');
+    }
+
+    req.logIn(user, err => {
+      if (err) return BadRequest(res, 'Couldn not log in user');
     })
+    const data = {
+      username: user.username,
+      isAdmin: user.roles.indexOf('Admin') != -1,
+      userId: user._id,
+    }
 
-    req.session.user = req.user;
-    req.session.save()
+    res.cookie('passport', user._id);
 
-    res.cookie('auth',req.session.cookie);
-    
     return res.json({
       success: true,
       message: 'You have successfully logged in!',
       token,
-      user: data.userData,
+      user: data,
     })
   })(req, res, next)
+});
+
+router.post('/logout', (req, res) => {
+  if (req.isAuthenticated()) {
+    req.logOut();
+  }
+
+  res.clearCookie('passport');
+
+  return res.status(200).json({
+    success: true,
+    message: 'Logged out'
+  })
+})
+
+router.get('/stat' ,(req , res , isLogged) =>{
+
+
+  return Ok(res , 'Hahaha');
 })
 
 module.exports = router

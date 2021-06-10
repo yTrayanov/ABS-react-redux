@@ -4,6 +4,7 @@ const sectionService = {
     createSection: async (rows, columns, seatClass, flightNumber) => {
         const res = await window.fetch(BASE_URL + 'create', {
             method: 'POST',
+            credentials:'include',
             headers: {
                 'Content-Type': 'application/json'
             },

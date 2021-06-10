@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import AuthService from '../../services/auth.service';
+import аuthService from '../../services/auth.service';
 
 export default function Register() {
     const history = useHistory();
@@ -13,7 +13,7 @@ export default function Register() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        AuthService.register(usernameInput.current.value, emailInput.current.value, passwordInput.current.value)
+        аuthService.register(usernameInput.current.value, emailInput.current.value, passwordInput.current.value)
             .then(() => {
                 history.push('/login')
             }).catch(() => {

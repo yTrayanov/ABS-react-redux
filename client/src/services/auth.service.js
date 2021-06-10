@@ -1,9 +1,10 @@
 const BASE_URL = 'http://localhost:5000/auth/';
 
-const AuthService ={
+const аuthService ={
     login:async (username , password) =>{
         const res = await window.fetch(BASE_URL + 'login' , {
             method:'POST',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json'
             },
@@ -19,6 +20,7 @@ const AuthService ={
     register:async (username , email , password) =>{
         const res = await window.fetch(BASE_URL + 'register' , {
             method:'POST',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json'
             },
@@ -28,7 +30,17 @@ const AuthService ={
         })
 
         return res.json();
+    },
+
+    logout: async () =>{
+        await window.fetch(BASE_URL + 'logout',{
+            method:'POST',
+            credentials:'include',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
     }
 }
 
-export default AuthService;
+export default аuthService;

@@ -5,6 +5,7 @@ const flightService = {
     create: async (originAirport, destinationAirport, airline, flightNumber, departureDate) => {
         const res = await window.fetch(BASE_URL + 'create', {
             method: 'POST',
+            credentials:'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -19,6 +20,7 @@ const flightService = {
     getFilteredFlights: async (originAirport, destinationAirport, departureDate) => {
         const res = await window.fetch(BASE_URL + `filter/${originAirport}/${destinationAirport}/${departureDate}` , {
             method:'GET',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json'
             }
@@ -29,6 +31,7 @@ const flightService = {
     getFlightById: async (id) =>{
         return await window.fetch(BASE_URL + id , {
             method:'GET',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json',
             }

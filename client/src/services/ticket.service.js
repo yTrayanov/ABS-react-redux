@@ -4,6 +4,7 @@ const ticketService = {
     createTicket: async (flightId, seatClass, row, column , userId) => {
         const res = await window.fetch(BASE_URL + 'create', {
             method: 'POST',
+            credentials:'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -18,6 +19,7 @@ const ticketService = {
     getUserTickets: async (userId) => {
         const res = await window.fetch(BASE_URL + `user/${userId}` , {
             method:'GET',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json',
             },
@@ -28,6 +30,7 @@ const ticketService = {
     deleteTicket: async (ticketId) =>{
         const res = await window.fetch(BASE_URL + 'remove' , {
             method: 'DELETE',
+            credentials:'include',
             headers:{
                 'Content-Type':'application/json'
             },
