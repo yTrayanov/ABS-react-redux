@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const validator = require('validator');
-const {tokenDecoder} = require('../middleware/auth-check');
+const { tokenDecoder } = require('../middleware/auth-check');
 
 const { BadRequest, Ok } = require('./responses');
 
@@ -145,23 +145,20 @@ router.post('/logout', (req, res) => {
   })
 })
 
-router.get('/stat' , tokenDecoder, (req , res) =>{
+router.get('/stat', tokenDecoder, (req, res) => {
 
-  console.log(req.user);
-
-  if(!req.user) return Ok(res, 'No user' , false);
+  if (!req.user) return Ok(res, 'No user', false);
 
 
-    if(!req.cookies['passport']) res.cookie('passport' , req.user._id);
-    
-      const isAdmin = req.user.roles.indexOf('Admin') !== -1;
-      const userData = {
-      isAdmin,
-    }
+  if (!req.cookies['passport'])
+    res.cookie('passport', req.user._id);
 
-    console.log(userData);
 
-    return Ok(res , 'Auth cookie is set' , userData);
+  const userData = {
+    isAdmin: req.user.roles.indexOf('Admin') !== -1,
+  }
+
+  return Ok(res, 'Auth cookie is set', userData);
 
 })
 

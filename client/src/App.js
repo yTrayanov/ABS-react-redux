@@ -1,8 +1,6 @@
 import './App.css';
+import {useDispatch} from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-
-import {store} from './store/store';
 import Navigation from './components/navigation';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
@@ -11,11 +9,32 @@ import Home from './components/home';
 import UserTickets from './components/ticket/userTickets';
 import FlightDetails from './components/flight/flightDetails';
 import CreateSection from './components/section/createSection';
+
 import { AdminRoute, PrivateRoute } from './routes';
+import {ACTIONS} from './store/authReducer';
+
+
 
 function App() {
+
+  const dispatch = useDispatch();
+
+    const token = window.localStorage.getItem('token');
+    if (token)
+      window.fetch('http://localhost:5000/auth/stat', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      }).then(response => response.json())
+      .then(({data}) => {
+          dispatch({type:ACTIONS.SET_ADMIN  , payload:{isAdmin:data.isAdmin}});
+      });
+
+      
   return (
-    <Provider store={store}>
       <div className="App">
         <>
           <Navigation />
@@ -30,7 +49,6 @@ function App() {
           </Switch>
         </>
       </div>
-    </Provider>
   );
 }
 
