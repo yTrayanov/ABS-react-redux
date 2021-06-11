@@ -1,19 +1,7 @@
 const token = window.localStorage.getItem('token');
 
-const initialState = {
-    isLogged: token ? true : false,
-    token: token,
-    isAdmin: false,
-};
-
-export const ACTIONS = {
-    LOGIN: 'Login',
-    LOGOUT: 'Logout'
-}
-
-export function authReducer(state = initialState, action) {
-
-    window.fetch('http://localhost:5000/auth/stat', {
+const checkAdmin = async () =>{
+    const result = await window.fetch('http://localhost:5000/auth/stat', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -22,10 +10,29 @@ export function authReducer(state = initialState, action) {
         }
     })
         .then(response => response.json())
-        .then(data => {
-            initialState['isAdmin'] = data.isAdmin;
+        .then(({data})  => {
+            return data.isAdmin;
         })
 
+        return result;
+}
+
+
+const initialState = {
+    isLogged: token ? true : false,
+    token: token,
+    isAdmin: checkAdmin(),
+};
+
+
+
+
+export const ACTIONS = {
+    LOGIN: 'Login',
+    LOGOUT: 'Logout'
+}
+
+export function authReducer(state = initialState, action) {
 
     switch (action.type) {
         case ACTIONS.LOGIN:

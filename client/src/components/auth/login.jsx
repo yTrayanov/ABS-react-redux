@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import AuthService from '../../services/auth.service';
 import { ACTIONS } from '../../store/authReducer';
 
-export default function Login(props) {
+export default function Login() {
     const dispatch = useDispatch();
 
     const [error, setError] = useState(false);
@@ -17,8 +17,8 @@ export default function Login(props) {
         event.preventDefault();
 
         await AuthService.login(usernameInput.current.value, passwordInput.current.value).then((data) => {
-            dispatch({ type: ACTIONS.LOGIN, payload: { token: data.token, isAdmin: data.user.isAdmin} });
             window.localStorage.setItem('token', data.token);
+            dispatch({ type: ACTIONS.LOGIN, payload: { token: data.token, isAdmin: data.user.isAdmin} });
         }).catch(() => {
             setError(true)
         });

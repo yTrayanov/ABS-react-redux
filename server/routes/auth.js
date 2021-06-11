@@ -147,18 +147,22 @@ router.post('/logout', (req, res) => {
 
 router.get('/stat' , tokenDecoder, (req , res) =>{
 
-  if(req.user){
-    if(!req.cookies['passport'])
-      res.cookie('passport' , req.user._id);
+  console.log(req.user);
+
+  if(!req.user) return Ok(res, 'No user' , false);
+
+
+    if(!req.cookies['passport']) res.cookie('passport' , req.user._id);
     
+      const isAdmin = req.user.roles.indexOf('Admin') !== -1;
       const userData = {
-      isAdmin:req.user.roles.indexOf('Admin') !== -1,
+      isAdmin,
     }
 
-    return Ok(res , 'Auth cookie is set' , userData);
-  }
+    console.log(userData);
 
-  return Ok(res, 'No user' , false);
+    return Ok(res , 'Auth cookie is set' , userData);
+
 })
 
 module.exports = router
