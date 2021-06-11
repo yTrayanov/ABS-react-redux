@@ -102,7 +102,6 @@ router.post('/login', (req, res, next) => {
 
   return passport.authenticate('login', (err, user, token) => {
     if (err) {
-      console.log(err);
       return res.status(401).json({
         success: false,
         message: 'Could not process the form.'
@@ -146,10 +145,20 @@ router.post('/logout', (req, res) => {
   })
 })
 
-router.get('/stat' ,(req , res , isLogged) =>{
+router.get('/stat' , tokenDecoder, (req , res) =>{
 
+  if(req.user){
+    if(!req.cookies['passport'])
+      res.cookie('passport' , req.user._id);
+    
+      const userData = {
+      isAdmin:req.user.roles.indexOf('Admin') !== -1,
+    }
 
-  return Ok(res , 'Hahaha');
+    return Ok(res , 'Auth cookie is set' , userData);
+  }
+
+  return Ok(res, 'No user' , false);
 })
 
 module.exports = router

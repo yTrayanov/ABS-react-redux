@@ -28,19 +28,39 @@ const jwtAuthCheck = (req, res, next) => {
 }
 
 const tokenDecoder = (req , res , next) =>{
-  if(!req.headers.authorization){
-    next(null , null , false);
+
+  if(req.user){
+    next();
   }
 
-  const token = req.headers.authorization.split(' ')[1];
+  if(!req.headers.authorization){
+    next();
+  }
 
-  console.log(token);
+  const token = req.headers.authorization;
+
   jwt.verify(token , 's0m3 r4nd0m str1ng' , (err , decoded) =>{
-    console.log(decoded);
+
+    if(!decoded){
+      return next();
+    }
+
+    if(err) next()
+
+    User.findById(decoded.userId).then((user) =>{
+      if(!user){
+        return next();
+      }
+
+      req.logIn(user , err =>{
+        if(err){
+          next();
+        }
+      })
+      return next();
+    })
   })
 
-
-  return next();
 }
 
 

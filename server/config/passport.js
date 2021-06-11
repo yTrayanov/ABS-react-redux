@@ -35,10 +35,9 @@ module.exports = (passport) => {
         })
       }))
 
-    passport.serializeUser(function (user, done) { console.log('serialize'); done(null, user._id) });
+    passport.serializeUser(function (user, done) { done(null, user._id) });
 
     passport.deserializeUser(function (id, done) {
-        console.log('deserialize');
         User.findById(id, (err, user) => done(err, user));
     })
 }

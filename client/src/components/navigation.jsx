@@ -14,9 +14,9 @@ export default function Navigation() {
     const Logout =() => {
         authService.logout().then(() => {
             dispatch({ type: ACTIONS.LOGOUT });
+            history.push('/');
         });
         
-        history.push('/');
     }
 
     return (

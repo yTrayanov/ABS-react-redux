@@ -17,7 +17,7 @@ export default function Login(props) {
         event.preventDefault();
 
         await AuthService.login(usernameInput.current.value, passwordInput.current.value).then((data) => {
-            dispatch({ type: ACTIONS.LOGIN, payload: { token: data.token, isAdmin: data.user.isAdmin, userId: data.user.userId } });
+            dispatch({ type: ACTIONS.LOGIN, payload: { token: data.token, isAdmin: data.user.isAdmin} });
             window.localStorage.setItem('token', data.token);
         }).catch(() => {
             setError(true)

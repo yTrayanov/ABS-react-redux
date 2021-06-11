@@ -1,17 +1,17 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {getUserId} from '../../store/authReducer';
+import {getIsLogged} from '../../store/authReducer';
 import ticketService from '../../services/ticket.service';
 
 export default function Seat({seat , flightId , seatClass}) {
 
-    const userId = useSelector(getUserId);
+    const isLogged = useSelector(getIsLogged);
     const [booked , setBooked] = React.useState(seat.isBooked);
 
     const handleClick = () =>{
-        if(userId !== ''){
-            ticketService.createTicket(flightId , seatClass, seat.row , seat.column , userId)
+        if(isLogged){
+            ticketService.createTicket(flightId , seatClass, seat.row , seat.column)
                 .then((response) => response.json())
                 .then((data) =>{
                     if(data.success){

@@ -35,9 +35,7 @@ router.post('/create', async (req, res) => {
         return BadRequest(res, 'Seat is already booked');
     }
 
-
-    const user = await User.findById(req.body.userId);
-    if(!user){
+    if(!req.user){
         return BadRequest(res , 'Not logged');
     }
 
@@ -48,8 +46,8 @@ router.post('/create', async (req, res) => {
     });
 
 
-    user.tickets.push(ticket);
-    user.save();
+    req.user.tickets.push(ticket);
+    req.user.save();
 
 
 
@@ -76,7 +74,7 @@ router.delete('/remove', async (req, res) => {
 
 })
 
-router.get('/user/:Id' , async (req ,res) =>{
+router.get('/user/tickets' , async (req ,res) =>{
 
     const user = await User.findById(req.user._id)
     .populate({
