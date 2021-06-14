@@ -1,9 +1,11 @@
 const express = require('express')
+const jwt = require('jsonwebtoken');
 const passport = require('passport')
 const validator = require('validator');
 const { tokenDecoder } = require('../middleware/auth-check');
+const { Ok, Unauthorized } = require('./responses');
 
-const { BadRequest, Ok } = require('./responses');
+
 
 const router = new express.Router()
 
@@ -91,6 +93,24 @@ router.post('/register', (req, res, next) => {
 })
 
 router.post('/login', (req, res, next) => {
+
+  if (req.isAuthenticated()) {
+    const token = jwt.sign({ userId: req.user._id }, 's0m3 r4nd0m str1ng');
+
+    if (!req.cookies['passport'])
+      res.cookie('passport', req.user._id);
+
+    return res.status(200).json({
+      success: true,
+      message: 'You have successfully logged in!',
+      token,
+      user: {
+        username: req.user.username,
+        isAdmin: req.user.roles.indexOf('Admin') != -1
+      }
+    });
+  }
+
   const validationResult = validateLoginForm(req.body)
   if (!validationResult.success) {
     return res.status(401).json({
@@ -102,28 +122,31 @@ router.post('/login', (req, res, next) => {
 
   return passport.authenticate('login', (err, user, token) => {
     if (err) {
-      return res.status(401).json({
+      return res.status(500).json({
         success: false,
-        message: 'Could not process the form.'
+        message: 'Something went wrong with server'
       })
     }
 
     if (!user) {
-      return BadRequest(res, 'User not found');
+      return Unauthorized(res, 'Invalid username or password');
     }
 
     req.logIn(user, err => {
-      if (err) return BadRequest(res, 'Couldn not log in user');
+      if (err) return res.status(500).json({
+        success: false,
+        message: 'Something went wrong with server'
+      });
     })
+
     const data = {
       username: user.username,
-      isAdmin: user.roles.indexOf('Admin') != -1,
-      userId: user._id,
+      isAdmin: user.roles.indexOf('Admin') != -1
     }
 
     res.cookie('passport', user._id);
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: 'You have successfully logged in!',
       token,
@@ -145,9 +168,9 @@ router.post('/logout', (req, res) => {
   })
 })
 
-router.get('/stat', tokenDecoder, (req, res) => {
+router.post('/stat', tokenDecoder, (req, res) => {
 
-  if (!req.user) return Ok(res, 'No user', false);
+  if (!req.user) return Ok(res, 'No user');
 
 
   if (!req.cookies['passport'])

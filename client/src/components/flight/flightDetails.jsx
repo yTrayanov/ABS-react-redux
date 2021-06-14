@@ -1,23 +1,26 @@
 import React from 'react';
 import Section from '../section/section';
-import flightService from '../../services/flight.service';
- 
-export default function FlightDetails(props){
+
+import { getRequest } from '../../requests';
+import { getFlightDetailsUrl } from '../../urls';
+
+export default function FlightDetails(props) {
+    const [sections, setSections] = React.useState([]);
+
     const id = props.match.params.id;
-    const [sections , setSections] = React.useState([]);
-    
-    React.useEffect(() =>{
-        flightService.getFlightById(id)
-        .then((response) =>response.json())
-        .then(({data}) =>{
-            setSections(data.sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats}/> ))
+    const url = getFlightDetailsUrl(id);
+
+
+    React.useEffect(() => {
+        getRequest(url).then(({ data }) => {
+            setSections(data.sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats} />))
         });
-    }, [id]);
+    }, [url, id]);
 
 
-    return(
+    return (
         <div className="container">
-            {sections.length>0 ? sections : 'There are no sections'}
+            {sections ? sections : 'There are no sections'}
         </div>
     )
-} 
+}

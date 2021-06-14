@@ -1,30 +1,35 @@
 import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import AuthService from '../../services/auth.service';
-import { ACTIONS } from '../../store/authReducer';
+
+import { postRequest } from '../../requests';
+import {LOGIN_URL} from '../../urls';
+import { ACTIONS  } from '../../store/authReducer';
 
 export default function Login() {
     const dispatch = useDispatch();
-
-    const [error, setError] = useState(false);
-    const usernameInput = useRef();
-    const passwordInput = useRef();
     const history = useHistory();
 
+    const [error, setError] = useState('');
+    const usernameInput = useRef();
+    const passwordInput = useRef();
 
-    const handleSubmit = async (event) => {
+
+
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        await AuthService.login(usernameInput.current.value, passwordInput.current.value).then((data) => {
-            window.localStorage.setItem('token', data.token);
-            dispatch({ type: ACTIONS.LOGIN, payload: { token: data.token, isAdmin: data.user.isAdmin} });
-        }).catch(() => {
-            setError(true)
-        });
-
+        postRequest(LOGIN_URL , {username:usernameInput.current.value , password:passwordInput.current.value}).then((response) =>{
+            if(!response.success)
+                throw new Error(response.message);
+                
+            window.localStorage.setItem('token', response.token);
+            dispatch({ type: ACTIONS.LOGIN, payload: { token: response.token, isAdmin: response.user.isAdmin}});
+            history.push('/');
+        }).catch(err => {
+            setError(err.message);
+        })
         
-        history.push('/');
     }
 
     return (
@@ -51,7 +56,7 @@ export default function Login() {
                             <button type="submit" href='/' className="btn btn-primary btn-block" > Sign In </button>
                         </div>
                     </form>
-                    {error ? <span>Wrong email or passowrd</span> : null}
+                    {error ? <span>{error}</span> : null}
                 </div>
             </div>
             <div className="col-lg-4"></div>

@@ -3,7 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsLogged, getIsAdmin } from '../store/authReducer';
 import { ACTIONS } from '../store/authReducer';
-import  authService  from '../services/auth.service';
+
+
+import { postRequest } from '../requests';
+import {LOGOUT_URL} from '../urls';
 
 export default function Navigation() {
     const dispatch = useDispatch();
@@ -12,10 +15,10 @@ export default function Navigation() {
     const isAdmin = useSelector(getIsAdmin);
 
     const Logout =() => {
-        authService.logout().then(() => {
+        postRequest(LOGOUT_URL , {}).then(() =>{
             dispatch({ type: ACTIONS.LOGOUT });
             history.push('/');
-        });
+        })
         
     }
 
@@ -35,7 +38,7 @@ export default function Navigation() {
                         {isLogged && !isAdmin ? <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li> : null}
                         {(isLogged && isAdmin) ? <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li> : null}
                         {isLogged && isAdmin ? <li className='nav-link'><Link to="/section/create" >Create Section</Link></li> : null}
-                        {isLogged ? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
+                        {isLogged? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
 
                     </ul>
                 </div>

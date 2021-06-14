@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const jwtAuthCheck = (req, res, next) => {
+const AuthCheck = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end()
   }
@@ -63,9 +63,7 @@ const tokenDecoder = (req , res , next) =>{
 
 }
 
-
-
 module.exports = {
-  jwtAuthCheck,
+  AuthCheck,
   tokenDecoder
 }

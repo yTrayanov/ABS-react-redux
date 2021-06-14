@@ -16,9 +16,16 @@ const Created = (res , message , data) => res.status(201).json({
     data
 });
 
+const Unauthorized = (res , message , data) => res.status(401).json({
+    success:false,
+    message,
+    data
+})
+
 module.exports ={
     BadRequest,
     Ok,
-    Created
+    Created,
+    Unauthorized
 }
 

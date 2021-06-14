@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 
 export default function Flight({ id, originAirportName, destinationAirportName, airlineName, departureDate }) {
-
-    
     return (
         <li className="col-md-6">
             <Link to={`/flight/${id}`}>

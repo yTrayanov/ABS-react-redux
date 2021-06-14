@@ -2,7 +2,9 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {getIsLogged} from '../../store/authReducer';
-import ticketService from '../../services/ticket.service';
+
+import { postRequest } from '../../requests';
+import { CREATE_TICKET_URL} from '../../urls';
 
 export default function Seat({seat , flightId , seatClass}) {
 
@@ -11,10 +13,9 @@ export default function Seat({seat , flightId , seatClass}) {
 
     const handleClick = () =>{
         if(isLogged){
-            ticketService.createTicket(flightId , seatClass, seat.row , seat.column)
-                .then((response) => response.json())
-                .then((data) =>{
-                    if(data.success){
+            postRequest(CREATE_TICKET_URL , {flightId ,seatClass ,row:seat.row ,column:seat.column})
+                .then(response => {
+                    if(response.success){
                         setBooked(true);
                     }
                 })

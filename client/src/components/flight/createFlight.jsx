@@ -1,11 +1,11 @@
 import React from 'react';
-import flightService from '../../services/flight.service';
+
+import { postRequest } from '../../requests';
+import { CREATE_FLIGHT_URL } from '../../urls';
 
 export default function CreateFlight() {
 
-    console.log('create flight')
-
-    const [error , setError] = React.useState('');
+    const [error, setError] = React.useState('');
     const originAirportInput = React.useRef();
     const destinationAirportInput = React.useRef();
     const airlineInput = React.useRef();
@@ -15,23 +15,26 @@ export default function CreateFlight() {
     const handleSubmit = (event) => {
 
         event.preventDefault();
+        const originAirport = originAirportInput.current.value
+        const destinationAirport = destinationAirportInput.current.value
+        const airline = airlineInput.current.value
+        const flightNumber = flightNumberInput.current.value
+        const departureDate = departureDateInput.current.value
 
-        flightService.create(originAirportInput.current.value , destinationAirportInput.current.value , airlineInput.current.value , flightNumberInput.current.value , departureDateInput.current.value)
-        .then((response) =>{
-            if(!response.ok){
-                throw new Error(response.message);
-            }
-            
-            originAirportInput.current.value = '';
-            destinationAirportInput.current.value = '';
-            airlineInput.current.value = '';
-            flightNumberInput.current.value = '';
-            departureDateInput.current.value = '';
+        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
+            .then(response => {
+                if (!response.success)
+                    throw new Error(response.message);
 
-        }).catch((error) =>{
-            setError(error.message);
-        })
+                originAirportInput.current.value = '';
+                destinationAirportInput.current.value = '';
+                airlineInput.current.value = '';
+                flightNumberInput.current.value = '';
+                departureDateInput.current.value = '';
 
+            }).catch((error) => {
+                setError(error.message);
+            })
     }
 
     return (

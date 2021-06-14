@@ -1,9 +1,10 @@
 import React from 'react';
-import flightService from '../services/flight.service';
 import Flight from './flight/flight';
 
-export default function Home() {
+import { getRequest } from '../requests';
+import {getFilterdFlightsUrl} from '../urls';
 
+export default function Home() {
 
     const [error, setError] = React.useState('');
     const [flights, setFlights] = React.useState([]);
@@ -15,24 +16,22 @@ export default function Home() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        flightService.getFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value)
-            .then(data => data.json())
-            .then(flights => {
-                setFlights(flights);
-            })
-            .catch(error => {
-                setError(error);
-            })
-    }
 
-    const models = flights.map((flight) => (
-        <Flight originAirportName={flight.originAirport.name}
-            destinationAirportName={flight.destinationAirport.name}
-            airlineName={flight.airline.name}
-            departureDate={flight.departureDate}
-            key={flight.flightNumber} 
-            id={flight._id} />
-    ))
+        const url = getFilterdFlightsUrl(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value);
+
+        getRequest(url).then(flights =>{
+            setFlights(flights?.map(flight => (
+                <Flight originAirportName={flight.originAirport.name}
+                    destinationAirportName={flight.destinationAirport.name}
+                    airlineName={flight.airline.name}
+                    departureDate={flight.departureDate}
+                    key={flight.flightNumber} 
+                    id={flight._id} />
+            )));
+        }).catch(error => {
+            setError(error);
+        });
+    }
 
     return (
         <div>
@@ -69,7 +68,7 @@ export default function Home() {
             </div>
             <div>
                 <ul>
-                    {models}
+                    {flights ? flights : null}
                 </ul>
             </div>
         </div>

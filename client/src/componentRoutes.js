@@ -26,3 +26,15 @@ export const AdminRoute = ({ component: Component, ...res }) => {
         )} />
     )
 }
+
+export const PublicRout = ({ component: Component, ...res }) => {
+
+    const isLogged = useSelector(getIsAdmin);
+
+    return (
+        <Route {...res} render={props => (
+            !isLogged ? (<Component {...props} />)
+                : props.history.push('/')
+        )} />
+    )
+}

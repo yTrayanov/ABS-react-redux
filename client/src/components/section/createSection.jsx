@@ -1,5 +1,7 @@
 import React from 'react';
-import sectionService from '../../services/section.service';
+
+import { postRequest } from '../../requests';
+import {CREATE_SECTION_URL } from '../../urls';
 
 export default function CreateSection(){
 
@@ -13,15 +15,20 @@ export default function CreateSection(){
     const handleSubmit = (event) =>{
         event.preventDefault();
 
-        sectionService.createSection(rowsInput.current.value , columnsInput.current.value, seatClassInput.current.value , flightNumberInput.current.value)
-                        .then(() =>{
-                            rowsInput.current.value = '';
-                            columnsInput.current.value = '';
-                            seatClassInput.current.value = '';
-                            flightNumberInput.current.value = '';
-                        }).catch(err => {
-                            setError(err.message);
-                        });
+        const rows = rowsInput.current.value;
+        const columns = columnsInput.current.value;
+        const seatClass = seatClassInput.current.value;
+        const flightNumber = flightNumberInput.current.value;
+
+        postRequest(CREATE_SECTION_URL , {rows , columns , seatClass , flightNumber})
+            .then(() => {
+                rowsInput.current.value = '';
+                columnsInput.current.value = '';
+                seatClassInput.current.value = '';
+                flightNumberInput.current.value = '';
+            }).catch(err => {
+                setError(err.message);
+            });
     }
 
     return (

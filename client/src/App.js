@@ -10,7 +10,7 @@ import UserTickets from './components/ticket/userTickets';
 import FlightDetails from './components/flight/flightDetails';
 import CreateSection from './components/section/createSection';
 
-import { AdminRoute, PrivateRoute } from './routes';
+import { AdminRoute, PrivateRoute} from './routes';
 import {ACTIONS} from './store/authReducer';
 
 
@@ -22,7 +22,7 @@ function App() {
     const token = window.localStorage.getItem('token');
     if (token)
       window.fetch('http://localhost:5000/auth/stat', {
-        method: 'GET',
+        method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
