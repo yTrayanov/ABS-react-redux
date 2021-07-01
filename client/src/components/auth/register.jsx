@@ -71,7 +71,7 @@ export default function Register() {
             return;
         }
 
-        postRequest(REGISTER_URL, usernameInput.current.value, emailInput.current.value, passwordInput.current.value)
+        postRequest(REGISTER_URL, {username:usernameInput.current.value, email:emailInput.current.value, password:passwordInput.current.value})
             .then((response) => {
                 if (response.success)
                     history.push('/login')

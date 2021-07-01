@@ -19,6 +19,7 @@ export default function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        console.log(LOGIN_URL);
         postRequest(LOGIN_URL , {username:usernameInput.current.value , password:passwordInput.current.value}).then((response) =>{
             if(!response.success)
                 throw new Error(response.message);
