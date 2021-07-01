@@ -6,7 +6,7 @@ import { ACTIONS } from '../store/authReducer';
 
 
 import { postRequest } from '../requests';
-import {LOGOUT_URL} from '../urls';
+import { LOGOUT_URL } from '../urls';
 
 export default function Navigation() {
     const dispatch = useDispatch();
@@ -14,12 +14,14 @@ export default function Navigation() {
     const isLogged = useSelector(getIsLogged);
     const isAdmin = useSelector(getIsAdmin);
 
-    const Logout =() => {
-        postRequest(LOGOUT_URL , {}).then(() =>{
+    const Logout = () => {
+        postRequest(LOGOUT_URL, {})
+        .then(() => {
             dispatch({ type: ACTIONS.LOGOUT });
+        }).then(() => {
             history.push('/');
         })
-        
+
     }
 
     return (
@@ -38,7 +40,7 @@ export default function Navigation() {
                         {isLogged && !isAdmin ? <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li> : null}
                         {(isLogged && isAdmin) ? <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li> : null}
                         {isLogged && isAdmin ? <li className='nav-link'><Link to="/section/create" >Create Section</Link></li> : null}
-                        {isLogged? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
+                        {isLogged ? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
 
                     </ul>
                 </div>

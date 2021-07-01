@@ -4,6 +4,7 @@ import Section from '../section/section';
 import { getRequest } from '../../requests';
 import { getFlightDetailsUrl } from '../../urls';
 
+
 export default function FlightDetails(props) {
     const [sections, setSections] = React.useState([]);
 
