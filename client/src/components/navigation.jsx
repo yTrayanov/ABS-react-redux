@@ -32,7 +32,6 @@ export default function Navigation() {
                         {(isLogged && isAdmin) ? <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li> : null}
                         {isLogged && isAdmin ? <li className='nav-link'><Link to="/section/create" >Create Section</Link></li> : null}
                         {isLogged ? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
-
                     </ul>
                 </div>
             </nav>

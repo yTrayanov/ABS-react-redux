@@ -1,6 +1,8 @@
-import './App.css';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
+
+import './App.css';
 import Navigation from './components/navigation';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
@@ -9,9 +11,7 @@ import Home from './components/home';
 import UserTickets from './components/ticket/userTickets';
 import FlightDetails from './components/flight/flightDetails';
 import CreateSection from './components/section/createSection';
-
 import { AdminRoute, PrivateRoute } from './routes';
-import { useEffect } from 'react';
 
 
 

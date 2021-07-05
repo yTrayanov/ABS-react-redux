@@ -54,7 +54,7 @@ export const requestUserTickets = () => (dispatch) => {
     });
 }
 
-export const requestTicket = (flightId, seatClass, row, column) => dispatch => {
+export const requestTicket = (flightId, seatClass, row, column , setBooked) => dispatch => {
     dispatch({type: createTicketActions.REQUEST});
 
     postRequest(CREATE_TICKET_URL , {flightId , seatClass , row , column})
@@ -63,6 +63,7 @@ export const requestTicket = (flightId, seatClass, row, column) => dispatch => {
                 dispatch({type: createTicketActions.FAILURE , payload:{booked:false}});
             }
 
+            setBooked(true);
             dispatch({type:createTicketActions.SUCCESS , payload:{booked:true}});
         })
 

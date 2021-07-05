@@ -1,18 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import { postRequest } from '../../requests';
-import {CREATE_SECTION_URL } from '../../urls';
+import { requestCreateSection } from '../../store/reducers/sectionReducer';
 
-export default function CreateSection(){
-
-    const [error , setError] = React.useState('');
+export default function CreateSection() {
+    const dispatch = useDispatch();
 
     const rowsInput = React.useRef();
     const columnsInput = React.useRef();
     const seatClassInput = React.useRef();
     const flightNumberInput = React.useRef();
 
-    const handleSubmit = (event) =>{
+    const clearForm = () => {
+        rowsInput.current.value = '';
+        columnsInput.current.value = '';
+        seatClassInput.current.value = '';
+        flightNumberInput.current.value = '';
+    }
+    
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         const rows = rowsInput.current.value;
@@ -20,15 +26,7 @@ export default function CreateSection(){
         const seatClass = seatClassInput.current.value;
         const flightNumber = flightNumberInput.current.value;
 
-        postRequest(CREATE_SECTION_URL , {rows , columns , seatClass , flightNumber})
-            .then(() => {
-                rowsInput.current.value = '';
-                columnsInput.current.value = '';
-                seatClassInput.current.value = '';
-                flightNumberInput.current.value = '';
-            }).catch(err => {
-                setError(err.message);
-            });
+        dispatch(requestCreateSection(rows, columns, seatClass, flightNumber , clearForm));
     }
 
     return (
@@ -71,7 +69,6 @@ export default function CreateSection(){
                             <button type="submit" className="btn btn-primary btn-block" > Create </button>
                         </div>
                     </form>
-                    {error ? <span>{error}</span> : null}
                 </div>
             </div>
             <div className="col-lg-4"></div>

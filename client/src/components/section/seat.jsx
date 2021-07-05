@@ -14,8 +14,7 @@ export default function Seat({ seat, flightId, seatClass }) {
 
     const handleClick = () => {
         if (isLogged && !seat.isBooked) {
-            dispatch(requestTicket(flightId , seatClass ,seat.row , seat.column));
-            setBooked(true);
+            dispatch(requestTicket(flightId , seatClass ,seat.row , seat.column , setBooked));
         }
         else{
             history.push('/login');

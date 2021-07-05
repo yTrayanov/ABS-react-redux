@@ -81,7 +81,10 @@ export const login = (username, password, history) => (dispatch) => {
 
             dispatch({ type: loginActions.SUCCESS, payload: { token: response.token, isLogged: true, isAdmin: response.user.isAdmin } });
 
-            history.goBack();
+            if (history.length > 0)
+                history.goBack();
+            else
+                history.push('/');
 
         }).catch(error => {
             dispatch({ type: loginActions.FAILURE, payload: error.message })

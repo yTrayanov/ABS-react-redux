@@ -1,40 +1,36 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import { postRequest } from '../../requests';
-import { CREATE_FLIGHT_URL } from '../../urls';
+import { requestCreateFlight } from '../../store/reducers/flightReducer';
 
 export default function CreateFlight() {
-
-    const [error, setError] = React.useState('');
+    const dispatch = useDispatch();
     const originAirportInput = React.useRef();
     const destinationAirportInput = React.useRef();
     const airlineInput = React.useRef();
     const flightNumberInput = React.useRef();
     const departureDateInput = React.useRef();
 
-    const handleSubmit = (event) => {
 
+    const clearForm = () => {
+        originAirportInput.current.value = "";
+        destinationAirportInput.current.value = "";
+        airlineInput.current.value = "";
+        flightNumberInput.current.value = "";
+        departureDateInput.current.value = "";
+    }
+
+    const handleSubmit = (event) => {
         event.preventDefault();
+
+
         const originAirport = originAirportInput.current.value
         const destinationAirport = destinationAirportInput.current.value
         const airline = airlineInput.current.value
         const flightNumber = flightNumberInput.current.value
         const departureDate = departureDateInput.current.value
 
-        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
-            .then(response => {
-                if (!response.success)
-                    throw new Error(response.message);
-
-                originAirportInput.current.value = '';
-                destinationAirportInput.current.value = '';
-                airlineInput.current.value = '';
-                flightNumberInput.current.value = '';
-                departureDateInput.current.value = '';
-
-            }).catch((error) => {
-                setError(error.message);
-            })
+        dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm));
     }
 
     return (
@@ -84,7 +80,6 @@ export default function CreateFlight() {
                             <button type="submit" className="btn btn-primary btn-block" > Create </button>
                         </div>
                     </form>
-                    {error ? <span>{error}</span> : null}
                 </div>
             </div>
             <div className="col-lg-4"></div>
