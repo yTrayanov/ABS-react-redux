@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
-import {getIsAdmin , getIsLogged } from './store/authReducer'
+import {getIsAdmin , getIsLogged } from './store/reducers/authReducer'
 
 export const AdminRoute = ({ component: Component, ...res }) => {
     const history = useHistory();

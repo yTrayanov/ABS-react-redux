@@ -1,27 +1,18 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getIsLogged, getIsAdmin } from '../store/authReducer';
-import { ACTIONS } from '../store/authReducer';
+import { getIsLogged, getIsAdmin, logout } from '../store/reducers/authReducer';
 
-
-import { postRequest } from '../requests';
-import { LOGOUT_URL } from '../urls';
 
 export default function Navigation() {
     const dispatch = useDispatch();
     const history = useHistory();
+
     const isLogged = useSelector(getIsLogged);
     const isAdmin = useSelector(getIsAdmin);
 
     const Logout = () => {
-        postRequest(LOGOUT_URL, {})
-        .then(() => {
-            dispatch({ type: ACTIONS.LOGOUT });
-        }).then(() => {
-            history.push('/');
-        })
-
+        dispatch(logout(history));
     }
 
     return (

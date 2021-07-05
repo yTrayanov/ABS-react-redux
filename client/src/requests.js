@@ -7,8 +7,7 @@ export const postRequest = (url, data) => {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
-        .then(data => data)
+        .then(response => response.json());
 }
 
 export const getRequest = (url) => {
@@ -19,6 +18,5 @@ export const getRequest = (url) => {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
-    .then(data => data)
+    .then(response => response.json());
 }

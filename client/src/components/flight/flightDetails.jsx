@@ -1,27 +1,24 @@
 import React from 'react';
 import Section from '../section/section';
-
-import { getRequest } from '../../requests';
-import { getFlightDetailsUrl } from '../../urls';
+import {getFlightSections , requestSections } from '../../store/reducers/sectionReducer';
+import { useSelector , useDispatch } from 'react-redux';
 
 
 export default function FlightDetails(props) {
-    const [sections, setSections] = React.useState([]);
-
+    const dispatch = useDispatch();
+    const [mappedSections, setMappedSections] = React.useState([]);
+    const sections = useSelector(getFlightSections);
     const id = props.match.params.id;
-    const url = getFlightDetailsUrl(id);
-
 
     React.useEffect(() => {
-        getRequest(url).then(({ data }) => {
-            setSections(data.sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats} />))
-        });
-    }, [url, id]);
+        dispatch(requestSections(id));
+        setMappedSections(sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats} />))
+    }, [dispatch, id , sections]);
 
 
     return (
         <div className="container">
-            {sections ? sections : 'There are no sections'}
+            {mappedSections ? mappedSections : 'There are no sections'}
         </div>
     )
 }

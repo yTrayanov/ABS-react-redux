@@ -94,6 +94,7 @@ router.post('/register', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
 
+
   if (req.isAuthenticated()) {
     const token = jwt.sign({ userId: req.user._id }, 's0m3 r4nd0m str1ng');
 
@@ -146,12 +147,15 @@ router.post('/login', (req, res, next) => {
 
     res.cookie('passport', user._id);
 
-    return res.status(200).json({
-      success: true,
-      message: 'You have successfully logged in!',
-      token,
-      user: data,
-    })
+    setTimeout(() => {
+      return res.status(200).json({
+        success: true,
+        message: 'You have successfully logged in!',
+        token,
+        user: data,
+      });
+    }, 1000);
+
   })(req, res, next)
 });
 

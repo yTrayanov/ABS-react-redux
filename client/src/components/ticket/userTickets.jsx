@@ -1,23 +1,23 @@
 import React from 'react';
+import { useDispatch , useSelector } from 'react-redux';
 
 import Ticket from './ticket';
-
-import { getRequest } from '../../requests';
-import {USER_TICKETS_URL} from '../../urls';
+import { requestUserTickets , getUserTickets } from '../../store/reducers/ticketsReducer';
 
 export default function UserTickets(){
+    const dispatch = useDispatch();
+    const [mappedTickets, setMappedTickets] = React.useState([]);
 
-    const [tickets, setTickets] = React.useState([]);
-
+    const tickets = useSelector(getUserTickets);
+    
     React.useEffect(() =>{
-        getRequest(USER_TICKETS_URL).then(response =>{
-            setTickets(response.data?.map(t => <Ticket key={t.ticketId} ticket={t}/>))
-        }).catch(err => console.log(err))
-    },[]);
+        dispatch(requestUserTickets());
+        setMappedTickets(tickets?.map(t => <Ticket key={t.ticketId} ticket={t}/>))
+    },[tickets , dispatch]);
 
     return(
         <>
-            {tickets ? tickets : "There are no tickets" }
+            {mappedTickets ? mappedTickets : "There are no tickets" }
         </>
     )
 }

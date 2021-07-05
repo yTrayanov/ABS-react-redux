@@ -1,27 +1,25 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import {getIsLogged} from '../../store/authReducer';
+import { getIsLogged } from '../../store/reducers/authReducer';
+import { requestTicket } from '../../store/reducers/ticketsReducer';
 
-import { postRequest } from '../../requests';
-import { CREATE_TICKET_URL} from '../../urls';
+export default function Seat({ seat, flightId, seatClass }) {
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-export default function Seat({seat , flightId , seatClass}) {
-
+    const [booked, setBooked] = React.useState(seat.isBooked);
     const isLogged = useSelector(getIsLogged);
-    const [booked , setBooked] = React.useState(seat.isBooked);
 
-    const handleClick = () =>{
-        if(isLogged){
-            postRequest(CREATE_TICKET_URL , {flightId ,seatClass ,row:seat.row ,column:seat.column})
-                .then(response => {
-                    if(response.success){
-                        setBooked(true);
-                    }
-                })
+    const handleClick = () => {
+        if (isLogged && !seat.isBooked) {
+            dispatch(requestTicket(flightId , seatClass ,seat.row , seat.column));
+            setBooked(true);
         }
-
-
+        else{
+            history.push('/login');
+        }
     }
 
     return (

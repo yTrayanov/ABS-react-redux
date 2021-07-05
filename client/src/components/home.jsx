@@ -1,36 +1,34 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { getFilteredFlights, requestFilteredFlights } from '../store/reducers/flightReducer'
+
 import Flight from './flight/flight';
 
-import { getRequest } from '../requests';
-import {getFilterdFlightsUrl} from '../urls';
-
 export default function Home() {
-
-    const [error, setError] = React.useState('');
-    const [flights, setFlights] = React.useState([]);
+    const dispatch = useDispatch();
+    const [mappedFlights, setMappedFlights] = React.useState([]);
+    const [flights, setFlights] = React.useState(useSelector(getFilteredFlights));
 
     const originAirportInput = React.useRef();
     const destinationAirportInput = React.useRef();
     const dateInput = React.useRef();
 
 
+    React.useEffect(() => {
+        setMappedFlights(flights?.map(flight => (
+            <Flight originAirportName={flight.originAirport.name}
+                destinationAirportName={flight.destinationAirport.name}
+                airlineName={flight.airline.name}
+                departureDate={flight.departureDate}
+                key={flight.flightNumber}
+                id={flight._id} />
+        )));
+    }, [flights])
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        const url = getFilterdFlightsUrl(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value);
-
-        getRequest(url).then(flights =>{
-            setFlights(flights?.map(flight => (
-                <Flight originAirportName={flight.originAirport.name}
-                    destinationAirportName={flight.destinationAirport.name}
-                    airlineName={flight.airline.name}
-                    departureDate={flight.departureDate}
-                    key={flight.flightNumber} 
-                    id={flight._id} />
-            )));
-        }).catch(error => {
-            setError(error);
-        });
+        dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value , setFlights));
     }
 
     return (
@@ -63,12 +61,11 @@ export default function Home() {
                             <button type="submit" href='/' className="btn btn-primary btn-block" > Find </button>
                         </div>
                     </form>
-                    {error ? <span>{error}</span> : null}
                 </div>
             </div>
             <div>
                 <ul>
-                    {flights ? flights : null}
+                    {mappedFlights ? mappedFlights : null}
                 </ul>
             </div>
         </div>

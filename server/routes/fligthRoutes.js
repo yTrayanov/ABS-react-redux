@@ -42,7 +42,7 @@ router.get('/filter/:origin/:destination/:date', async (req, res) => {
         .populate('destinationAirport')
         .populate('airline')
         .then(flights => {
-            return res.status(200).json(flights);
+            return Ok(res , 'Filtered flights' , flights);
         })
 
 });

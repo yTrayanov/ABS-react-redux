@@ -1,36 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { postRequest } from '../../requests';
-import {LOGIN_URL} from '../../urls';
-import { ACTIONS  } from '../../store/authReducer';
+import { login, getLoggingIn, getLogginError } from '../../store/reducers/authReducer';
 
 export default function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [error, setError] = useState('');
     const usernameInput = useRef();
     const passwordInput = useRef();
-
-
+    const isLogging = useSelector(getLoggingIn);
+    const loggingError = useSelector(getLogginError);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(LOGIN_URL);
-        postRequest(LOGIN_URL , {username:usernameInput.current.value , password:passwordInput.current.value}).then((response) =>{
-            if(!response.success)
-                throw new Error(response.message);
-                
-            window.localStorage.setItem('token', response.token);
-            dispatch({ type: ACTIONS.LOGIN, payload: { token: response.token, isAdmin: response.user.isAdmin}});
-            history.push('/');
-        }).catch(err => {
-            setError(err.message);
-        })
-        
+        dispatch(login(usernameInput.current.value, passwordInput.current.value, history));
     }
 
     return (
@@ -54,10 +40,13 @@ export default function Login() {
                             <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" href='/' className="btn btn-primary btn-block" > Sign In </button>
+                            <button type="submit" href='/' className="btn btn-primary btn-block" > {
+                                isLogging && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Sign In
+                            </button>
                         </div>
                     </form>
-                    {error ? <span>{error}</span> : null}
+                    {loggingError ? <span>{loggingError}</span> : null}
                 </div>
             </div>
             <div className="col-lg-4"></div>
