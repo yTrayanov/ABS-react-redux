@@ -107,3 +107,21 @@ export const logout = (history) => dispatch => {
         history.push('/');
     });
 }
+
+export const requestStats =(setAdmin) => dispatch => {
+    const token = window.localStorage.getItem('token');
+    window.fetch('http://localhost:5000/auth/stat', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+        .then(response => response.json())
+        .then(response => {
+            dispatch({ type: "SET_ADMIN", payload: { isAdmin: response.data?.isAdmin } });
+            setAdmin(response.data?.isAdmin)
+        });
+}
+
