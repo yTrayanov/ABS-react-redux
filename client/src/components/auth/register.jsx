@@ -71,12 +71,14 @@ export default function Register() {
             return;
         }
 
-        postRequest(REGISTER_URL, {username:usernameInput.current.value, email:emailInput.current.value, password:passwordInput.current.value})
+        postRequest(REGISTER_URL, { username: usernameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value })
             .then((response) => {
-                if (response.success)
-                    history.push('/login')
+                if (!response.success){
+                    console.log('Registration failed');
+                    return;
+                }
 
-                console.log('Registration failed');
+                history.push('/login')
             })
 
     }

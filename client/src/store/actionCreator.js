@@ -1,6 +1,6 @@
 export default function actionCreator(action) {
 
-        const values = ['SUCCESS' , 'FAILURE' , 'REQUEST'];
+        const values = ['SUCCESS' , 'FAILURE' , 'REQUEST' , 'CLEAR'];
         const types = values.reduce((acc , value) => {
             const type = `${action}_${value}`;
             acc[value] = type;

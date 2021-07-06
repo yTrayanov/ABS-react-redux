@@ -7,11 +7,13 @@ import Flight from './flight/flight';
 export default function Home() {
     const dispatch = useDispatch();
     const [mappedFlights, setMappedFlights] = React.useState([]);
-    const [flights, setFlights] = React.useState(useSelector(getFilteredFlights));
 
     const originAirportInput = React.useRef();
     const destinationAirportInput = React.useRef();
     const dateInput = React.useRef();
+
+    const flights = useSelector(getFilteredFlights);
+
 
 
     React.useEffect(() => {
@@ -28,7 +30,7 @@ export default function Home() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value , setFlights));
+        dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));
     }
 
     return (

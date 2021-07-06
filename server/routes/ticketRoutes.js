@@ -3,7 +3,7 @@ const router = new express.Router();
 const Ticket = require('../models/Ticket');
 const Flight = require('../models/Flight');
 const User = require('../models/User');
-const { BadRequest, Ok } = require('./responses');
+const { BadRequest, Ok, Unauthorized } = require('./responses');
 
 
 router.post('/create', async (req, res) => {
@@ -75,6 +75,10 @@ router.delete('/remove', async (req, res) => {
 })
 
 router.get('/user' , async (req ,res) =>{
+
+    if(!req.user){
+        return Unauthorized(res , 'User is not logged');
+    }
 
     const user = await User.findById(req.user._id)
     .populate({

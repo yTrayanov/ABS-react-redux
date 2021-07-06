@@ -29,9 +29,6 @@ export const ticketsReducer = (state = initialState, action) => {
         case createTicketActions.SUCCESS:
         case createTicketActions.FAILURE:
             return { ...state, userTickets: reducerHandler(state.userTickets, action, createTicketActions) };
-
-            case 'SET_TICKET_STATE':
-                return {...state , bookSeat:{...state.bookSeat.data , booked: action.payload}}
         default:
             return state;
     }
@@ -60,11 +57,16 @@ export const requestTicket = (flightId, seatClass, row, column , setBooked) => d
     postRequest(CREATE_TICKET_URL , {flightId , seatClass , row , column})
         .then(response => {
             if(!response.success){
-                dispatch({type: createTicketActions.FAILURE , payload:{booked:false}});
+                dispatch({type: createTicketActions.FAILURE });
+                return;
             }
 
             setBooked(true);
-            dispatch({type:createTicketActions.SUCCESS , payload:{booked:true}});
+            dispatch({type:createTicketActions.SUCCESS });
         })
+
+}
+
+export const clearUserTickets = () => dispatch => {
 
 }

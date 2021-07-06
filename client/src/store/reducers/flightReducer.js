@@ -1,7 +1,7 @@
 import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
-import { getFilterdFlightsUrl , CREATE_FLIGHT_URL } from '../../urls';
+import { getFilterdFlightsUrl, CREATE_FLIGHT_URL } from '../../urls';
 
 const initialAsyncState = {
     isLoading: false,
@@ -12,14 +12,14 @@ const initialAsyncState = {
 
 const initialState = {
     filteredFlights: initialAsyncState,
-    createFlight : initialAsyncState
+    createFlight: initialAsyncState
 }
 
 const filteredFlightsActions = actionCreator("FILTERED_FLIGHTS");
 const createFlightActions = actionCreator("CREATE_FLIGHT");
 
 export const flightReducer = (state = initialState, action) => {
-    switch (actionCreator.type) {
+    switch (action.type) {
         case filteredFlightsActions.REQUEST:
         case filteredFlightsActions.SUCCESS:
         case filteredFlightsActions.FAILURE:
@@ -29,7 +29,7 @@ export const flightReducer = (state = initialState, action) => {
         case createFlightActions.REQUEST:
         case createFlightActions.SUCCESS:
         case createFlightActions.FAILURE:
-            return { ...state, filteredFlights: reducerHandler(state.createFlight, action, createFlightActions) };
+            return { ...state, createFlight: reducerHandler(state.createFlight, action, createFlightActions) };
 
         default:
             return state;
@@ -39,7 +39,7 @@ export const flightReducer = (state = initialState, action) => {
 
 export const getFilteredFlights = state => state.flights.filteredFlights.data?.flights;
 
-export const requestFilteredFlights = (originAirport, destinationAirport, date, setFlights) => dispatch => {
+export const requestFilteredFlights = (originAirport, destinationAirport, date) => (dispatch, getState) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
 
     getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, date))
@@ -47,20 +47,20 @@ export const requestFilteredFlights = (originAirport, destinationAirport, date, 
             if (!response.success) {
                 dispatch({ type: filteredFlightsActions.FAILURE });
             }
+
             dispatch({ type: filteredFlightsActions.SUCCESS, payload: { flights: response.data } });
-            setFlights(response.data);
         })
 
 }
 
-export const requestCreateFlight = ( originAirport, destinationAirport, airline, flightNumber, departureDate , callback) => dispatch => {
-    dispatch({type:createFlightActions.REQUEST});
-    postRequest(CREATE_FLIGHT_URL , { originAirport, destinationAirport, airline, flightNumber, departureDate})
+export const requestCreateFlight = (originAirport, destinationAirport, airline, flightNumber, departureDate, callback) => dispatch => {
+    dispatch({ type: createFlightActions.REQUEST });
+    postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
         .then(response => {
-            if(!response.success)
-                dispatch({type:createFlightActions.FAILURE});
+            if (!response.success)
+                dispatch({ type: createFlightActions.FAILURE });
 
-            dispatch({type:createFlightActions.SUCCESS , payload: response});
+            dispatch({ type: createFlightActions.SUCCESS, payload: response });
             callback();
         })
 }

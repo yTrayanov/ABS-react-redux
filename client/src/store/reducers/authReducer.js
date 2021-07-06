@@ -45,7 +45,6 @@ export function authReducer(state = initialState, action) {
         case logoutActions.SUCCESS:
         case logoutActions.FAILURE:
             return { ...state, logStatus: reducerHandler(state.logStatus, action, logoutActions) }
-
         default:
             return state;
     }
@@ -86,7 +85,7 @@ export const login = (username, password, history) => (dispatch) => {
         })
 }
 
-export const logout = (history) => (dispatch ) => {
+export const logout = () => (dispatch) => {
 
     dispatch({ type: logoutActions.REQUEST });
 
@@ -94,6 +93,7 @@ export const logout = (history) => (dispatch ) => {
         if (!response.success) {
             dispatch({ type: logoutActions.FAILURE, payload: {} });
         }
+
         window.localStorage.clear();
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
 
