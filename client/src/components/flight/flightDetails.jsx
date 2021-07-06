@@ -13,8 +13,10 @@ export default function FlightDetails(props) {
     React.useEffect(() => {
         dispatch(requestSections(id));
         setMappedSections(sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats} />))
+        
     }, [dispatch, id , sections]);
-
+    
+    //const mappedSectionss = sections?.map(s => <Section key={s._id} seatClass={s.seatClass} flightId={id} seats={s.seats} />);
 
     return (
         <div className="container">

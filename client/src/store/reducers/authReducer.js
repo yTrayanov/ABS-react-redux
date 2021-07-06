@@ -97,7 +97,6 @@ export const logout = (history) => (dispatch ) => {
         window.localStorage.clear();
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
 
-        history.push('/');
     });
 }
 
