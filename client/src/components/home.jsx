@@ -28,6 +28,8 @@ export default function Home() {
     }, [flights])
 
 
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));

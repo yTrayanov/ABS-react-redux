@@ -66,7 +66,3 @@ export const requestTicket = (flightId, seatClass, row, column , setBooked) => d
         })
 
 }
-
-export const clearUserTickets = () => dispatch => {
-
-}

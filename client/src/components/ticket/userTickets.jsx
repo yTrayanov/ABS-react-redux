@@ -9,11 +9,17 @@ export default function UserTickets(){
     const [mappedTickets, setMappedTickets] = React.useState([]);
 
     const tickets = useSelector(getUserTickets);
-    
-    React.useEffect(() =>{
+
+    React.useEffect(() => {
         dispatch(requestUserTickets());
+    }, [dispatch])
+    
+
+    React.useEffect(() =>{
         setMappedTickets(tickets?.map(t => <Ticket key={t.ticketId} ticket={t}/>))
-    },[tickets , dispatch]);
+    },[tickets]);
+
+
 
     return(
         <>

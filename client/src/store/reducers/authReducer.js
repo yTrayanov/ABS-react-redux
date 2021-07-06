@@ -95,8 +95,8 @@ export const logout = () => (dispatch) => {
         }
 
         window.localStorage.clear();
+        dispatch({ type:"CLEAR"});
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
-
     });
 }
 

@@ -1,4 +1,4 @@
-export default function reducerHandler (state, action, actionHandler, initialState) {
+export default function reducerHandler (state, action, actionHandler) {
 
     switch (action.type) {
         case actionHandler.REQUEST:
@@ -7,8 +7,6 @@ export default function reducerHandler (state, action, actionHandler, initialSta
             return { ...state, isLoading: false, data: action.payload, error: null }
         case actionHandler.FAILURE:
             return { ...state, isLoading: false, error: action.payload}
-            case actionHandler.CLEAR:
-                return initialState;
         default:
             return state;
     }
