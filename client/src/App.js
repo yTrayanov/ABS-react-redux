@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
@@ -14,28 +12,7 @@ import CreateSection from './components/section/createSection';
 import { AdminRoute, PrivateRoute } from './routes';
 
 
-
 function App() {
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const token = window.localStorage.getItem('token');
-    if (token)
-      window.fetch('http://localhost:5000/auth/stat', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      }).then(response => response.json())
-        .then(({ data }) => {
-          dispatch({ type: "SET_ADMIN", payload: { isAdmin: data.isAdmin } });
-        });
-  }, [dispatch]);
-
-
   return (
     <div className="App">
       <>

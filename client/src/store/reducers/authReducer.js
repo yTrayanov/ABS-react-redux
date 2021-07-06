@@ -46,9 +46,6 @@ export function authReducer(state = initialState, action) {
         case logoutActions.FAILURE:
             return { ...state, register: reducerHandler(state.logout, action, logoutActions) }
 
-        case "SET_ADMIN":
-            return { ...state, logStatus: { ...state.logStatus, payload: { ...state.logStatus.data, isAdmin: action.payload.isAdmin } } }
-
         default:
             return state;
     }
@@ -95,33 +92,36 @@ export const logout = (history) => dispatch => {
 
     dispatch({ type: logoutActions.REQUEST });
 
-    postRequest(LOGOUT_URL, {}).then(response => {
+    console.log(1);
+    postRequest(LOGOUT_URL,{}).then(response => {
         if (!response.success) {
             dispatch({ type: logoutActions.FAILURE, payload: {} });
         }
-
         window.localStorage.clear();
-
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
+        console.log(2)
 
         history.push('/');
     });
 }
 
-export const requestStats =(setAdmin) => dispatch => {
-    const token = window.localStorage.getItem('token');
-    window.fetch('http://localhost:5000/auth/stat', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-        }
-    })
-        .then(response => response.json())
-        .then(response => {
-            dispatch({ type: "SET_ADMIN", payload: { isAdmin: response.data?.isAdmin } });
-            setAdmin(response.data?.isAdmin)
-        });
+export const requestStats = () => (dispatch) => {
+    if (token)
+        window.fetch('http://localhost:5000/auth/stat', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if(response.success)
+                    dispatch({ type: loginActions.SUCCESS, payload: { token: token, isLogged: true, isAdmin: response.data.isAdmin }});
+            });
 }
 
+export function getInitialStat(dispatch) {
+    dispatch(requestStats());
+}
