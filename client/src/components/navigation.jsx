@@ -11,7 +11,8 @@ export default function Navigation() {
     const isLogged = useSelector(getIsLogged);
     const isAdmin = useSelector(getIsAdmin);
 
-    const Logout = () => {
+    const Logout = (event) => {
+        event.preventDefault();
         dispatch(logout(history));
     }
 

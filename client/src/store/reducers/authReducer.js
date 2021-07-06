@@ -44,7 +44,7 @@ export function authReducer(state = initialState, action) {
         case logoutActions.REQUEST:
         case logoutActions.SUCCESS:
         case logoutActions.FAILURE:
-            return { ...state, register: reducerHandler(state.logout, action, logoutActions) }
+            return { ...state, logStatus: reducerHandler(state.logStatus, action, logoutActions) }
 
         default:
             return state;
@@ -78,28 +78,24 @@ export const login = (username, password, history) => (dispatch) => {
 
             dispatch({ type: loginActions.SUCCESS, payload: { token: response.token, isLogged: true, isAdmin: response.user.isAdmin } });
 
-            if (history.length > 0)
-                history.goBack();
-            else
-                history.push('/');
+            if (history.length > 0) history.goBack();
+            else history.push('/');
 
         }).catch(error => {
             dispatch({ type: loginActions.FAILURE, payload: error.message })
         })
 }
 
-export const logout = (history) => dispatch => {
+export const logout = (history) => (dispatch ) => {
 
     dispatch({ type: logoutActions.REQUEST });
 
-    console.log(1);
     postRequest(LOGOUT_URL,{}).then(response => {
         if (!response.success) {
             dispatch({ type: logoutActions.FAILURE, payload: {} });
         }
         window.localStorage.clear();
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
-        console.log(2)
 
         history.push('/');
     });

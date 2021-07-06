@@ -21,10 +21,10 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <AdminRoute exact path='/flight/create' component={CreateFlight} />
+          <Route exact path='/flight/create' component={CreateFlight} />
           <Route exact path='/flight/:id' component={FlightDetails} />
-          <PrivateRoute exact path='/user/tickets' component={UserTickets} />
-          <AdminRoute exact path='/section/create' component={CreateSection} />
+          <Route exact path='/user/tickets' component={UserTickets} />
+          <Route exact path='/section/create' component={CreateSection} />
         </Switch>
       </>
     </div>
