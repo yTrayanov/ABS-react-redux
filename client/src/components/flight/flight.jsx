@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom';
 
 export default function Flight({ id, originAirportName, destinationAirportName, airlineName, departureDate }) {
     return (
-        <li className="col-md-6">
-            <Link to={`/flight/${id}`}>
-                <div>
-                    <p>Airline: {airlineName}</p>
-                    <p>From {originAirportName} to {destinationAirportName} departs on {departureDate}</p>
+        <Link className="flightLink" to={`/flight/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
+            <li style={{ borderBottom: "1px solid" }}>
+                <div className="row flightLink">
+                    <div className="col-lg-4">
+                        <p style={{ "margin": 0 }} >{originAirportName} - {destinationAirportName}</p>
+                        <p>{airlineName}</p>
+                    </div>
+                    <div className="col-lg-4">{departureDate}</div>
                 </div>
-            </Link>
-        </li>
+            </li>
+        </Link>
     )
-
 }

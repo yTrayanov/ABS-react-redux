@@ -1,21 +1,21 @@
 import React from 'react';
 import Seat from './seat';
 
-export default function Section({ seats, seatClass , flightId}) {
+export default function Section({ section}) {
 
-    const [mappedSections , setMappedSections] = React.useState()
+    const [mappedSeats , setMappedSeats] = React.useState()
 
 
     React.useEffect(() => {
-        setMappedSections(seats?.map(s =>  <Seat key={s._id} flightId={flightId}  seatClass={seatClass} seat={s} />))
-    },[seats, flightId , seatClass]);
+        setMappedSeats(section.seats?.map(s =>  <Seat key={s._id} flightId={section.flightId}  seatClass={section.seatClass} seat={s} />))
+    },[section]);
 
 
     return (
         <div>
-            <p>{seatClass}</p>
+            <p>{section.seatClass}</p>
             <div className="row">
-                {mappedSections ? mappedSections : 'There are no seats'}
+                {mappedSeats ? mappedSeats : 'There are no seats'}
             </div>
         </div>
     )

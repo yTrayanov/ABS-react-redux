@@ -73,7 +73,7 @@ export default function CreateFlight() {
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                             </div>
-                            <input type='date' className="form-control" ref={departureDateInput} />
+                            <input type='datetime-local' className="form-control" ref={departureDateInput} />
                         </div>
 
                         <div className="form-group">

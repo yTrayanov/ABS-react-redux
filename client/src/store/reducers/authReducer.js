@@ -85,7 +85,7 @@ export const login = (username, password, history) => (dispatch) => {
         })
 }
 
-export const logout = () => (dispatch) => {
+export const logout = (history) => (dispatch) => {
 
     dispatch({ type: logoutActions.REQUEST });
 
@@ -97,6 +97,7 @@ export const logout = () => (dispatch) => {
         window.localStorage.clear();
         dispatch({ type:"CLEAR"});
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
+        history.push('/');
     });
 }
 

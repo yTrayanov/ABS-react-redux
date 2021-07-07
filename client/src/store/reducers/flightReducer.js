@@ -39,8 +39,9 @@ export const flightReducer = (state = initialState, action) => {
 
 export const getFilteredFlights = state => state.flights.filteredFlights.data?.flights;
 
-export const requestFilteredFlights = (originAirport, destinationAirport, date) => (dispatch, getState) => {
+export const requestFilteredFlights = (originAirport, destinationAirport, date) => (dispatch) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
+
 
     getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, date))
         .then(response => {

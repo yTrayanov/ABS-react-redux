@@ -34,17 +34,17 @@ router.get('/filter/:origin/:destination/:date', async (req, res) => {
 
     const originAirport = await Airport.findOne({ name: req.params.origin });
     const destinationAirport = await Airport.findOne({ name: req.params.destination });
-    const departureDate = req.params.date;
+    const departureDate = new Date(req.params.date).toDateString();
 
 
-    Flight.find({ originAirport, destinationAirport, departureDate })
+
+    Flight.find({ originAirport, destinationAirport })
         .populate('originAirport')
         .populate('destinationAirport')
         .populate('airline')
         .then(flights => {
-            return Ok(res , 'Filtered flights' , flights);
+            return Ok(res , 'Filtered flights' , flights.filter(f => f.departureDate.toDateString() === departureDate));
         })
-
 });
 
 router.get('/:id' ,async (req,res) =>{
