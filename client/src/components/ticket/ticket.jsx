@@ -11,7 +11,7 @@ export default function Ticket({ ticket }) {
         <>
             <div style={{ borderBottom: "1px solid" }}>
                 <p>Flight number: {ticket.flight.flightNumber}</p>
-                <p>Departs on: {ticket.flight.departureDate}</p>
+                <p>Departs on: {new Date(ticket.flight.departureDate).toLocaleString()}</p>
                  {firstClassSeats ? <p>First  - {firstClassSeats}</p> : null}
                 {bussinessClassSeats ? <p>Bussiness -{bussinessClassSeats}</p> : null}
                 {economyClassSeats ? <p>Economy - {economyClassSeats}</p> : null} 

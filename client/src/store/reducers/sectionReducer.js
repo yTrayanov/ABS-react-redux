@@ -62,6 +62,7 @@ export const requestCreateSection = (rows, columns, seatClass, flightNumber , ca
                 dispatch({type:createSectionActions.FAILURE})
 
             dispatch({type:createSectionActions.SUCCESS});
+            alert("Section created");
             callback();
         })
 }

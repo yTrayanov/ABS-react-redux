@@ -10,10 +10,9 @@ export default function Section({ section , toggleSelect}) {
         setMappedSeats(section.seats?.map(s =>  <Seat key={s._id} seat={s} toggleSelect={toggleSelect}  />))
     },[section , toggleSelect]);
 
-
     return (
-        <div>
-            <p>{section.seatClass}</p>
+        <div style={{border:"1px solid" , borderRadius:"10px" , marginTop:"10px" , textAlign:'center'}}>
+            <p style={{borderBottom:'1px solid'}}>{section.seatClass}</p>
             <div className="row">
                 {mappedSeats ? mappedSeats : 'There are no seats'}
             </div>

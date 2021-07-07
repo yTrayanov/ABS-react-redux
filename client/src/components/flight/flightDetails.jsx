@@ -54,7 +54,11 @@ export default function FlightDetails(props) {
         event.preventDefault();
 
         if (isLogged) {
-            dispatch(requestTickets(flightId, seats));
+            if (seats.length > 0)
+                dispatch(requestTickets(flightId, seats));
+            else {
+                alert("Please select seat");
+            }
         }
         else {
             history.push('./login');

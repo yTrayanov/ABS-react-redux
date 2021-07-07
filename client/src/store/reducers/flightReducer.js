@@ -62,6 +62,7 @@ export const requestCreateFlight = (originAirport, destinationAirport, airline, 
                 dispatch({ type: createFlightActions.FAILURE });
 
             dispatch({ type: createFlightActions.SUCCESS, payload: response });
+            alert('Flight created');
             callback();
         })
 }
