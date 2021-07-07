@@ -2,6 +2,7 @@ import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 import { USER_TICKETS_URL, CREATE_TICKET_URL } from '../../urls';
+import { requestSections } from "./sectionReducer";
 
 const initialAsyncState = {
     isLoading: false,
@@ -51,18 +52,18 @@ export const requestUserTickets = () => (dispatch) => {
     });
 }
 
-export const requestTicket = (flightId, seatClass, row, column , setBooked) => dispatch => {
+export const requestTickets = (flightId, seats) => dispatch => {
     dispatch({type: createTicketActions.REQUEST});
 
-    postRequest(CREATE_TICKET_URL , {flightId , seatClass , row , column})
+    postRequest(CREATE_TICKET_URL , {flightId, seats})
         .then(response => {
             if(!response.success){
                 dispatch({type: createTicketActions.FAILURE });
                 return;
             }
-
-            setBooked(true);
             dispatch({type:createTicketActions.SUCCESS });
+
+            dispatch(requestSections(flightId));
         })
 
 }

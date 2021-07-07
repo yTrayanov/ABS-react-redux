@@ -16,7 +16,7 @@ export default function UserTickets(){
     
 
     React.useEffect(() =>{
-        setMappedTickets(tickets?.map(t => <Ticket key={t.ticketId} ticket={t}/>))
+        setMappedTickets(tickets?.map(t => <Ticket key={t.ticketId} ticket={t} />))
     },[tickets]);
 
 

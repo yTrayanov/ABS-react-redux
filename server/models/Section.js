@@ -5,7 +5,8 @@ const sectionSchema = new mongoose.Schema({
     rows:{type:mongoose.Schema.Types.Number , required:true , max:100},
     columns:{type:mongoose.Schema.Types.Number , required:true , max:10},
     seatClass:{type:mongoose.Schema.Types.String, required:true},
-    availableSeats:{type:mongoose.Schema.Types.Number}
+    availableSeats:{type:mongoose.Schema.Types.Number},
+    flight:{type:mongoose.Schema.Types.ObjectId , ref:'Flight'}
 })
 
 sectionSchema.path('seatClass').validate(value =>{

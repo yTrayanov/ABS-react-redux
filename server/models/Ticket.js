@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const ticketSchema = new mongoose.Schema({
     flight:{type:mongoose.Schema.Types.ObjectId , ref:'Flight'},
-    section:{type:mongoose.Schema.Types.ObjectId , ref:'Section'},
-    seat:{type:mongoose.Schema.Types.ObjectId , ref:'Seat'}
+    seats:[{type:mongoose.Schema.Types.ObjectId , ref:'Seat'}],
+    user:{type:mongoose.Schema.Types.ObjectId , ref:'User'}
 })
 
 ticketSchema.pre('remove' , (ticket) =>{

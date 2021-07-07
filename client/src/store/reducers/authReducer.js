@@ -114,7 +114,7 @@ export const requestStats = () => (dispatch) => {
             .then(response => response.json())
             .then(response => {
                 if(response.success)
-                    dispatch({ type: loginActions.SUCCESS, payload: { token: token, isLogged: true, isAdmin: response.data.isAdmin }});
+                    dispatch({ type: loginActions.SUCCESS, payload: { token: token, isLogged: true, isAdmin: response.data?.isAdmin }});
             });
 }
 

@@ -27,7 +27,8 @@ router.post('/create', async (req, res) => {
         rows: req.body.rows,
         columns: req.body.columns,
         seatClass: req.body.seatClass,
-        availableSeats: req.body.rows * req.body.columns
+        availableSeats: req.body.rows * req.body.columns,
+        flight
     }).then( async (section) => {
 
         let seats = [];
@@ -37,7 +38,8 @@ router.post('/create', async (req, res) => {
                     row,
                     column,
                     section,
-                    seatNumber:(row+1) + String.fromCharCode(column+65)
+                    seatNumber:(row+1) + String.fromCharCode(column+65),
+                    section:section
                 }))
             }
         }
@@ -54,9 +56,5 @@ router.post('/create', async (req, res) => {
             return BadRequest(res , e.message , e);
         })
 });
-
-router.get('/:Id' , async (req , res) =>{
-    
-})
 
 module.exports = router;

@@ -3,10 +3,16 @@ const router = new express.Router();
 const Ticket = require('../models/Ticket');
 const Flight = require('../models/Flight');
 const User = require('../models/User');
+const Seat =require('../models/Seat');
+const Section = require('../models/Section');
 const { BadRequest, Ok, Unauthorized } = require('./responses');
 
 
 router.post('/create', async (req, res) => {
+
+    if(!req.user){
+        return BadRequest(res , 'Not logged');
+    }
 
     const flight = await Flight.findById(req.body.flightId)
         .populate('sections')
@@ -19,42 +25,32 @@ router.post('/create', async (req, res) => {
         return BadRequest(res, 'Flight doesn\'t exist');
     }
 
-    const section = await flight.sections.find(s => s.seatClass === req.body.seatClass);
+    for(let item of req.body.seats){
 
-    if (!section) {
-        return BadRequest(res, 'Section does\'t exist');
-    }
+        const seat = await Seat.findById(item._id);
 
-    const seat = await section.seats.find(s => s.row === req.body.row && s.column === req.body.column);
+        if (!seat) {
+            return BadRequest(res, 'Seat doesn\'t exist');
+        }
+    
+        if (seat.isBooked) {
+            return BadRequest(res, 'Seat is already booked');
+        }
 
-    if (!seat) {
-        return BadRequest(res, 'Seat doesn\'t exist');
-    }
-
-    if (seat.isBooked) {
-        return BadRequest(res, 'Seat is already booked');
-    }
-
-    if(!req.user){
-        return BadRequest(res , 'Not logged');
+        seat.isBooked = true;
+        seat.save();
     }
 
     const ticket = await Ticket.create({
         flight,
-        section,
-        seat
+        seats:req.body.seats,
+        user:req.user._id,
     });
-
 
     req.user.tickets.push(ticket);
     req.user.save();
 
-
-
-    seat.isBooked = true;
-    seat.save();
-
-    return Ok(res, `Seat ${seat.seatNumber} booked successfully`, ticket);
+    return Ok(res, `Seats booked successfully`, ticket);
 
 })
 
@@ -87,10 +83,11 @@ router.get('/user' , async (req ,res) =>{
             path:'flight'
         },
         {
-            path:'section'
-        },
-        {
-            path:'seat'
+            path:'seats',
+            populate:[{
+                path:'section',
+                model:Section
+            }],
         }
     ]
     });
@@ -102,10 +99,8 @@ router.get('/user' , async (req ,res) =>{
     const parsedTickets = user.tickets?.map(t => {
         return {
             ticketId:t._id,
-            flightNumber:t.flight.flightNumber,
-            seatClass: t.section.seatClass,
-            seatNumber:t.seat.seatNumber,
-            seatId:t.seat._id
+            flight:t.flight,
+            seats:t.seats,
         }
     })
 
