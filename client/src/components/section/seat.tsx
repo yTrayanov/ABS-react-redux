@@ -1,7 +1,8 @@
 import React from 'react';
+import ISeat from '../../interfaces/seat.interface';
 
-export default function Seat({ seat, toggleSelect }) {
-    const [selected, setSelected] = React.useState(false);
+export default function Seat({ seat, toggleSelect } : {seat:ISeat , toggleSelect:(seat:ISeat , selected:boolean) => void}) {
+    const [selected, setSelected] = React.useState<boolean>(false);
 
 
     const handleClick = () => {

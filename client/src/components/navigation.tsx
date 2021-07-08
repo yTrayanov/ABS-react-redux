@@ -8,10 +8,10 @@ export default function Navigation() {
     const history = useHistory();
 
     
-    const isLogged = useSelector(getIsLogged);
-    const isAdmin = useSelector(getIsAdmin);
+    const isLogged:boolean = useSelector(getIsLogged);
+    const isAdmin:boolean  = useSelector(getIsAdmin);
 
-    const Logout = (event) => {
+    const Logout = (event: React.MouseEvent) => {
         event.preventDefault();
         dispatch(logout(history));
     }
@@ -22,7 +22,7 @@ export default function Navigation() {
                 <div className="navbar-collapse collapse" >
                     <ul className="navbar-nav mr-auto">
                         <li className='nav-link'>
-                            <span to='/' >AirlineBookingSystem</span>
+                            <span>AirlineBookingSystem</span>
                         </li>
                         <li className='nav-link'>
                             <Link to='/'>Home</Link>

@@ -1,24 +1,27 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer'
+import { useSelector, useDispatch } from 'react-redux';
 
 import Flight from './flight/flight';
 
+import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
+import IFlight from '../interfaces/flight.interface';
+
 export default function Home() {
     const dispatch = useDispatch();
-    const [mappedFlights, setMappedFlights] = React.useState([]);
+    const [mappedFlights, setMappedFlights] = React.useState<any>([]);
     const isLoading = useSelector(getIsLoadingFilteredFlights);
 
-    const originAirportInput = React.useRef();
-    const destinationAirportInput = React.useRef();
-    const dateInput = React.useRef();
+    const originAirportInput = React.useRef<HTMLInputElement>(null);
+    const destinationAirportInput = React.useRef<HTMLInputElement>(null);
+    const dateInput = React.useRef<HTMLInputElement>(null);
 
-    const flights = useSelector(getFilteredFlights);
+    const flights : IFlight[] = useSelector(getFilteredFlights);
 
 
 
     React.useEffect(() => {
-        setMappedFlights(flights?.map(flight => (
+        setMappedFlights(
+            flights?.map(flight => (
             <Flight originAirportName={flight.originAirport.name}
                 destinationAirportName={flight.destinationAirport.name}
                 airlineName={flight.airline.name}
@@ -31,8 +34,10 @@ export default function Home() {
 
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if(originAirportInput.current && destinationAirportInput.current && dateInput.current)
         dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));
     }
 
@@ -63,7 +68,7 @@ export default function Home() {
                             <input type="Date" className="form-control" placeholder="Departure Date" ref={dateInput} defaultValue="2021-07-10" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" href='/' className="btn btn-primary btn-block" >
+                            <button type="submit" className="btn btn-primary btn-block" >
                             {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Find
                             </button>

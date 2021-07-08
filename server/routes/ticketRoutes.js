@@ -50,9 +50,7 @@ router.post('/create', async (req, res) => {
     req.user.tickets.push(ticket);
     req.user.save();
 
-    setTimeout(() => {
-        return Ok(res, `Seats booked successfully`, ticket);
-    }, 1000);
+    return Ok(res, `Seats booked successfully`, ticket);
 
 })
 

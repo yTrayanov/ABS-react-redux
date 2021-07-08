@@ -1,41 +1,45 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { getIsLogged } from '../../store/reducers/authReducer';
 import Section from '../section/section';
+
+import ISeat from '../../interfaces/seat.interface';
+import ISection from '../../interfaces/section.interface';
+
+import { getIsLogged } from '../../store/reducers/authReducer';
 import { getFlightSections, requestSections } from '../../store/reducers/sectionReducer';
 import { requestTickets, getIsCreatingTicket } from '../../store/reducers/ticketsReducer';
 
-export default function FlightDetails(props) {
+
+export default function FlightDetails(props:any) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [mappedSections, setMappedSections] = React.useState([]);
-    const [seatsCount, setSeatsCount] = React.useState(0);
-    const [seats, setSeats] = React.useState([]);
-    const sections = useSelector(getFlightSections);
-    const isLogged = useSelector(getIsLogged);
-    const isLoading = useSelector(getIsCreatingTicket);
+    const [mappedSections, setMappedSections] = React.useState<any>([]);
+    const [seatsCount, setSeatsCount] = React.useState<number>(0);
+    const [seats, setSeats] = React.useState<ISeat[]>([]);
 
-    const flightId = props.match.params.id;
+    const sections:ISection[] = useSelector(getFlightSections);
+    const isLogged:boolean = useSelector(getIsLogged);
+    const isLoading:boolean = useSelector(getIsCreatingTicket);
+
+    const flightId:string = props.match.params.id;
 
     React.useEffect(() => {
         dispatch(requestSections(flightId));
     }, [dispatch, flightId]);
 
-
     React.useEffect(() => {
-        const selectedSeats = [];
+        const selectedSeats:ISeat[] = [];
 
-        const toggleSelect = (seat, selected) => {
+        const toggleSelect = (seat:ISeat, selected:boolean) => {
             if (!selected) {
                 selectedSeats.push(seat);
                 setSeatsCount(c => c + 1);
                 setSeats(selectedSeats);
             }
             else {
-
                 const index = selectedSeats.indexOf(seat);
 
                 if (index > -1) {
@@ -48,7 +52,7 @@ export default function FlightDetails(props) {
         setMappedSections(sections?.map(s => <Section key={s._id} section={s} toggleSelect={toggleSelect} />));
     }, [sections]);
 
-    const bookSeats = (event) => {
+    const bookSeats = useCallback((event) => {
         event.preventDefault();
 
         if (isLogged) {
@@ -63,7 +67,7 @@ export default function FlightDetails(props) {
             history.push('/login');
         }
 
-    }
+    },[seats,isLogged, dispatch , flightId, history]);
 
     return (
         <div className="container">

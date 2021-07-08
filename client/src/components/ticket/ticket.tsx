@@ -1,11 +1,12 @@
 import React from 'react';
+import ITicket from '../../interfaces/ticket.interface';
+import ISeat from '../../interfaces/seat.interface';
 
+export default function Ticket({ ticket } : {ticket:ITicket}) {
 
-export default function Ticket({ ticket }) {
-
-    const firstClassSeats = getSeats(ticket.seats, 'first');
-    const bussinessClassSeats = getSeats(ticket.seats, 'bussiness');
-    const economyClassSeats = getSeats(ticket.seats, 'economy');
+    const firstClassSeats:string = getSeats(ticket.seats, 'first');
+    const bussinessClassSeats:string = getSeats(ticket.seats, 'bussiness');
+    const economyClassSeats:string = getSeats(ticket.seats, 'economy');
 
     return (
         <>
@@ -20,7 +21,7 @@ export default function Ticket({ ticket }) {
     )
 }
 
-function getSeats(seats, seatClass) {
+function getSeats(seats:ISeat[], seatClass:string) {
     return seats?.filter(s => s.section.seatClass === seatClass)
         .reduce((acc, curr) => {return acc + curr.seatNumber +", "}, "");
 }

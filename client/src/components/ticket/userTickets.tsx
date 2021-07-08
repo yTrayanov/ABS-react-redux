@@ -2,13 +2,18 @@ import React from 'react';
 import { useDispatch , useSelector } from 'react-redux';
 
 import Ticket from './ticket';
+
 import { requestUserTickets , getUserTickets } from '../../store/reducers/ticketsReducer';
+import ITicket from '../../interfaces/ticket.interface';
+
+
+
 
 export default function UserTickets(){
     const dispatch = useDispatch();
-    const [mappedTickets, setMappedTickets] = React.useState([]);
+    const [mappedTickets, setMappedTickets] = React.useState<any>([]);
 
-    const tickets = useSelector(getUserTickets);
+    const tickets:ITicket[] = useSelector(getUserTickets);
 
     React.useEffect(() => {
         dispatch(requestUserTickets());

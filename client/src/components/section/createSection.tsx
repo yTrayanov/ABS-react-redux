@@ -6,29 +6,34 @@ import { requestCreateSection, getIsCreatingSection } from '../../store/reducers
 export default function CreateSection() {
     const dispatch = useDispatch();
 
-    const rowsInput = React.useRef();
-    const columnsInput = React.useRef();
-    const seatClassInput = React.useRef();
-    const flightNumberInput = React.useRef();
+    const rowsInput = React.useRef<HTMLInputElement>(null);
+    const columnsInput = React.useRef<HTMLInputElement>(null);
+    const seatClassInput = React.useRef<HTMLInputElement>(null);
+    const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
-    const isLoading = useSelector(getIsCreatingSection);
+    const isLoading:string = useSelector(getIsCreatingSection);
 
-    const clearForm = () => {
-        rowsInput.current.value = '';
-        columnsInput.current.value = '';
-        seatClassInput.current.value = '';
-        flightNumberInput.current.value = '';
-    }
+    const clearForm = React.useCallback(() => {
+        if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
+            rowsInput.current.value = '';
+            columnsInput.current.value = '';
+            seatClassInput.current.value = '';
+            flightNumberInput.current.value = '';
+        }
+    }, [])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const rows = rowsInput.current.value;
-        const columns = columnsInput.current.value;
-        const seatClass = seatClassInput.current.value;
-        const flightNumber = flightNumberInput.current.value;
+        if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
+            const rows = rowsInput.current.value;
+            const columns = columnsInput.current.value;
+            const seatClass = seatClassInput.current.value;
+            const flightNumber = flightNumberInput.current.value;
+            
+            dispatch(requestCreateSection(rows, columns, seatClass, flightNumber, clearForm));
+        }
 
-        dispatch(requestCreateSection(rows, columns, seatClass, flightNumber, clearForm));
     }
 
     return (

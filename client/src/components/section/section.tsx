@@ -1,9 +1,12 @@
 import React from 'react';
 import Seat from './seat';
 
-export default function Section({ section , toggleSelect}) {
+import ISection from '../../interfaces/section.interface'; 
+import ISeat from '../../interfaces/seat.interface';
 
-    const [mappedSeats , setMappedSeats] = React.useState();
+export default function Section({ section , toggleSelect}:{section:ISection , toggleSelect:(seat:ISeat , selected:boolean) => void}) {
+
+    const [mappedSeats , setMappedSeats] = React.useState<any>();
 
 
     React.useEffect(() => {

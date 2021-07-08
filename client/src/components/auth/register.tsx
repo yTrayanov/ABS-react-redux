@@ -11,7 +11,7 @@ const initialState = {
     emailError: ''
 };
 
-const reducer = (state, action) => {
+const reducer = (state=initialState, action:{type:string}) => {
     switch (action.type) {
         case 'password':
             return { ...state, passwordError: 'Password should be at least 6 characters long and a combination of letters and numbers' }
@@ -33,14 +33,14 @@ const reducer = (state, action) => {
 export default function Register() {
     const history = useHistory();
 
-    const usernameInput = useRef();
-    const emailInput = useRef();
-    const passwordInput = useRef();
+    const usernameInput = useRef<HTMLInputElement>(null);
+    const emailInput = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         let error = false;
 
@@ -48,38 +48,40 @@ export default function Register() {
 
         dispatch({ type: "initial" });
 
-        if (usernameInput.current.value.length < 4) {
-            dispatch({ type: 'username' });
-            error = true;
+        if (usernameInput.current && emailInput.current && passwordInput.current) {
+            if (usernameInput.current.value.length < 4) {
+                dispatch({ type: 'username' });
+                error = true;
+            }
+
+
+            const emailRegex = new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]+)\])/);
+
+            if (!emailRegex.test(emailInput.current.value)) {
+                dispatch({ type: 'email' });
+                error = true;
+            }
+
+
+            if (!passwordRegex.test(passwordInput.current.value)) {
+                dispatch({ type: 'password' });
+                error = true;
+            }
+
+            if (error) {
+                return;
+            }
+
+            postRequest(REGISTER_URL, { username: usernameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value })
+                .then((response) => {
+                    if (!response.success) {
+                        console.log('Registration failed');
+                        return;
+                    }
+
+                    history.push('/login')
+                })
         }
-
-
-        const emailRegex = new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]+)\])/);
-
-        if (!emailRegex.test(emailInput.current.value)) {
-            dispatch({ type: 'email' });
-            error = true;
-        }
-
-
-        if (!passwordRegex.test(passwordInput.current.value)) {
-            dispatch({ type: 'password' });
-            error = true;
-        }
-
-        if (error) {
-            return;
-        }
-
-        postRequest(REGISTER_URL, { username: usernameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value })
-            .then((response) => {
-                if (!response.success){
-                    console.log('Registration failed');
-                    return;
-                }
-
-                history.push('/login')
-            })
 
     }
 

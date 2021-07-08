@@ -5,34 +5,38 @@ import { requestCreateFlight, getIsCreatingFlight } from '../../store/reducers/f
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
-    const originAirportInput = React.useRef();
-    const destinationAirportInput = React.useRef();
-    const airlineInput = React.useRef();
-    const flightNumberInput = React.useRef();
-    const departureDateInput = React.useRef();
+    const originAirportInput = React.useRef<HTMLInputElement>(null);
+    const destinationAirportInput = React.useRef<HTMLInputElement>(null);
+    const airlineInput = React.useRef<HTMLInputElement>(null);
+    const flightNumberInput = React.useRef<HTMLInputElement>(null);
+    const departureDateInput = React.useRef<HTMLInputElement>(null);
 
     const isLoading = useSelector(getIsCreatingFlight);
 
 
     const clearForm = React.useCallback(() => {
-        originAirportInput.current.value = "";
-        destinationAirportInput.current.value = "";
-        airlineInput.current.value = "";
-        flightNumberInput.current.value = "";
-        departureDateInput.current.value = "";
+        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current) {
+            originAirportInput.current.value = "";
+            destinationAirportInput.current.value = "";
+            airlineInput.current.value = "";
+            flightNumberInput.current.value = "";
+            departureDateInput.current.value = "";
+        }
     }, []);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
 
-        const originAirport = originAirportInput.current.value
-        const destinationAirport = destinationAirportInput.current.value
-        const airline = airlineInput.current.value
-        const flightNumber = flightNumberInput.current.value
-        const departureDate = departureDateInput.current.value
-
-        dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm));
+        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current) {
+            const originAirport = originAirportInput.current.value
+            const destinationAirport = destinationAirportInput.current.value
+            const airline = airlineInput.current.value
+            const flightNumber = flightNumberInput.current.value
+            const departureDate = departureDateInput.current.value
+            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm));
+        }
+ 
     }
 
     return (

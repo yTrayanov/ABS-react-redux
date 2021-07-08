@@ -60,7 +60,6 @@ router.get('/:id', async (req, res) => {
     if (!flight) {
         return BadRequest(res, 'Flight couldn\'t be found');
     }
-
     return Ok(res, 'Flight found', flight);
 });
 

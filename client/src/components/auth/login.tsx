@@ -8,15 +8,17 @@ export default function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const usernameInput = useRef();
-    const passwordInput = useRef();
+    const usernameInput = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
+
     const isLogging = useSelector(getLoggingIn);
     const loggingError = useSelector(getLogginError);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        dispatch(login(usernameInput.current.value, passwordInput.current.value, history));
+        if (usernameInput.current && passwordInput.current)
+            dispatch(login(usernameInput.current.value, passwordInput.current.value, history));
     }
 
     return (
@@ -40,7 +42,7 @@ export default function Login() {
                             <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" href='/' className="btn btn-primary btn-block" > {
+                            <button type="submit" className="btn btn-primary btn-block" > {
                                 isLogging && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Sign In
                             </button>
