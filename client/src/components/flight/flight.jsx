@@ -11,7 +11,7 @@ export default function Flight({ id, originAirportName, destinationAirportName, 
                         <p style={{ "margin": 0 }} >{originAirportName} - {destinationAirportName}</p>
                         <p>{airlineName}</p>
                     </div>
-                    <div className="col-lg-4">{departureDate}</div>
+                    <div className="col-lg-4">{new Date(departureDate).toLocaleString()}</div>
                 </div>
             </li>
         </Link>

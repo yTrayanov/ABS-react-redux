@@ -147,14 +147,12 @@ router.post('/login', (req, res, next) => {
 
     res.cookie('passport', user._id);
 
-    setTimeout(() => {
-      return res.status(200).json({
-        success: true,
-        message: 'You have successfully logged in!',
-        token,
-        user: data,
-      });
-    }, 1000);
+    return res.status(200).json({
+      success: true,
+      message: 'You have successfully logged in!',
+      token,
+      user: data,
+    });
 
   })(req, res, next)
 });

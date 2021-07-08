@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { requestCreateSection } from '../../store/reducers/sectionReducer';
+import { requestCreateSection, getIsCreatingSection } from '../../store/reducers/sectionReducer';
 
 export default function CreateSection() {
     const dispatch = useDispatch();
@@ -11,13 +11,15 @@ export default function CreateSection() {
     const seatClassInput = React.useRef();
     const flightNumberInput = React.useRef();
 
+    const isLoading = useSelector(getIsCreatingSection);
+
     const clearForm = () => {
         rowsInput.current.value = '';
         columnsInput.current.value = '';
         seatClassInput.current.value = '';
         flightNumberInput.current.value = '';
     }
-    
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -26,7 +28,7 @@ export default function CreateSection() {
         const seatClass = seatClassInput.current.value;
         const flightNumber = flightNumberInput.current.value;
 
-        dispatch(requestCreateSection(rows, columns, seatClass, flightNumber , clearForm));
+        dispatch(requestCreateSection(rows, columns, seatClass, flightNumber, clearForm));
     }
 
     return (
@@ -66,7 +68,10 @@ export default function CreateSection() {
                         </div>
 
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" > Create </button>
+                            <button type="submit" className="btn btn-primary btn-block" >
+                                {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Create
+                            </button>
                         </div>
                     </form>
                 </div>

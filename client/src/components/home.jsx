@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { getFilteredFlights, requestFilteredFlights } from '../store/reducers/flightReducer'
+import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer'
 
 import Flight from './flight/flight';
 
 export default function Home() {
     const dispatch = useDispatch();
     const [mappedFlights, setMappedFlights] = React.useState([]);
+    const isLoading = useSelector(getIsLoadingFilteredFlights);
 
     const originAirportInput = React.useRef();
     const destinationAirportInput = React.useRef();
@@ -62,13 +63,16 @@ export default function Home() {
                             <input type="Date" className="form-control" placeholder="Departure Date" ref={dateInput} defaultValue="2021-07-10" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" href='/' className="btn btn-primary btn-block" > Find </button>
+                            <button type="submit" href='/' className="btn btn-primary btn-block" >
+                            {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Find
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div className="container col-lg-8" style={{textAlign:'center', marginTop:'40px' , border: mappedFlights ? '1px solid' : 'none' , borderRadius:'30px'}}>
-                <ul style={{listStyle:"none" ,justifyContent:'center' , padding:0}}>
+            <div className="container col-lg-8" style={{ textAlign: 'center', marginTop: '40px', border: mappedFlights ? '1px solid' : 'none', borderRadius: '30px' }}>
+                <ul style={{ listStyle: "none", justifyContent: 'center', padding: 0 }}>
                     {mappedFlights ? mappedFlights : null}
                 </ul>
             </div>

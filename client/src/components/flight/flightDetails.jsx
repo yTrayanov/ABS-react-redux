@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { getIsLogged } from '../../store/reducers/authReducer';
 import Section from '../section/section';
 import { getFlightSections, requestSections } from '../../store/reducers/sectionReducer';
-import { requestTickets } from '../../store/reducers/ticketsReducer';
+import { requestTickets, getIsCreatingTicket } from '../../store/reducers/ticketsReducer';
 
 export default function FlightDetails(props) {
     const dispatch = useDispatch();
@@ -16,11 +16,9 @@ export default function FlightDetails(props) {
     const [seats, setSeats] = React.useState([]);
     const sections = useSelector(getFlightSections);
     const isLogged = useSelector(getIsLogged);
+    const isLoading = useSelector(getIsCreatingTicket);
+
     const flightId = props.match.params.id;
-
-
-
-
 
     React.useEffect(() => {
         dispatch(requestSections(flightId));
@@ -54,14 +52,15 @@ export default function FlightDetails(props) {
         event.preventDefault();
 
         if (isLogged) {
-            if (seats.length > 0)
-                dispatch(requestTickets(flightId, seats));
+            if (seats.length > 0) {
+                dispatch(requestTickets(flightId, seats, setSeatsCount));
+            }
             else {
                 alert("Please select seat");
             }
         }
         else {
-            history.push('./login');
+            history.push('/login');
         }
 
     }
@@ -71,7 +70,10 @@ export default function FlightDetails(props) {
             <div className="row">
                 <div className="col-lg-4">
                     <p>Selected seats: {seatsCount}</p>
-                    <button className="btn btn-primary btn-block" onClick={bookSeats}>Purchase</button>
+                    <button className="btn btn-primary btn-block" onClick={bookSeats}>
+                        {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Purchase
+                    </button>
                 </div>
                 <div className="col-lg-8">
                     {mappedSections ? mappedSections : 'There are no sections'}

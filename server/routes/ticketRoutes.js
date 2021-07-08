@@ -3,15 +3,15 @@ const router = new express.Router();
 const Ticket = require('../models/Ticket');
 const Flight = require('../models/Flight');
 const User = require('../models/User');
-const Seat =require('../models/Seat');
+const Seat = require('../models/Seat');
 const Section = require('../models/Section');
 const { BadRequest, Ok, Unauthorized } = require('./responses');
 
 
 router.post('/create', async (req, res) => {
 
-    if(!req.user){
-        return BadRequest(res , 'Not logged');
+    if (!req.user) {
+        return BadRequest(res, 'Not logged');
     }
 
     const flight = await Flight.findById(req.body.flightId)
@@ -25,14 +25,14 @@ router.post('/create', async (req, res) => {
         return BadRequest(res, 'Flight doesn\'t exist');
     }
 
-    for(let item of req.body.seats){
+    for (let item of req.body.seats) {
 
         const seat = await Seat.findById(item._id);
 
         if (!seat) {
             return BadRequest(res, 'Seat doesn\'t exist');
         }
-    
+
         if (seat.isBooked) {
             return BadRequest(res, 'Seat is already booked');
         }
@@ -43,14 +43,16 @@ router.post('/create', async (req, res) => {
 
     const ticket = await Ticket.create({
         flight,
-        seats:req.body.seats,
-        user:req.user._id,
+        seats: req.body.seats,
+        user: req.user._id,
     });
 
     req.user.tickets.push(ticket);
     req.user.save();
 
-    return Ok(res, `Seats booked successfully`, ticket);
+    setTimeout(() => {
+        return Ok(res, `Seats booked successfully`, ticket);
+    }, 1000);
 
 })
 
@@ -65,46 +67,46 @@ router.delete('/remove', async (req, res) => {
     seat.isBooked = false;
     seat.save();
     Ticket.remove(ticket).then(() => {
-        return Ok(res, `Seat ${seat.seatNumber} unbooked` );
+        return Ok(res, `Seat ${seat.seatNumber} unbooked`);
     });
 
 })
 
-router.get('/user' , async (req ,res) =>{
+router.get('/user', async (req, res) => {
 
-    if(!req.user){
-        return Unauthorized(res , 'User is not logged');
+    if (!req.user) {
+        return Unauthorized(res, 'User is not logged');
     }
 
     const user = await User.findById(req.user._id)
-    .populate({
-        path:'tickets', 
-        populate:[{
-            path:'flight'
-        },
-        {
-            path:'seats',
-            populate:[{
-                path:'section',
-                model:Section
-            }],
-        }
-    ]
-    });
+        .populate({
+            path: 'tickets',
+            populate: [{
+                path: 'flight'
+            },
+            {
+                path: 'seats',
+                populate: [{
+                    path: 'section',
+                    model: Section
+                }],
+            }
+            ]
+        });
 
-    if(!user){
-        return BadRequest(res , 'User not found');
+    if (!user) {
+        return BadRequest(res, 'User not found');
     }
 
     const parsedTickets = user.tickets?.map(t => {
         return {
-            ticketId:t._id,
-            flight:t.flight,
-            seats:t.seats,
+            ticketId: t._id,
+            flight: t.flight,
+            seats: t.seats,
         }
     })
 
-    return Ok(res, null , parsedTickets);
+    return Ok(res, null, parsedTickets);
 
 })
 

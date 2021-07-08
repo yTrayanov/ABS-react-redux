@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { requestCreateFlight } from '../../store/reducers/flightReducer';
+import { requestCreateFlight, getIsCreatingFlight } from '../../store/reducers/flightReducer';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
@@ -11,14 +11,16 @@ export default function CreateFlight() {
     const flightNumberInput = React.useRef();
     const departureDateInput = React.useRef();
 
+    const isLoading = useSelector(getIsCreatingFlight);
 
-    const clearForm = () => {
+
+    const clearForm = React.useCallback(() => {
         originAirportInput.current.value = "";
         destinationAirportInput.current.value = "";
         airlineInput.current.value = "";
         flightNumberInput.current.value = "";
         departureDateInput.current.value = "";
-    }
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -77,7 +79,10 @@ export default function CreateFlight() {
                         </div>
 
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" > Create </button>
+                            <button type="submit" className="btn btn-primary btn-block" >
+                                {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Create
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -13,7 +13,7 @@ const initialAsyncState = {
 
 const initialState = {
     userTickets: initialAsyncState,
-    bookSeat:initialAsyncState
+    bookSeats:initialAsyncState
 }
 
 const userTicketsActions = actionCreator('USER_TICKETS');
@@ -29,7 +29,7 @@ export const ticketsReducer = (state = initialState, action) => {
         case createTicketActions.REQUEST:
         case createTicketActions.SUCCESS:
         case createTicketActions.FAILURE:
-            return { ...state, userTickets: reducerHandler(state.userTickets, action, createTicketActions) };
+            return { ...state, bookSeats: reducerHandler(state.bookSeats, action, createTicketActions) };
         default:
             return state;
     }
@@ -37,7 +37,8 @@ export const ticketsReducer = (state = initialState, action) => {
 }
 
 export const getUserTickets = state => state.tickets.userTickets.data?.tickets;
-export const getIsBooked = state => state.tickets.bookSeat.data?.booked;
+export const getIsBooked = state => state.tickets.bookSeats.data?.booked;
+export const getIsCreatingTicket = state => state.tickets.bookSeats.isLoading;
 
 export const requestUserTickets = () => (dispatch) => {
 
@@ -52,7 +53,7 @@ export const requestUserTickets = () => (dispatch) => {
     });
 }
 
-export const requestTickets = (flightId, seats) => dispatch => {
+export const requestTickets = (flightId, seats , setSeatCount) => dispatch => {
     dispatch({type: createTicketActions.REQUEST});
 
     postRequest(CREATE_TICKET_URL , {flightId, seats})
@@ -62,8 +63,9 @@ export const requestTickets = (flightId, seats) => dispatch => {
                 return;
             }
             dispatch({type:createTicketActions.SUCCESS });
-
             dispatch(requestSections(flightId));
+
+            setSeatCount(0);
         })
 
 }

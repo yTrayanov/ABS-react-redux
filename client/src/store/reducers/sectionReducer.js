@@ -39,6 +39,9 @@ export const sectionReducer = (state = initialState, action) => {
     }
 }
 
+
+export const getIsCreatingSection = state => state.sections.createSection.isLoading;
+
 export const requestSections = (id) => dispatch => {
     dispatch({ type: getSectionsActions.REQUEST });
 

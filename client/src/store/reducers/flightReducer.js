@@ -38,6 +38,8 @@ export const flightReducer = (state = initialState, action) => {
 
 
 export const getFilteredFlights = state => state.flights.filteredFlights.data?.flights;
+export const getIsLoadingFilteredFlights = state => state.flights.filteredFlights.isLoading;
+export const getIsCreatingFlight = state => state.flights.createFlight.isLoading;
 
 export const requestFilteredFlights = (originAirport, destinationAirport, date) => (dispatch) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
@@ -54,7 +56,7 @@ export const requestFilteredFlights = (originAirport, destinationAirport, date) 
 
 }
 
-export const requestCreateFlight = (originAirport, destinationAirport, airline, flightNumber, departureDate, callback) => dispatch => {
+export const requestCreateFlight = (originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm) => dispatch => {
     dispatch({ type: createFlightActions.REQUEST });
     postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
         .then(response => {
@@ -62,7 +64,7 @@ export const requestCreateFlight = (originAirport, destinationAirport, airline, 
                 dispatch({ type: createFlightActions.FAILURE });
 
             dispatch({ type: createFlightActions.SUCCESS, payload: response });
+            clearForm();
             alert('Flight created');
-            callback();
         })
 }
