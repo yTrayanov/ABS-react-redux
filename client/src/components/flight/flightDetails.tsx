@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import Section from '../section/section';
 
-import ISeat from '../../interfaces/seat.interface';
-import ISection from '../../interfaces/section.interface';
+import ISeat from '../../interfaces/models/seat.interface';
+import ISection from '../../interfaces/models/section.interface';
 
 import { getIsLogged } from '../../store/reducers/authReducer';
 import { getFlightSections, requestSections } from '../../store/reducers/sectionReducer';

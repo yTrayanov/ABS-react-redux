@@ -1,8 +1,8 @@
 import React from 'react';
 import Seat from './seat';
 
-import ISection from '../../interfaces/section.interface'; 
-import ISeat from '../../interfaces/seat.interface';
+import ISection from '../../interfaces/models/section.interface'; 
+import ISeat from '../../interfaces/models/seat.interface';
 
 export default function Section({ section , toggleSelect}:{section:ISection , toggleSelect:(seat:ISeat , selected:boolean) => void}) {
 

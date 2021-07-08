@@ -1,4 +1,4 @@
-export const postRequest = (url, data) => {
+export const postRequest = (url:string, data:object) => {
     return window.fetch(url, {
         method: 'POST',
         credentials: 'include',
@@ -10,7 +10,7 @@ export const postRequest = (url, data) => {
         .then(response => response.json());
 }
 
-export const getRequest = (url) => {
+export const getRequest = (url:string) => {
     return window.fetch(url, {
         method: 'GET',
         credentials: 'include',

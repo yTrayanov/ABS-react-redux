@@ -4,7 +4,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import Ticket from './ticket';
 
 import { requestUserTickets , getUserTickets } from '../../store/reducers/ticketsReducer';
-import ITicket from '../../interfaces/ticket.interface';
+import ITicket from '../../interfaces/models/ticket.interface';
 
 
 

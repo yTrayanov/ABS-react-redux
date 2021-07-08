@@ -3,6 +3,8 @@ import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 import { getFilterdFlightsUrl, CREATE_FLIGHT_URL } from '../../urls';
 
+import IAction from "../../interfaces/action.interface";
+
 const initialAsyncState = {
     isLoading: false,
     loaded: false,
@@ -15,10 +17,10 @@ const initialState = {
     createFlight: initialAsyncState
 }
 
-const filteredFlightsActions = actionCreator("FILTERED_FLIGHTS");
-const createFlightActions = actionCreator("CREATE_FLIGHT");
+const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
+const createFlightActions: any = actionCreator("CREATE_FLIGHT");
 
-export const flightReducer = (state = initialState, action) => {
+export const flightReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case filteredFlightsActions.REQUEST:
         case filteredFlightsActions.SUCCESS:
@@ -37,11 +39,11 @@ export const flightReducer = (state = initialState, action) => {
 }
 
 
-export const getFilteredFlights = state => state.flights.filteredFlights.data?.flights;
-export const getIsLoadingFilteredFlights = state => state.flights.filteredFlights.isLoading;
-export const getIsCreatingFlight = state => state.flights.createFlight.isLoading;
+export const getFilteredFlights = (state: any) => state.flights.filteredFlights.data?.flights;
+export const getIsLoadingFilteredFlights = (state: any) => state.flights.filteredFlights.isLoading;
+export const getIsCreatingFlight = (state: any) => state.flights.createFlight.isLoading;
 
-export const requestFilteredFlights = (originAirport, destinationAirport, date) => (dispatch) => {
+export const requestFilteredFlights = (originAirport: string, destinationAirport: string, date: string) => (dispatch: any) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
 
 
@@ -56,15 +58,16 @@ export const requestFilteredFlights = (originAirport, destinationAirport, date) 
 
 }
 
-export const requestCreateFlight = (originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm) => dispatch => {
-    dispatch({ type: createFlightActions.REQUEST });
-    postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
-        .then(response => {
-            if (!response.success)
-                dispatch({ type: createFlightActions.FAILURE });
+export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string, clearForm: () => void) =>
+    (dispatch: any) => {
+        dispatch({ type: createFlightActions.REQUEST });
+        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
+            .then(response => {
+                if (!response.success)
+                    dispatch({ type: createFlightActions.FAILURE });
 
-            dispatch({ type: createFlightActions.SUCCESS, payload: response });
-            clearForm();
-            alert('Flight created');
-        })
-}
+                dispatch({ type: createFlightActions.SUCCESS, payload: response });
+                clearForm();
+                alert('Flight created');
+            })
+    }

@@ -2,6 +2,7 @@ import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 import { CREATE_SECTION_URL, getFlightDetailsUrl } from '../../urls';
+import IAction from "../../interfaces/action.interface";
 
 const initialAsyncState = {
     isLoading: false,
@@ -15,13 +16,12 @@ const initialState = {
     createSection: initialAsyncState,
 }
 
-const getSectionsActions = actionCreator("GET_SECTIONS")
-const createSectionActions = actionCreator("CREATE_SECTION");
+const getSectionsActions:any = actionCreator("GET_SECTIONS")
+const createSectionActions:any = actionCreator("CREATE_SECTION");
 
 
-export const getFlightSections = state => state.sections.flightSections.data?.sections;
 
-export const sectionReducer = (state = initialState, action) => {
+export const sectionReducer = (state = initialState, action:IAction) => {
 
     switch (action.type) {
         case getSectionsActions.REQUEST:
@@ -40,9 +40,10 @@ export const sectionReducer = (state = initialState, action) => {
 }
 
 
-export const getIsCreatingSection = state => state.sections.createSection.isLoading;
+export const getFlightSections = (state:any) => state.sections.flightSections.data?.sections;
+export const getIsCreatingSection = (state:any) => state.sections.createSection.isLoading;
 
-export const requestSections = (id) => dispatch => {
+export const requestSections = (id:string) => (dispatch:any) => {
     dispatch({ type: getSectionsActions.REQUEST });
 
     const url = getFlightDetailsUrl(id);
@@ -56,7 +57,7 @@ export const requestSections = (id) => dispatch => {
     })
 }
 
-export const requestCreateSection = (rows, columns, seatClass, flightNumber , callback) => dispatch => {
+export const requestCreateSection = (rows:number, columns:number, seatClass:string, flightNumber:string , callback:() =>void ) => (dispatch:any) => {
     dispatch({type:createSectionActions.REQUEST});
 
     postRequest(CREATE_SECTION_URL , {rows, columns, seatClass, flightNumber})

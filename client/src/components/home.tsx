@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Flight from './flight/flight';
 
 import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
-import IFlight from '../interfaces/flight.interface';
+import IFlight from '../interfaces/models/flight.interface';
 
 export default function Home() {
     const dispatch = useDispatch();

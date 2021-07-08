@@ -1,4 +1,6 @@
-export default function reducerHandler (state, action, actionHandler) {
+import IAction from "../interfaces/action.interface";
+
+export default function reducerHandler (state:any, action:IAction, actionHandler:any) {
 
     switch (action.type) {
         case actionHandler.REQUEST:

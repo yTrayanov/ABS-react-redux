@@ -12,7 +12,7 @@ export default function CreateSection() {
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
     const isLoading:string = useSelector(getIsCreatingSection);
-
+    
     const clearForm = React.useCallback(() => {
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
             rowsInput.current.value = '';
@@ -20,17 +20,18 @@ export default function CreateSection() {
             seatClassInput.current.value = '';
             flightNumberInput.current.value = '';
         }
-    }, [])
+    }, []);
+
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
-            const rows = rowsInput.current.value;
-            const columns = columnsInput.current.value;
-            const seatClass = seatClassInput.current.value;
-            const flightNumber = flightNumberInput.current.value;
-            
+            const rows:number = Number.parseInt(rowsInput.current.value);
+            const columns:number = Number.parseInt(columnsInput.current.value);
+            const seatClass:string = seatClassInput.current.value;
+            const flightNumber:string = flightNumberInput.current.value;
+
             dispatch(requestCreateSection(rows, columns, seatClass, flightNumber, clearForm));
         }
 

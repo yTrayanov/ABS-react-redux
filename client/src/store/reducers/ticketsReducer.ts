@@ -4,6 +4,9 @@ import reducerHandler from "../reducerHandler";
 import { USER_TICKETS_URL, CREATE_TICKET_URL } from '../../urls';
 import { requestSections } from "./sectionReducer";
 
+import ISeat from "../../interfaces/models/seat.interface";
+import IAction from "../../interfaces/action.interface";
+
 const initialAsyncState = {
     isLoading: false,
     loaded: false,
@@ -16,10 +19,10 @@ const initialState = {
     bookSeats:initialAsyncState
 }
 
-const userTicketsActions = actionCreator('USER_TICKETS');
-const createTicketActions = actionCreator('CREATE_TICKET');
+const userTicketsActions:any = actionCreator('USER_TICKETS');
+const createTicketActions:any = actionCreator('CREATE_TICKET');
 
-export const ticketsReducer = (state = initialState, action) => {
+export const ticketsReducer = (state = initialState, action:IAction) => {
     switch (action.type) {
         case userTicketsActions.REQUEST:
         case userTicketsActions.SUCCESS:
@@ -36,11 +39,11 @@ export const ticketsReducer = (state = initialState, action) => {
 
 }
 
-export const getUserTickets = state => state.tickets.userTickets.data?.tickets;
-export const getIsBooked = state => state.tickets.bookSeats.data?.booked;
-export const getIsCreatingTicket = state => state.tickets.bookSeats.isLoading;
+export const getUserTickets = (state:any) => state.tickets.userTickets.data?.tickets;
+export const getIsBooked = (state:any )=> state.tickets.bookSeats.data?.booked;
+export const getIsCreatingTicket = (state:any) => state.tickets.bookSeats.isLoading;
 
-export const requestUserTickets = () => (dispatch) => {
+export const requestUserTickets = () => (dispatch:any) => {
 
     dispatch({ type: userTicketsActions.REQUEST });
     getRequest(USER_TICKETS_URL).then((response) => {
@@ -53,7 +56,7 @@ export const requestUserTickets = () => (dispatch) => {
     });
 }
 
-export const requestTickets = (flightId, seats , setSeatCount) => dispatch => {
+export const requestTickets = (flightId:string, seats:ISeat[] , setSeatCount:(value:number)=>void) => (dispatch:any) => {
     dispatch({type: createTicketActions.REQUEST});
 
     postRequest(CREATE_TICKET_URL , {flightId, seats})

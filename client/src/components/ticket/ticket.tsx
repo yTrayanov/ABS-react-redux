@@ -1,6 +1,6 @@
 import React from 'react';
-import ITicket from '../../interfaces/ticket.interface';
-import ISeat from '../../interfaces/seat.interface';
+import ITicket from '../../interfaces/models/ticket.interface';
+import ISeat from '../../interfaces/models/seat.interface';
 
 export default function Ticket({ ticket } : {ticket:ITicket}) {
 

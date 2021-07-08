@@ -1,3 +1,4 @@
+import IAction from "../../interfaces/action.interface";
 import { postRequest } from "../../requests";
 import { LOGIN_URL, LOGOUT_URL } from '../../urls';
 import actionCreator from "../actionCreator";
@@ -25,11 +26,11 @@ const initialState = {
     logout: initialAsyncState,
 };
 
-const loginActions = actionCreator('LOGIN');
-const registerActions = actionCreator('REGISTER');
-const logoutActions = actionCreator('LOGOUT');
+const loginActions:any = actionCreator('LOGIN');
+const registerActions:any = actionCreator('REGISTER');
+const logoutActions:any = actionCreator('LOGOUT');
 
-export function authReducer(state = initialState, action) {
+export function authReducer(state = initialState, action:IAction) {
     switch (action.type) {
         case loginActions.REQUEST:
         case loginActions.SUCCESS:
@@ -51,18 +52,18 @@ export function authReducer(state = initialState, action) {
 }
 
 //logStatus shortcuts
-export const getIsLogged = state => state.auth.logStatus.data.isLogged;
-export const getIsAdmin = state => state.auth.logStatus.data.isAdmin;
-export const getToken = state => state.auth.logStatus.data.token;
-export const getLoggingIn = state => state.auth.logStatus.isLoading;
-export const getLogginError = state => state.auth.logStatus.error;
+export const getIsLogged = (state:any) => state.auth.logStatus.data.isLogged;
+export const getIsAdmin = (state:any) => state.auth.logStatus.data.isAdmin;
+export const getToken = (state:any) => state.auth.logStatus.data.token;
+export const getLoggingIn = (state:any) => state.auth.logStatus.isLoading;
+export const getLogginError = (state:any) => state.auth.logStatus.error;
 
 
-export const getState = state => state.auth.logStatus;
+export const getState = (state:any) => state.auth.logStatus;
 
 
 
-export const login = (username, password, history) => (dispatch) => {
+export const login = (username:string, password:string, history:any) => (dispatch:any) => {
 
     dispatch({ type: loginActions.REQUEST, payload: {} })
 
@@ -85,7 +86,7 @@ export const login = (username, password, history) => (dispatch) => {
         })
 }
 
-export const logout = (history) => (dispatch) => {
+export const logout = (history:any) => (dispatch:any) => {
 
     dispatch({ type: logoutActions.REQUEST });
 
@@ -101,7 +102,7 @@ export const logout = (history) => (dispatch) => {
     });
 }
 
-export const requestStats = () => (dispatch) => {
+export const requestStats = () => (dispatch:any) => {
     if (token)
         window.fetch('http://localhost:5000/auth/stat', {
             method: 'POST',
@@ -118,6 +119,6 @@ export const requestStats = () => (dispatch) => {
             });
 }
 
-export function getInitialStat(dispatch) {
+export function getInitialStat(dispatch:any) {
     dispatch(requestStats());
 }
