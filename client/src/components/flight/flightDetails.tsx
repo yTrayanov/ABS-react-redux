@@ -9,7 +9,7 @@ import ISection from '../../interfaces/models/section.interface';
 
 import { getIsLogged } from '../../store/reducers/authReducer';
 import { getFlightSections, requestSections } from '../../store/reducers/sectionReducer';
-import { requestTickets, getIsCreatingTicket } from '../../store/reducers/ticketsReducer';
+import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 
 
 export default function FlightDetails(props:any) {
@@ -22,7 +22,6 @@ export default function FlightDetails(props:any) {
 
     const sections:ISection[] = useSelector(getFlightSections);
     const isLogged:boolean = useSelector(getIsLogged);
-    const isLoading:boolean = useSelector(getIsCreatingTicket);
 
     const flightId:string = props.match.params.id;
 
@@ -57,17 +56,18 @@ export default function FlightDetails(props:any) {
 
         if (isLogged) {
             if (seats.length > 0) {
-                dispatch(requestTickets(flightId, seats, setSeatsCount));
+                dispatch({type:selectSeatsActions.SUCCESS , payload:{seats:seats}});
+                history.push(`/flight/${flightId}/ticketsForms`);
             }
             else {
                 alert("Please select seat");
             }
         }
         else {
-            history.push('/login');
+            alert("Can not book seats while not logged")
         }
 
-    },[seats,isLogged, dispatch , flightId, history]);
+    },[seats,isLogged, dispatch , history , flightId]);
 
     return (
         <div className="container">
@@ -75,8 +75,7 @@ export default function FlightDetails(props:any) {
                 <div className="col-lg-4">
                     <p>Selected seats: {seatsCount}</p>
                     <button className="btn btn-primary btn-block" onClick={bookSeats}>
-                        {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Purchase
+                        Continue
                     </button>
                 </div>
                 <div className="col-lg-8">

@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="container col-lg-8" style={{ textAlign: 'center', marginTop: '40px', border: mappedFlights ? '1px solid' : 'none', borderRadius: '30px' }}>
-                <ul style={{ listStyle: "none", justifyContent: 'center', padding: 0 }}>
+                <ul className="container" style={{ listStyle: "none", justifyContent: 'center', padding: 0 }}>
                     {mappedFlights ? mappedFlights : null}
                 </ul>
             </div>

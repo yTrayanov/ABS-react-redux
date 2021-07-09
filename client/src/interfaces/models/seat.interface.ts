@@ -8,4 +8,5 @@ export default interface ISeat{
     isBooked:boolean,
     seatNumber:string,
     section:ISection,
+    passangerName:string,
 }

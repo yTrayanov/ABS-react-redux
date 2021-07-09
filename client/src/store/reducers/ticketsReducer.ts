@@ -16,11 +16,13 @@ const initialAsyncState = {
 
 const initialState = {
     userTickets: initialAsyncState,
-    bookSeats:initialAsyncState
+    bookSeats:initialAsyncState,
+    selectedSeats:{...initialAsyncState , data:{seats:null}}
 }
 
 const userTicketsActions:any = actionCreator('USER_TICKETS');
 const createTicketActions:any = actionCreator('CREATE_TICKET');
+export const selectSeatsActions:any = actionCreator('CHOOSE_SEATS');
 
 export const ticketsReducer = (state = initialState, action:IAction) => {
     switch (action.type) {
@@ -33,6 +35,11 @@ export const ticketsReducer = (state = initialState, action:IAction) => {
         case createTicketActions.SUCCESS:
         case createTicketActions.FAILURE:
             return { ...state, bookSeats: reducerHandler(state.bookSeats, action, createTicketActions) };
+
+        case selectSeatsActions.REQUEST:
+        case selectSeatsActions.SUCCESS:
+        case selectSeatsActions.FAILURE:
+            return { ...state, selectedSeats: reducerHandler(state.selectedSeats, action, selectSeatsActions) };
         default:
             return state;
     }
@@ -42,6 +49,8 @@ export const ticketsReducer = (state = initialState, action:IAction) => {
 export const getUserTickets = (state:any) => state.tickets.userTickets.data?.tickets;
 export const getIsBooked = (state:any )=> state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTicket = (state:any) => state.tickets.bookSeats.isLoading;
+export const getSelectedSeats = (state:any) => state.tickets.selectedSeats.data?.seats;
+export const getSeatsState = (state:any) => state.tickets.selectedSeats;
 
 export const requestUserTickets = () => (dispatch:any) => {
 
@@ -56,7 +65,7 @@ export const requestUserTickets = () => (dispatch:any) => {
     });
 }
 
-export const requestTickets = (flightId:string, seats:ISeat[] , setSeatCount:(value:number)=>void) => (dispatch:any) => {
+export const requestCreateTickets = (flightId:string, seats:ISeat[]) => (dispatch:any) => {
     dispatch({type: createTicketActions.REQUEST});
 
     postRequest(CREATE_TICKET_URL , {flightId, seats})
@@ -67,8 +76,6 @@ export const requestTickets = (flightId:string, seats:ISeat[] , setSeatCount:(va
             }
             dispatch({type:createTicketActions.SUCCESS });
             dispatch(requestSections(flightId));
-
-            setSeatCount(0);
         })
 
 }

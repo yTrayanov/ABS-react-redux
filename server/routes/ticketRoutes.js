@@ -37,20 +37,28 @@ router.post('/create', async (req, res) => {
             return BadRequest(res, 'Seat is already booked');
         }
 
+        if (!item.passangerName) {
+            return BadRequest(res, 'Passenger name is required');
+        }
+
         seat.isBooked = true;
         seat.save();
+
+
+        const ticket = await Ticket.create({
+            flight,
+            seat: req.body.seat,
+            user: req.user._id,
+            passangerName:item.passangerName
+        });
+
+        req.user.tickets.push(ticket);
+        req.user.save();
+
     }
 
-    const ticket = await Ticket.create({
-        flight,
-        seats: req.body.seats,
-        user: req.user._id,
-    });
 
-    req.user.tickets.push(ticket);
-    req.user.save();
-
-    return Ok(res, `Seats booked successfully`, ticket);
+    return Ok(res, `Seats booked successfully`);
 
 })
 

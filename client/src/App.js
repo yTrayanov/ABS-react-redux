@@ -9,10 +9,13 @@ import Home from './components/home';
 import UserTickets from './components/ticket/userTickets';
 import FlightDetails from './components/flight/flightDetails';
 import CreateSection from './components/section/createSection';
+import RegisterTickets from './components/ticket/registerTickets';
+
 import { AdminRoute, PrivateRoute ,PublicRoute } from './routes';
 
 
 function App() {
+
   return (
     <div className="App">
       <>
@@ -21,6 +24,7 @@ function App() {
           <AdminRoute exact path='/section/create' component={CreateSection} />
           <AdminRoute exact path='/flight/create' component={CreateFlight} />
           <PrivateRoute exact path='/user/tickets' component={UserTickets} />
+          <PrivateRoute exact path='/flight/:id/ticketsForms' component={RegisterTickets}/>
           <PublicRoute exact path='/login' component={Login} />
           <PublicRoute exact path='/register' component={Register} />
           <Route exact path='/' component={Home} />

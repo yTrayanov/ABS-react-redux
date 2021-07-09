@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function Flight({ id, originAirportName, destinationAirportName, airlineName, departureDate }:{id:string , originAirportName:string ,destinationAirportName:string , airlineName:string , departureDate:Date}) {
     return (
-        <Link className="flightLink" to={`/flight/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
+        <Link className="flightLink" to={`/flight/${id}`} style={{ textDecoration: 'none', color: 'black'}}>
             <li style={{ borderBottom: "1px solid" }}>
                 <div className="row flightLink">
                     <div className="col-lg-4">
