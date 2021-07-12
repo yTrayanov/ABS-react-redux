@@ -1,4 +1,5 @@
 import ISection from "./section.interface";
+import ITicket from "./ticket.interface";
 
 
 export default interface ISeat{
@@ -9,4 +10,5 @@ export default interface ISeat{
     seatNumber:string,
     section:ISection,
     passangerName:string,
+    ticket:ITicket | null
 }

@@ -1,10 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-export default function Flight({ id, originAirportName, destinationAirportName, airlineName, departureDate }:{id:string , originAirportName:string ,destinationAirportName:string , airlineName:string , departureDate:Date}) {
+export default function Flight({originAirportName, destinationAirportName, airlineName, departureDate, url }
+        :{ originAirportName:string ,destinationAirportName:string , airlineName:string , departureDate:Date , url:string}) {
     return (
-        <Link className="flightLink" to={`/flight/${id}`} style={{ textDecoration: 'none', color: 'black'}}>
+        <Link className="flightLink" to={url} style={{ textDecoration: 'none', color: 'black'}}>
             <li style={{ borderBottom: "1px solid" }}>
                 <div className="row flightLink">
                     <div className="col-lg-4">

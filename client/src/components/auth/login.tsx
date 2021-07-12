@@ -42,8 +42,8 @@ export default function Login() {
                             <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" > {
-                                isLogging && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                            <button type="submit" className="btn btn-primary btn-block" > 
+                            {isLogging && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Sign In
                             </button>
                         </div>

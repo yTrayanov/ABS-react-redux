@@ -1,5 +1,7 @@
 const express = require('express');
 const router = new express.Router();
+const Airport = require('../models/Airport')
+const Airline = require('../models/Airline');
 const Ticket = require('../models/Ticket');
 const Flight = require('../models/Flight');
 const User = require('../models/User');
@@ -27,7 +29,7 @@ router.post('/create', async (req, res) => {
 
     for (let item of req.body.seats) {
 
-        const seat = await Seat.findById(item._id);
+        const seat = await Seat.findById(item._id).populate('section');
 
         if (!seat) {
             return BadRequest(res, 'Seat doesn\'t exist');
@@ -42,18 +44,23 @@ router.post('/create', async (req, res) => {
         }
 
         seat.isBooked = true;
-        seat.save();
 
 
         const ticket = await Ticket.create({
             flight,
-            seat: req.body.seat,
+            seat,
             user: req.user._id,
-            passangerName:item.passangerName
+            passengerName: item.passangerName
         });
+
+        seat.ticket = ticket;
+        seat.save();
 
         req.user.tickets.push(ticket);
         req.user.save();
+
+        seat.section.availableSeats -= 1;
+        seat.section.save();
 
     }
 
@@ -88,16 +95,25 @@ router.get('/user', async (req, res) => {
         .populate({
             path: 'tickets',
             populate: [{
-                path: 'flight'
+                path: 'flight',
+                populate:[{
+                    path:'originAirport',
+                    model:Airport
+                },{
+                    path:'destinationAirport',
+                    model:Airport
+                },{
+                    path:'airline',
+                    model:Airline
+                }]
             },
             {
-                path: 'seats',
+                path: 'seat',
                 populate: [{
                     path: 'section',
                     model: Section
                 }],
-            }
-            ]
+            }]
         });
 
     if (!user) {
@@ -108,7 +124,7 @@ router.get('/user', async (req, res) => {
         return {
             ticketId: t._id,
             flight: t.flight,
-            seats: t.seats,
+            seat: t.seat,
         }
     })
 

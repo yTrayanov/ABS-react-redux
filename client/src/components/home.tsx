@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Flight from './flight/flight';
+import LoadingButton from './loadingButton.component';
 
 import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
 import IFlight from '../interfaces/models/flight.interface';
@@ -15,30 +16,29 @@ export default function Home() {
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
     const dateInput = React.useRef<HTMLInputElement>(null);
 
-    const flights : IFlight[] = useSelector(getFilteredFlights);
-
+    const flights: IFlight[] = useSelector(getFilteredFlights);
 
 
     React.useEffect(() => {
         setMappedFlights(
             flights?.map(flight => (
-            <Flight originAirportName={flight.originAirport.name}
-                destinationAirportName={flight.destinationAirport.name}
-                airlineName={flight.airline.name}
-                departureDate={flight.departureDate}
-                key={flight.flightNumber}
-                id={flight._id} />
-        )));
+                <Flight originAirportName={flight.originAirport.name}
+                    destinationAirportName={flight.destinationAirport.name}
+                    airlineName={flight.airline.name}
+                    departureDate={flight.departureDate}
+                    key={flight.flightNumber} 
+                    url={`/flight/${flight._id}`}/>
+            )));
     }, [flights])
 
 
 
 
-    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(originAirportInput.current && destinationAirportInput.current && dateInput.current)
-        dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));
+        if (originAirportInput.current && destinationAirportInput.current && dateInput.current)
+            dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));
     }
 
     return (
@@ -68,10 +68,7 @@ export default function Home() {
                             <input type="Date" className="form-control" placeholder="Departure Date" ref={dateInput} defaultValue="2021-07-10" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" >
-                            {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Find
-                            </button>
+                            <LoadingButton isLoading={isLoading} text={'Find'} handleClick={null} />
                         </div>
                     </form>
                 </div>

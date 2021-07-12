@@ -1,8 +1,11 @@
 import IFlight from './flight.interface';
 import ISeat from './seat.interface';
+import IUser from './user.interface';
 
 export default interface ITicket{
     ticketId:string,
     flight:IFlight,
-    seats:ISeat[]
+    seat:ISeat,
+    passengerName:string,
+    user:IUser
 }

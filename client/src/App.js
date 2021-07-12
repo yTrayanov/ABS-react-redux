@@ -10,6 +10,8 @@ import UserTickets from './components/ticket/userTickets';
 import FlightDetails from './components/flight/flightDetails';
 import CreateSection from './components/section/createSection';
 import RegisterTickets from './components/ticket/registerTickets';
+import AllFlights from './components/flight/allFlights';
+import FlightInformation from './components/flight/flightInformation';
 
 import { AdminRoute, PrivateRoute ,PublicRoute } from './routes';
 
@@ -23,6 +25,8 @@ function App() {
         <Switch>
           <AdminRoute exact path='/section/create' component={CreateSection} />
           <AdminRoute exact path='/flight/create' component={CreateFlight} />
+          <AdminRoute exact path='/flight/all' component={AllFlights} />
+          <AdminRoute exact path='/flight/information/:id' component={FlightInformation}/>
           <PrivateRoute exact path='/user/tickets' component={UserTickets} />
           <PrivateRoute exact path='/flight/:id/ticketsForms' component={RegisterTickets}/>
           <PublicRoute exact path='/login' component={Login} />

@@ -4,7 +4,7 @@ const ticketSchema = new mongoose.Schema({
     flight:{type:mongoose.Schema.Types.ObjectId , ref:'Flight'},
     seat:{type:mongoose.Schema.Types.ObjectId , ref:'Seat'},
     user:{type:mongoose.Schema.Types.ObjectId , ref:'User'},
-    passangerName:{type:mongoose.Schema.Types.String , required:true}
+    passengerName:{type:mongoose.Schema.Types.String , required:true}
 })
 
 ticketSchema.pre('remove' , (ticket) =>{

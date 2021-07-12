@@ -2,7 +2,6 @@ import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 import { USER_TICKETS_URL, CREATE_TICKET_URL } from '../../urls';
-import { requestSections } from "./sectionReducer";
 
 import ISeat from "../../interfaces/models/seat.interface";
 import IAction from "../../interfaces/action.interface";
@@ -16,15 +15,15 @@ const initialAsyncState = {
 
 const initialState = {
     userTickets: initialAsyncState,
-    bookSeats:initialAsyncState,
-    selectedSeats:{...initialAsyncState , data:{seats:null}}
+    bookSeats: initialAsyncState,
+    selectedSeats: { ...initialAsyncState, data: { seats: null } }
 }
 
-const userTicketsActions:any = actionCreator('USER_TICKETS');
-const createTicketActions:any = actionCreator('CREATE_TICKET');
-export const selectSeatsActions:any = actionCreator('CHOOSE_SEATS');
+const userTicketsActions: any = actionCreator('USER_TICKETS');
+const createTicketActions: any = actionCreator('CREATE_TICKET');
+export const selectSeatsActions: any = actionCreator('CHOOSE_SEATS');
 
-export const ticketsReducer = (state = initialState, action:IAction) => {
+export const ticketsReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case userTicketsActions.REQUEST:
         case userTicketsActions.SUCCESS:
@@ -46,13 +45,12 @@ export const ticketsReducer = (state = initialState, action:IAction) => {
 
 }
 
-export const getUserTickets = (state:any) => state.tickets.userTickets.data?.tickets;
-export const getIsBooked = (state:any )=> state.tickets.bookSeats.data?.booked;
-export const getIsCreatingTicket = (state:any) => state.tickets.bookSeats.isLoading;
-export const getSelectedSeats = (state:any) => state.tickets.selectedSeats.data?.seats;
-export const getSeatsState = (state:any) => state.tickets.selectedSeats;
+export const getUserTickets = (state: any) => state.tickets.userTickets.data?.tickets;
+export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
+export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
+export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data?.seats;
 
-export const requestUserTickets = () => (dispatch:any) => {
+export const requestUserTickets = () => (dispatch: any) => {
 
     dispatch({ type: userTicketsActions.REQUEST });
     getRequest(USER_TICKETS_URL).then((response) => {
@@ -65,17 +63,19 @@ export const requestUserTickets = () => (dispatch:any) => {
     });
 }
 
-export const requestCreateTickets = (flightId:string, seats:ISeat[]) => (dispatch:any) => {
-    dispatch({type: createTicketActions.REQUEST});
+export const requestCreateTickets = (flightId: string, seats: ISeat[], history: any) => (dispatch: any) => {
+    dispatch({ type: createTicketActions.REQUEST });
 
-    postRequest(CREATE_TICKET_URL , {flightId, seats})
+    postRequest(CREATE_TICKET_URL, { flightId, seats })
         .then(response => {
-            if(!response.success){
-                dispatch({type: createTicketActions.FAILURE });
+            if (!response.success) {
+                dispatch({ type: createTicketActions.FAILURE });
                 return;
             }
-            dispatch({type:createTicketActions.SUCCESS });
-            dispatch(requestSections(flightId));
+            dispatch({ type: createTicketActions.SUCCESS });
+            history.push('/');
+
+                alert("Seats booked successfully");
         })
 
 }

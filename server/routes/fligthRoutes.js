@@ -4,7 +4,9 @@ const router = new express.Router();
 const Flight = require('../models/Flight');
 const Airport = require('../models/Airport');
 const Airline = require('../models/Airline');
-const { BadRequest, Created, Ok } = require('./responses');
+const Ticket = require('../models/Ticket');
+
+const { BadRequest, Created, Ok, Unauthorized } = require('./responses');
 
 router.post('/create', async (req, res) => {
 
@@ -48,7 +50,6 @@ router.get('/filter/:origin/:destination/:date', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-
     const flight = await Flight.findById(req.params.id)
         .populate('sections')
         .populate({
@@ -63,5 +64,59 @@ router.get('/:id', async (req, res) => {
     return Ok(res, 'Flight found', flight);
 });
 
+router.get('/information/all', (req, res) => {
+
+    Flight.find()
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline')
+        .then(flights => {
+            return Ok(res, 'All flights', flights);
+        })
+
+})
+
+router.get('/information/:id', (req, res) => {
+
+    if (!req.user) {
+        return Unauthorized(res, 'Be gone , you are not logged');
+    }
+
+    if (!req.user.roles.indexOf('Admin') < 0) {
+        return Unauthorized(res, 'Be gone , only admins allowed');
+    }
+
+    Flight.findById(req.params.id)
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline')
+        .populate({
+            path: 'sections',
+            populate: [{
+                path: 'seats',
+                populate: {
+                    path: 'ticket',
+                    populate:{
+                        path:'user',
+                    }
+                }
+            }]
+        }).then(flight => {
+
+            for (index in flight.sections) {
+
+                const section = flight.sections[index];
+
+                if (section.availableSeats == section.rows * section.columns) {
+                    flight.sections.splice(index, 1);
+                }
+                else {
+                    section.seats = section.seats.filter(s => s.isBooked);
+                }
+            }
+
+            return Ok(res, 'All flight data', flight);
+        })
+})
 
 module.exports = router;

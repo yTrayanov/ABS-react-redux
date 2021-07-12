@@ -1,3 +1,4 @@
+import ISection from "./section.interface";
 
 export default interface IFlight {
     originAirport: {
@@ -11,5 +12,6 @@ export default interface IFlight {
     },
     departureDate: Date,
     flightNumber: string,
-    _id: string
+    _id: string,
+    sections:ISection[] | null
 }
