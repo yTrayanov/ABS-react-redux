@@ -28,7 +28,7 @@ export default function Home() {
         setMappedFlights(
             flights?.map((flight, index) => (
                 <FlightView flights={flight}
-                    urlStart="flights"
+                    urlStart="flight"
                     key={index} />
             )));
 

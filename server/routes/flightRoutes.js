@@ -16,6 +16,7 @@ router.post('/create', async (req, res) => {
     Flight.create({
         flightNumber: req.body.flightNumber,
         departureDate: Date.parse(req.body.departureDate),
+        landingDate:Date.parse(req.body.landingDate),
         airline,
         originAirport,
         destinationAirport,
@@ -30,9 +31,6 @@ router.post('/create', async (req, res) => {
             })
         })
 });
-
-
-
 
 router.get('/filter/:origin/:destination/:departureDate/:membersCount', async (req, res) => {
 

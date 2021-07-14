@@ -10,6 +10,7 @@ export default function CreateFlight() {
     const airlineInput = React.useRef<HTMLInputElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
     const departureDateInput = React.useRef<HTMLInputElement>(null);
+    const landingDateInput = React.useRef<HTMLInputElement>(null);
 
     const isLoading = useSelector(getIsCreatingFlight);
 
@@ -28,13 +29,14 @@ export default function CreateFlight() {
         event.preventDefault();
 
 
-        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current) {
+        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
             const originAirport = originAirportInput.current.value
             const destinationAirport = destinationAirportInput.current.value
             const airline = airlineInput.current.value
             const flightNumber = flightNumberInput.current.value
             const departureDate = departureDateInput.current.value
-            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate ,clearForm));
+            const landingDate = landingDateInput.current.value;
+            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate , landingDate ,clearForm));
         }
  
     }
@@ -80,6 +82,14 @@ export default function CreateFlight() {
                                 <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
                             </div>
                             <input type='datetime-local' className="form-control" ref={departureDateInput} />
+                        </div>
+
+                        
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
+                            </div>
+                            <input type='datetime-local' className="form-control" ref={landingDateInput} />
                         </div>
 
                         <div className="form-group">

@@ -75,10 +75,10 @@ export const requestFilteredFlights = (originAirport: string, destinationAirport
 
 }
 
-export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string , clearForm: () => void) =>
+export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string , landingDate:string , clearForm: () => void) =>
     (dispatch: any) => {
         dispatch({ type: createFlightActions.REQUEST });
-        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate})
+        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate , landingDate})
             .then(response => {
                 if (!response.success)
                     dispatch({ type: createFlightActions.FAILURE });
