@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
 
 const authRoutes = require('../routes/auth');
-const flightRoutes = require('../routes/fligthRoutes');
+const flightRoutes = require('../routes/flightRoutes');
 const createRoutes = require('../routes/createRoutes');
 const ticketRoutes = require('../routes/ticketRoutes');
 const sectionRoutes = require('../routes/sectionRoutes');

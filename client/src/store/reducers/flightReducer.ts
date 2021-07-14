@@ -53,32 +53,31 @@ export const flightReducer = (state = initialState, action: IAction) => {
 }
 
 
-export const getFilteredFlights = (state: any) => state.flights.filteredFlights.data?.flights;
+export const getFilteredFlights = (state: any) => state.flights.filteredFlights.data;
 export const getIsLoadingFilteredFlights = (state: any) => state.flights.filteredFlights.isLoading;
 export const getIsCreatingFlight = (state: any) => state.flights.createFlight.isLoading;
 export const getAllFlights = (state: any) => state.flights.allFlights?.data;
 export const getFlightInformation = (state:any) => state.flights.flightInformation?.data;
 
 
-export const requestFilteredFlights = (originAirport: string, destinationAirport: string, date: string) => (dispatch: any) => {
+export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string , returnDate?:string) => (dispatch: any) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
 
 
-    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, date))
+    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, returnDate))
         .then(response => {
             if (!response.success) {
                 dispatch({ type: filteredFlightsActions.FAILURE });
             }
-
-            dispatch({ type: filteredFlightsActions.SUCCESS, payload: { flights: response.data } });
+            dispatch({ type: filteredFlightsActions.SUCCESS, payload: response.data });
         })
 
 }
 
-export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string, clearForm: () => void) =>
+export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string , clearForm: () => void) =>
     (dispatch: any) => {
         dispatch({ type: createFlightActions.REQUEST });
-        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate })
+        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate})
             .then(response => {
                 if (!response.success)
                     dispatch({ type: createFlightActions.FAILURE });

@@ -1,35 +1,46 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Flight from './flight/flight';
-import LoadingButton from './loadingButton.component';
+import FlightView from './flight/flightView';
 
 import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
+
 import IFlight from '../interfaces/models/flight.interface';
 
 export default function Home() {
     const dispatch = useDispatch();
+    const [oneWay, setOneWay] = React.useState<any>(false);
     const [mappedFlights, setMappedFlights] = React.useState<any>([]);
     const isLoading = useSelector(getIsLoadingFilteredFlights);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
-    const dateInput = React.useRef<HTMLInputElement>(null);
+    const departureDateInput = React.useRef<HTMLInputElement>(null);
+    const returnDateInput = React.useRef<HTMLInputElement>(null);
+    const showHide = React.useRef<string>('hide');
 
-    const flights: IFlight[] = useSelector(getFilteredFlights);
+    const flights: IFlight[][] = useSelector(getFilteredFlights);
 
 
     React.useEffect(() => {
+
+
+        if(flights) console.log(flights)
+
         setMappedFlights(
-            flights?.map(flight => (
-                <Flight originAirportName={flight.originAirport.name}
-                    destinationAirportName={flight.destinationAirport.name}
-                    airlineName={flight.airline.name}
-                    departureDate={flight.departureDate}
-                    key={flight.flightNumber} 
-                    url={`/flight/${flight._id}`}/>
+            flights?.map((flight , index) => (
+                <FlightView flights={flight}
+                    key={index} />
             )));
-    }, [flights])
+
+        if (flights?.length > 0) {
+            showHide.current = 'show';
+        }
+        else {
+            showHide.current = 'hide';
+        }
+
+    }, [flights, showHide])
 
 
 
@@ -37,44 +48,52 @@ export default function Home() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (originAirportInput.current && destinationAirportInput.current && dateInput.current)
-            dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, dateInput.current.value));
+        if (originAirportInput.current && destinationAirportInput.current && departureDateInput.current && returnDateInput.current) {
+            if (!oneWay && !returnDateInput.current.value) {
+                alert('Please set return date');
+                return;
+            }
+
+            dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, departureDateInput.current.value, returnDateInput.current.value));
+        }
+    }
+
+    const handleCheckOneWay = () => {
+        setOneWay(!oneWay);
+        if (returnDateInput.current)
+            returnDateInput.current.value = '';
     }
 
     return (
-        <div>
-            <div className="row">
-                <div className="col-lg-4"></div>
-                <div className="col-lg-4">
-                    <h1>Find flights</h1>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
-                        </div>
+        <div className="home">
+            <div className="home_search">
+                <form onSubmit={handleSubmit}>
 
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                            </div>
-                            <input type="text" className="form-control" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
-                        </div>
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                            </div>
-                            <input type="Date" className="form-control" placeholder="Departure Date" ref={dateInput} defaultValue="2021-07-10" />
-                        </div>
-                        <div className="form-group">
-                            <LoadingButton isLoading={isLoading} text={'Find'} handleClick={null} />
-                        </div>
-                    </form>
-                </div>
+                    <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
+
+                    <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
+
+                    <input type="Date" className="form-control short-input" ref={departureDateInput} defaultValue="2021-07-10" />
+
+                    <input disabled={oneWay} type="Date" className="form-control short-input" ref={returnDateInput} />
+
+                    <div className="checkbox-container">
+                        <label htmlFor="oneWayCheck">One way</label>
+                        <input type="checkbox" name="oneWayCheck" onClick={handleCheckOneWay} />
+                    </div>
+
+
+                    <input type="Number" className="form-control" placeholder="Members"></input>
+
+                    <button type="submit" className="btn btn-primary btn-block">
+                        {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Search
+                    </button>
+                </form>
             </div>
-            <div className="container col-lg-8" style={{ textAlign: 'center', marginTop: '40px', border: mappedFlights ? '1px solid' : 'none', borderRadius: '30px' }}>
-                <ul className="container" style={{ listStyle: "none", justifyContent: 'center', padding: 0 }}>
+
+            <div className={`${showHide.current}`}>
+                <ul className="home_flights" >
                     {mappedFlights ? mappedFlights : null}
                 </ul>
             </div>

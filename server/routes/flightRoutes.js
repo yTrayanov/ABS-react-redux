@@ -4,7 +4,6 @@ const router = new express.Router();
 const Flight = require('../models/Flight');
 const Airport = require('../models/Airport');
 const Airline = require('../models/Airline');
-const Ticket = require('../models/Ticket');
 
 const { BadRequest, Created, Ok, Unauthorized } = require('./responses');
 
@@ -32,22 +31,58 @@ router.post('/create', async (req, res) => {
         })
 });
 
-router.get('/filter/:origin/:destination/:date', async (req, res) => {
+
+
+
+router.get('/filter/:origin/:destination/:departureDate/', async (req, res) => {
 
     const originAirport = await Airport.findOne({ name: req.params.origin });
     const destinationAirport = await Airport.findOne({ name: req.params.destination });
-    const departureDate = new Date(req.params.date).toDateString();
-
-
+    const departureDate = new Date(req.params.departureDate).toDateString();
 
     Flight.find({ originAirport, destinationAirport })
         .populate('originAirport')
         .populate('destinationAirport')
         .populate('airline')
         .then(flights => {
-            return Ok(res, 'Filtered flights', flights.filter(f => f.departureDate.toDateString() === departureDate));
+                let result = flights.filter(f => f.departureDate.toDateString() === departureDate);
+                result = result.map(f => [f]);
+            return Ok(res, 'Filtered flights', result);
         })
 });
+
+router.get('/filter/:origin/:destination/:departureDate/:returnDate/', async (req, res) => {
+    const originAirport = await Airport.findOne({ name: req.params.origin });
+    const destinationAirport = await Airport.findOne({ name: req.params.destination });
+    const departureDate = new Date(req.params.departureDate).toDateString();
+
+    const toDestinationFlights = await Flight.find({ originAirport, destinationAirport })
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline').then(flights => {
+            return flights.filter(f => f.departureDate.toDateString() === departureDate)
+        });
+
+    if (!toDestinationFlights)
+        return Ok(res, 'There are no flights with those destinations and dates');
+
+    const returnDate = new Date(req.params.returnDate).toDateString();
+
+    const returnFlights = await Flight.find({ destinationAirport, originAirport })
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline').then(flights => {
+            return flights.filter(f => f.departureDate.toDateString() === returnDate)
+        });;
+
+    if (!returnFlights)
+        return Ok(res, 'There are no flights with those destinations and dates');
+
+
+    return Ok(res, 'Flights found' , {toDestinationFlights , returnFlights});
+
+})
+
 
 router.get('/:id', async (req, res) => {
     const flight = await Flight.findById(req.params.id)
@@ -96,8 +131,8 @@ router.get('/information/:id', (req, res) => {
                 path: 'seats',
                 populate: {
                     path: 'ticket',
-                    populate:{
-                        path:'user',
+                    populate: {
+                        path: 'user',
                     }
                 }
             }]

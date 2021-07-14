@@ -47,28 +47,28 @@ export default function CreateSection() {
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-columns"></i> </span>
                             </div>
                             <input type='number' className="form-control" placeholder="Rows" ref={rowsInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-columns"></i> </span>
                             </div>
                             <input type='number' className="form-control" placeholder="Columns" ref={columnsInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-users-class"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="Seat Class" ref={seatClassInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-fingerprint"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} />
                         </div>

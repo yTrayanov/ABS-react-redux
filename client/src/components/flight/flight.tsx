@@ -1,19 +1,15 @@
-import { Link } from 'react-router-dom';
+import IFlight from '../../interfaces/models/flight.interface';
 
 
-export default function Flight({originAirportName, destinationAirportName, airlineName, departureDate, url }
-        :{ originAirportName:string ,destinationAirportName:string , airlineName:string , departureDate:Date , url:string}) {
+export default function Flight({ flight}
+    : { flight: IFlight}) {
     return (
-        <Link className="flightLink" to={url} style={{ textDecoration: 'none', color: 'black'}}>
-            <li style={{ borderBottom: "1px solid" }}>
-                <div className="row flightLink">
-                    <div className="col-lg-4">
-                        <p style={{ "margin": 0 }} >{originAirportName} - {destinationAirportName}</p>
-                        <p>{airlineName}</p>
-                    </div>
-                    <div className="col-lg-4">{new Date(departureDate).toLocaleString()}</div>
-                </div>
-            </li>
-        </Link>
+        <div className="home_flights_flight">
+            <div className="flight-details">
+                <p>{flight.airline.name}</p>
+                <p>{flight.originAirport.name} - {flight.destinationAirport.name}</p>
+            </div>
+            <div className="date-container">{new Date(flight.departureDate).toLocaleString()}</div>
+        </div>
     )
 }

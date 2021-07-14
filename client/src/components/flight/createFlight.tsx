@@ -34,7 +34,7 @@ export default function CreateFlight() {
             const airline = airlineInput.current.value
             const flightNumber = flightNumberInput.current.value
             const departureDate = departureDateInput.current.value
-            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate, clearForm));
+            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate ,clearForm));
         }
  
     }
@@ -49,35 +49,35 @@ export default function CreateFlight() {
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-plane-departure"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="From" ref={originAirportInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-plane-arrival"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="To" ref={destinationAirportInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-building"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="Airline" ref={airlineInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-fingerprint"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
                             </div>
                             <input type='datetime-local' className="form-control" ref={departureDateInput} />
                         </div>
