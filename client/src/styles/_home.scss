@@ -60,15 +60,16 @@
 
         &_flight {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             margin: 5px 0;
             border-top: 1px solid grey;
 
             .flight-details {
                 display: flex;
+                align-items: center;
 
                 p {
-                    margin-left: 5px;
+                    margin: 10px;
                 }
             }
         }

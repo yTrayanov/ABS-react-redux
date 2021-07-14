@@ -17,19 +17,18 @@ export default function Home() {
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const returnDateInput = React.useRef<HTMLInputElement>(null);
+    const membersInput = React.useRef<HTMLInputElement>(null);
+
     const showHide = React.useRef<string>('hide');
 
     const flights: IFlight[][] = useSelector(getFilteredFlights);
 
 
     React.useEffect(() => {
-
-
-        if(flights) console.log(flights)
-
         setMappedFlights(
-            flights?.map((flight , index) => (
+            flights?.map((flight, index) => (
                 <FlightView flights={flight}
+                    urlStart="flights"
                     key={index} />
             )));
 
@@ -48,13 +47,13 @@ export default function Home() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (originAirportInput.current && destinationAirportInput.current && departureDateInput.current && returnDateInput.current) {
+        if (originAirportInput.current && destinationAirportInput.current && departureDateInput.current && returnDateInput.current && membersInput.current) {
             if (!oneWay && !returnDateInput.current.value) {
                 alert('Please set return date');
                 return;
             }
 
-            dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, departureDateInput.current.value, returnDateInput.current.value));
+            dispatch(requestFilteredFlights(originAirportInput.current.value, destinationAirportInput.current.value, departureDateInput.current.value, returnDateInput.current.value, membersInput.current.value));
         }
     }
 
@@ -83,7 +82,7 @@ export default function Home() {
                     </div>
 
 
-                    <input type="Number" className="form-control" placeholder="Members"></input>
+                    <input type="Number" className="form-control" placeholder="Members" ref={membersInput}></input>
 
                     <button type="submit" className="btn btn-primary btn-block">
                         {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}

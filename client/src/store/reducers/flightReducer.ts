@@ -60,11 +60,12 @@ export const getAllFlights = (state: any) => state.flights.allFlights?.data;
 export const getFlightInformation = (state:any) => state.flights.flightInformation?.data;
 
 
-export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string , returnDate?:string) => (dispatch: any) => {
+export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string ,returnDate?:string  , membersCount?:string) => (dispatch: any) => {
     dispatch({ type: filteredFlightsActions.REQUEST });
+    
+    if(!membersCount) membersCount = '1';
 
-
-    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, returnDate))
+    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate,membersCount , returnDate))
         .then(response => {
             if (!response.success) {
                 dispatch({ type: filteredFlightsActions.FAILURE });
