@@ -9,7 +9,7 @@ export default function Flight({ flight}
                 <p>{flight.airline.name} {'->'}</p>
                 <p>{flight.originAirport.name} - {flight.destinationAirport.name}</p>
             </div>
-            <div className="date-container">{new Date(flight.departureDate).toLocaleString()}</div>
+            <div>{new Date(flight.departureDate).toLocaleString()} {" -> "} {new Date(flight.landingDate).toLocaleString()}</div>
         </div>
     )
 }

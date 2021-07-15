@@ -27,8 +27,8 @@ export default function UserTickets(){
 
 
     return(
-        <>
+        <ul className="tickets">
             {mappedTickets ? mappedTickets : "There are no tickets" }
-        </>
+        </ul>
     )
 }

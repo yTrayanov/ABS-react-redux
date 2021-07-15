@@ -4,11 +4,10 @@ import Flight from "./flight";
 import IFlight from "../../interfaces/models/flight.interface";
 import { Link } from "react-router-dom";
 
-export default function FlightView({flights , urlStart} : {flights:IFlight[] , urlStart:string}) {
+export default function FlightView({flights} : {flights:IFlight[] }) {
 
     
     const [mappedFlights, setMappedFlights] = React.useState<any>([]);
-    const urlEnd = React.useRef<string>('');
 
     React.useEffect(() => {
         setMappedFlights(
@@ -16,13 +15,11 @@ export default function FlightView({flights , urlStart} : {flights:IFlight[] , u
                 <Flight flight={flight}
                     key={flight.flightNumber} />
             )));
-
-            if(flights) urlEnd.current = flights[0]._id;
     },[flights])
 
     return (
         <li>
-            <Link to={`${urlStart}/${urlEnd.current}`} className="btn btn-primary" > {">"} </Link>
+            <Link to={`flight/${flights[0]._id}`} className="btn btn-primary" > {">"} </Link>
             {mappedFlights ? mappedFlights : null}
         </li>
     )

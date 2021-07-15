@@ -46,7 +46,9 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount', async (r
         .populate('sections')
         .then(flights => {
                 let result = flights.filter(f => f.departureDate.toDateString() === departureDate);
+                let toBeRemoved = [];
 
+                
                 for(flightIndex in result){
                     let flightHasAvailableSeats = false;
 
@@ -59,8 +61,12 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount', async (r
                     }
 
                     if(!flightHasAvailableSeats){
-                        result.splice(flightIndex , 1);
+                        toBeRemoved.push(flightIndex);
                     }
+                }
+
+                for(index of toBeRemoved.reverse()){
+                    result.splice(index , 1);
                 }
 
 
@@ -135,7 +141,7 @@ router.get('/information/all', (req, res) => {
         .populate('destinationAirport')
         .populate('airline')
         .then(flights => {
-            return Ok(res, 'All flights', flights.map(f => [f]));
+            return Ok(res, 'All flights', flights);
         })
 
 })

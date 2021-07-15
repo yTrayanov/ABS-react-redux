@@ -1,0 +1,21 @@
+.tickets{
+    list-style: none;
+    width: 70%;
+
+    &_ticket{
+        border: 1px solid black;
+        margin:20px 0;
+
+        .ticket_part{
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid rgb(221, 220, 220);
+
+
+            .date-container{
+                display: flex;
+            }
+
+        }
+    }
+}

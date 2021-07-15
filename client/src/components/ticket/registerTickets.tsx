@@ -39,6 +39,7 @@ export default function RegisterTickets(props: any) {
 
     const bookSeats = React.useCallback((event:React.FormEvent<HTMLButtonElement>) => {
         event.preventDefault();
+
         if (filledFormsCount === seats.length) {
             dispatch(requestCreateTickets(flightId, seats, history));
         }

@@ -9,7 +9,7 @@ import IFlight from '../interfaces/models/flight.interface';
 
 export default function Home() {
     const dispatch = useDispatch();
-    const [oneWay, setOneWay] = React.useState<any>(false);
+    const [oneWay, setOneWay] = React.useState<any>(true);
     const [mappedFlights, setMappedFlights] = React.useState<any>([]);
     const isLoading = useSelector(getIsLoadingFilteredFlights);
 
@@ -28,7 +28,6 @@ export default function Home() {
         setMappedFlights(
             flights?.map((flight, index) => (
                 <FlightView flights={flight}
-                    urlStart="flight"
                     key={index} />
             )));
 
@@ -78,7 +77,7 @@ export default function Home() {
 
                     <div className="checkbox-container">
                         <label htmlFor="oneWayCheck">One way</label>
-                        <input type="checkbox" name="oneWayCheck" onClick={handleCheckOneWay} />
+                        <input type="checkbox" name="oneWayCheck" defaultChecked onClick={handleCheckOneWay} />
                     </div>
 
 
