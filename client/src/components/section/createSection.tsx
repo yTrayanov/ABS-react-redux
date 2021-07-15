@@ -8,7 +8,7 @@ export default function CreateSection() {
 
     const rowsInput = React.useRef<HTMLInputElement>(null);
     const columnsInput = React.useRef<HTMLInputElement>(null);
-    const seatClassInput = React.useRef<HTMLInputElement>(null);
+    const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
     const isLoading:string = useSelector(getIsCreatingSection);
@@ -63,7 +63,11 @@ export default function CreateSection() {
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-users-class"></i> </span>
                             </div>
-                            <input type='text' className="form-control" placeholder="Seat Class" ref={seatClassInput} />
+                            <select className="form-control" ref={seatClassInput}>
+                                <option value="first">FIRST</option>
+                                <option value="bussiness">BUSSINESS</option>
+                                <option value="economy">ECONOMY</option>
+                            </select>
                         </div>
 
                         <div className="form-group input-group">
@@ -86,3 +90,6 @@ export default function CreateSection() {
         </div>
     )
 }
+
+//<input type='text'  placeholder="Seat Class" ref={seatClassInput} />
+//

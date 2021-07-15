@@ -102,14 +102,14 @@ export default function Register() {
                         {state.usernameError ? <span>{state.usernameError}</span> : null}
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-envelope-square"></i> </span>
                             </div>
                             <input type='text' className="form-control" placeholder="Email" ref={emailInput} />
                         </div>
                         {state.emailError ? <span>{state.emailError}</span> : null}
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"> <i className="fas fa-unlock-alt"></i> </span>
                             </div>
                             <input type="password" className="form-control" placeholder="Password" ref={passwordInput} />
                         </div>

@@ -37,7 +37,7 @@ export default function Login() {
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                                <span className="input-group-text"><i className="fas fa-unlock-alt"></i> </span>
                             </div>
                             <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
                         </div>

@@ -25,8 +25,10 @@ export default function AllFlights() {
 
 
     return (
-        <ul className="all-flights">
-            {mappedFlights ? mappedFlights : null}
-        </ul>
+        <div className="center-horizontally">
+            <ul className="all-flights">
+                {mappedFlights ? mappedFlights : null}
+            </ul>
+        </div>
     )
 }

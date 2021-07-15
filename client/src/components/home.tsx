@@ -64,7 +64,7 @@ export default function Home() {
 
     return (
         <div className="home">
-            <div className="home_search">
+            <div className="home_search center-horizontally">
                 <form onSubmit={handleSubmit}>
 
                     <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
@@ -90,7 +90,7 @@ export default function Home() {
                 </form>
             </div>
 
-            <div className={`${showHide.current}`}>
+            <div className={`center-horizontally ${showHide.current}`}>
                 <ul className="home_flights" >
                     {mappedFlights ? mappedFlights : null}
                 </ul>
