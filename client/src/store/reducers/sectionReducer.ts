@@ -1,7 +1,7 @@
-import { getRequest, postRequest } from "../../requests";
+import {postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
-import { CREATE_SECTION_URL, getFlightDetailsUrl } from '../../urls';
+import { CREATE_SECTION_URL } from '../../urls';
 import IAction from "../../interfaces/action.interface";
 
 const initialAsyncState = {
@@ -12,22 +12,15 @@ const initialAsyncState = {
 }
 
 const initialState = {
-    flightSections: initialAsyncState,
     createSection: initialAsyncState,
 }
 
-const getSectionsActions:any = actionCreator("GET_SECTIONS")
 const createSectionActions:any = actionCreator("CREATE_SECTION");
-
 
 
 export const sectionReducer = (state = initialState, action:IAction) => {
 
     switch (action.type) {
-        case getSectionsActions.REQUEST:
-        case getSectionsActions.SUCCESS:
-        case getSectionsActions.FAILURE:
-            return { ...state, flightSections: reducerHandler(state.flightSections, action, getSectionsActions) };
 
         case createSectionActions.REQUEST:
         case createSectionActions.SUCCESS:
@@ -39,23 +32,8 @@ export const sectionReducer = (state = initialState, action:IAction) => {
     }
 }
 
-
-export const getFlightSections = (state:any) => state.sections.flightSections.data?.sections;
 export const getIsCreatingSection = (state:any) => state.sections.createSection.isLoading;
 
-export const requestSections = (id:string) => (dispatch:any) => {
-    dispatch({ type: getSectionsActions.REQUEST });
-
-    const url = getFlightDetailsUrl(id);
-    getRequest(url).then((response) => {
-        if (!response.success) {
-            dispatch({ type: getSectionsActions.FAILURE });
-            return;
-        }
-
-        dispatch({ type: getSectionsActions.SUCCESS, payload: { sections: response.data.sections } });
-    })
-}
 
 export const requestCreateSection = (rows:number, columns:number, seatClass:string, flightNumber:string , callback:() =>void ) => (dispatch:any) => {
     dispatch({type:createSectionActions.REQUEST});

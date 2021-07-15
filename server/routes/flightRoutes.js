@@ -121,11 +121,15 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
 
 router.get('/:id', async (req, res) => {
     const flight = await Flight.findById(req.params.id)
-        .populate('sections')
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline')
         .populate({
             path: 'sections',
-            populate: 'seats',
-        });
+            populate: [{
+                path: 'seats'
+            }]
+        })
 
 
     if (!flight) {

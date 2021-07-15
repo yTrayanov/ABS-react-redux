@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import IFlight from "../../interfaces/models/flight.interface";
 import { getAllFlights, requestAllFlights } from "../../store/reducers/flightReducer";
-import AdminFlightView from "./AdminFlightView";
+import AdminFlightView from "./adminFlightView";
 
 
 export default function AllFlights() {

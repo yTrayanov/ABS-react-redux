@@ -11,15 +11,14 @@ export default function FlightView({flights} : {flights:IFlight[] }) {
 
     React.useEffect(() => {
         setMappedFlights(
-            flights?.map(flight => (
-                <Flight flight={flight}
-                    key={flight.flightNumber} />
-            )));
+            flights?.map(flight => {
+                return (<Flight flight={flight} key={flight.flightNumber} />)
+            }));
     },[flights])
 
     return (
         <li>
-            <Link to={`flight/${flights[0]._id}`} className="btn btn-primary" > {">"} </Link>
+            <Link to={{pathname:'flight/reserve' , state:{flightIds:flights.map(f => f._id)}}} className="btn btn-primary" > {">"} </Link>
             {mappedFlights ? mappedFlights : null}
         </li>
     )
