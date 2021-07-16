@@ -1,26 +1,14 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 
 import Section from '../section/section';
 
 import ISeat from '../../interfaces/models/seat.interface';
 import IFlight from '../../interfaces/models/flight.interface';
 
-import { getIsLogged } from '../../store/reducers/authReducer';
-import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 
-
-export default function FlightDetails({ flight }: { flight: IFlight }) {
-    const dispatch = useDispatch();
-    const history = useHistory();
+export default function FlightDetails({ flight, setSeats }: { flight: IFlight , setSeats:any }) {
 
     const [mappedSections, setMappedSections] = React.useState<any>([]);
-    const [seatsCount, setSeatsCount] = React.useState<number>(0);
-    const [seats, setSeats] = React.useState<ISeat[]>([]);
-
-    const isLogged: boolean = useSelector(getIsLogged);
-
 
     React.useEffect(() => {
         const selectedSeats: ISeat[] = [];
@@ -28,54 +16,26 @@ export default function FlightDetails({ flight }: { flight: IFlight }) {
         const toggleSelect = (seat: ISeat, selected: boolean) => {
             if (!selected) {
                 selectedSeats.push(seat);
-                setSeatsCount(c => c + 1);
-                setSeats(selectedSeats);
             }
             else {
                 const index = selectedSeats.indexOf(seat);
 
                 if (index > -1) {
                     selectedSeats.splice(index, 1);
-                    setSeatsCount(c => c - 1);
-                    setSeats(selectedSeats);
                 }
             }
+            
+            setSeats(selectedSeats);
         }
 
         setMappedSections(flight?.sections?.map(s => <Section key={s._id} section={s} toggleSelect={toggleSelect} />));
-    }, [flight]);
-
-    const bookSeats = useCallback((event) => {
-        event.preventDefault();
-
-        if (isLogged) {
-            if (seats.length > 0) {
-                dispatch({ type: selectSeatsActions.SUCCESS, payload: { seats: seats } });
-                history.push(`/flight/${flight._id}/ticketsForms`);
-            }
-            else {
-                alert("Please select seat");
-            }
-        }
-        else {
-            alert("Can not book seats while not logged")
-        }
-
-    }, [seats, isLogged, dispatch, history,flight]);
+    }, [flight , setSeats]);
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-lg-4">
-                    <p>Selected seats: {seatsCount}</p>
-                    <button className="btn btn-primary btn-block" onClick={bookSeats}>
-                        Continue
-                    </button>
-                </div>
-                <div className="col-lg-8">
+        <div className="section">
+                <div>
                     {mappedSections ? mappedSections : 'There are no sections'}
                 </div>
-            </div>
         </div>
     )
 }

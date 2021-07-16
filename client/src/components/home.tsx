@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import FlightView from './flight/flightView';
+import FlightView from './flight/flightsViewer';
 
 import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
 
@@ -19,7 +19,7 @@ export default function Home() {
     const returnDateInput = React.useRef<HTMLInputElement>(null);
     const membersInput = React.useRef<HTMLInputElement>(null);
 
-    const showHide = React.useRef<string>('hide');
+    const hide = React.useRef<string>('hide');
 
     const flights: IFlight[][] = useSelector(getFilteredFlights);
 
@@ -32,13 +32,13 @@ export default function Home() {
             )));
 
         if (flights?.length > 0) {
-            showHide.current = 'show';
+            hide.current = '';
         }
         else {
-            showHide.current = 'hide';
+            hide.current = 'hide';
         }
 
-    }, [flights, showHide])
+    }, [flights, hide])
 
 
 
@@ -90,7 +90,7 @@ export default function Home() {
                 </form>
             </div>
 
-            <div className={`center-horizontally ${showHide.current}`}>
+            <div className={`center-horizontally ${hide.current}`}>
                 <ul className="home_flights" >
                     {mappedFlights ? mappedFlights : null}
                 </ul>

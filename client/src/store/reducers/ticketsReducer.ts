@@ -48,7 +48,7 @@ export const ticketsReducer = (state = initialState, action: IAction) => {
 export const getUserTickets = (state: any) => state.tickets.userTickets.data?.tickets;
 export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
-export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data?.seats;
+export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data;
 
 export const requestUserTickets = () => (dispatch: any) => {
 
@@ -63,7 +63,7 @@ export const requestUserTickets = () => (dispatch: any) => {
     });
 }
 
-export const requestCreateTickets = (flightId: string, seats: ISeat[], history: any) => (dispatch: any) => {
+export const requestCreateTickets = (flightId: string, seats: ISeat[] ) => (dispatch: any) => {
     dispatch({ type: createTicketActions.REQUEST });
 
     postRequest(CREATE_TICKET_URL, { flightId, seats })
@@ -73,9 +73,6 @@ export const requestCreateTickets = (flightId: string, seats: ISeat[], history: 
                 return;
             }
             dispatch({ type: createTicketActions.SUCCESS });
-            history.push('/');
-
-                alert("Seats booked successfully");
         })
 
 }

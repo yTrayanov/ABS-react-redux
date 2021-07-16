@@ -1,8 +1,8 @@
 import React from "react";
 import ISeat from "../../interfaces/models/seat.interface";
 
-export default function TicketForm({ currentSeat, seats, incrementFilledFomrsCount, changeSeats, index }
-    : { currentSeat: ISeat, seats: ISeat[], incrementFilledFomrsCount: (n: number) => void, changeSeats: (seats: ISeat[]) => void, index: number }) {
+export default function TicketForm({ currentSeat, allSeats, incrementFilledFomrsCount, changeSeats, index }
+    : { currentSeat: ISeat, allSeats: ISeat[][], incrementFilledFomrsCount: (n: number) => void, changeSeats: (seats: ISeat[][]) => void, index: number }) {
 
     const nameInput = React.useRef<HTMLInputElement>(null);
 
@@ -15,11 +15,12 @@ export default function TicketForm({ currentSeat, seats, incrementFilledFomrsCou
                 incrementFilledFomrsCount(-1)
             }
 
-            seats[index].passangerName = nameInput.current.value;
-            changeSeats(seats);
+            const seatIndex = allSeats[index]?.indexOf(currentSeat);
+            allSeats[index][seatIndex].passangerName = nameInput.current.value;
+            changeSeats(allSeats);
         }
 
-    }, [incrementFilledFomrsCount, seats , index , changeSeats])
+    }, [incrementFilledFomrsCount, allSeats , index , changeSeats , currentSeat])
 
     return (
         <div className="container" style={{borderBottom:'1px solid' , marginTop:'30px'}}>

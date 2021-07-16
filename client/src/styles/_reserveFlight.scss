@@ -1,0 +1,14 @@
+.reserves{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+
+    &_sections{
+        position: relative;
+        width: 70%;
+    }
+
+    .section{
+        position: relative;
+    }
+}

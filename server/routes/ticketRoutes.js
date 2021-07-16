@@ -122,8 +122,6 @@ router.get('/user', async (req, res) => {
 
     const parsedTickets = user.tickets?.map(t => {
 
-        console.log(t);
-
         return {
             ticketId: t._id,
             passengerName:t.passengerName,

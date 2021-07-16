@@ -1,6 +1,7 @@
 @import './styles/home';
 @import './styles/userTickets';
 @import './styles/allFlights';
+@import './styles/reserveFlight';
 
 body{
     background: rgb(221, 221, 221);
@@ -8,10 +9,6 @@ body{
 
 .hide{
     visibility: hidden ;
-}
-
-.show{
-    visibility: visible;
 }
 
 .center-horizontally{
