@@ -14,7 +14,7 @@ export default function Section({ section , toggleSelect}:{section:ISection , to
     },[section , toggleSelect]);
 
     return (
-        <div className="section_details">
+        <div className="section">
             <p>{section.seatClass}</p>
             <div className="row">
                 {mappedSeats ? mappedSeats : 'There are no seats'}

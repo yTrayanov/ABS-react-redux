@@ -3,15 +3,18 @@
     display: flex;
     justify-content: space-around;
 
-    &_sections{
+    &_flights{
         position: relative;
         width: 70%;
     }
 
-    .section{
+    .sections{
         position: relative;
+        border: 5px solid black;
+        padding: 20px;
+        margin:10px;
 
-        &_details{
+        .section{
             border:1px solid ;
             border-radius:10px;
             margin-top:10px;

@@ -16,7 +16,7 @@ router.post('/create', async (req, res) => {
     Flight.create({
         flightNumber: req.body.flightNumber,
         departureDate: Date.parse(req.body.departureDate),
-        landingDate:Date.parse(req.body.landingDate),
+        landingDate: Date.parse(req.body.landingDate),
         airline,
         originAirport,
         destinationAirport,
@@ -45,32 +45,9 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount', async (r
         .populate('airline')
         .populate('sections')
         .then(flights => {
-                let result = flights.filter(f => f.departureDate.toDateString() === departureDate);
-                let toBeRemoved = [];
+            const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
+            const result = checkSectionsForSeats(membersCount , filteredByDateFlights).map(f => [f]);
 
-                
-                for(flightIndex in result){
-                    let flightHasAvailableSeats = false;
-
-                    for(sectionIndex in result[flightIndex].sections){
-                        const currentSection = result[flightIndex].sections[sectionIndex];
-                        if( currentSection.availableSeats >= membersCount ){
-                            flightHasAvailableSeats = true;
-                            break;
-                        }
-                    }
-
-                    if(!flightHasAvailableSeats){
-                        toBeRemoved.push(flightIndex);
-                    }
-                }
-
-                for(index of toBeRemoved.reverse()){
-                    result.splice(index , 1);
-                }
-
-
-                result = result.map(f => [f]);
             return Ok(res, 'Filtered flights', result);
         })
 });
@@ -79,14 +56,17 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
     const originAirport = await Airport.findOne({ name: req.params.origin });
     const destinationAirport = await Airport.findOne({ name: req.params.destination });
     const departureDate = new Date(req.params.departureDate).toDateString();
-
-
+    const membersCount = req.params.membersCount;
 
     const toDestinationFlights = await Flight.find({ originAirport, destinationAirport })
         .populate('originAirport')
         .populate('destinationAirport')
-        .populate('airline').then(flights => {
-            return flights.filter(f => f.departureDate.toDateString() === departureDate)
+        .populate('airline')
+        .populate('sections').then(flights => {
+            const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
+            console.log(filteredByDateFlights);
+            const result = checkSectionsForSeats(membersCount , filteredByDateFlights);
+            return result;
         });
 
     if (!toDestinationFlights)
@@ -94,24 +74,26 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
 
     const returnDate = new Date(req.params.returnDate).toDateString();
 
-    const returnFlights = await Flight.find({ originAirport:destinationAirport, destinationAirport:originAirport })
+    const returnFlights = await Flight.find({ originAirport: destinationAirport, destinationAirport: originAirport })
         .populate('originAirport')
         .populate('destinationAirport')
-        .populate('airline').then(flights => {
-            return flights.filter(f => f.departureDate.toDateString() === returnDate)
+        .populate('airline')
+        .populate('sections')
+        .then(flights => {
+            return checkSectionsForSeats(membersCount , flights.filter(f => f.departureDate.toDateString() === returnDate))
         });;
 
     if (!returnFlights)
         return Ok(res, 'There are no flights with those destinations and dates');
 
-        let result = [];
-        for(toFlight of toDestinationFlights){
-            for(returnFlight of returnFlights){
-                result.push([toFlight , returnFlight]);
-            }
+    let result = [];
+    for (toFlight of toDestinationFlights) {
+        for (returnFlight of returnFlights) {
+            result.push([toFlight, returnFlight]);
         }
+    }
 
-    return Ok(res, 'Flights found' , result);
+    return Ok(res, 'Flights found', result);
 
 })
 
@@ -191,3 +173,32 @@ router.get('/information/:id', (req, res) => {
 })
 
 module.exports = router;
+
+
+function checkSectionsForSeats(membersCount , flights) {
+    let toBeRemoved = [];
+
+
+    for (flightIndex in flights) {
+        let flightHasAvailableSeats = false;
+
+        for (sectionIndex in flights[flightIndex].sections) {
+            const currentSection = flights[flightIndex].sections[sectionIndex];
+            if (currentSection.availableSeats >= membersCount) {
+                flightHasAvailableSeats = true;
+                break;
+            }
+        }
+
+        if (!flightHasAvailableSeats) {
+            toBeRemoved.push(flightIndex);
+        }
+    }
+
+    for (index of toBeRemoved.reverse()) {
+        flights.splice(index, 1);
+    }
+
+
+    return flights;
+}

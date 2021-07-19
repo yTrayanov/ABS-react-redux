@@ -32,7 +32,7 @@ export default function FlightDetails({ flight, setSeats }: { flight: IFlight , 
     }, [flight , setSeats]);
 
     return (
-        <div className="section">
+        <div className="sections">
                 <div>
                     {mappedSections ? mappedSections : 'There are no sections'}
                 </div>

@@ -18,8 +18,8 @@ export default function SeatPicker() {
     const [flights, setFlights] = React.useState<IFlight[]>([]);
     const [mappedFlights, setMappedFlights] = React.useState<any>();
     const [mappedDetails, setMappedDetails] = React.useState<any>();
-    const flightIds: string[] = location.state.flightIds;
     const currentFlight: IFlight = useSelector(getFlight);
+    const {flightIds , oneWay}:{flightIds: string[] , oneWay:boolean} = location.state;
 
     const [toSeats , setToSeats] = React.useState<any>()
     const [returnSeats , setReturnSeats] = React.useState<any>()
@@ -28,6 +28,7 @@ export default function SeatPicker() {
         for (let id of flightIds)
             dispatch(requestFlightById(id))
     }, [dispatch, flightIds])
+
 
     React.useEffect(() => {
         if (currentFlight) {
@@ -60,6 +61,7 @@ export default function SeatPicker() {
 
     }, [flights, toSeats , returnSeats]);
 
+
     const handleClick = () => {
 
         if(!isLogged){
@@ -69,12 +71,17 @@ export default function SeatPicker() {
         }
 
 
-        if(toSeats){
+        if(toSeats && toSeats.length > 0){
+            if(oneWay && (!returnSeats || (returnSeats && returnSeats.length === 0))){
+                alert('Please select return seats');
+                return;
+            }
+
             dispatch({type:selectSeatsActions.SUCCESS , payload:[toSeats , returnSeats]});
             history.push(`/flight/ticketsForms` , flightIds);
         }
         else{
-            alert('Please select seats')
+            alert('Please select from origin to destination seats')
         }
     }
 
@@ -85,7 +92,7 @@ export default function SeatPicker() {
                     {mappedDetails ? mappedDetails : null}
                     <button className="btn btn-primary" onClick={handleClick}>Continue</button>
                 </div>
-                <div className="reserves_sections">
+                <div className="reserves_flights">
                     {mappedFlights ? mappedFlights : 'Something went wrong'}
                 </div>
             </div>

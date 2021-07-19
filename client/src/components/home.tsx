@@ -28,7 +28,8 @@ export default function Home() {
         setMappedFlights(
             flights?.map((flight, index) => (
                 <FlightView flights={flight}
-                    key={index} />
+                    key={index} 
+                    oneWay = {oneWay}/>
             )));
 
         if (flights?.length > 0) {
@@ -38,7 +39,7 @@ export default function Home() {
             hide.current = 'hide';
         }
 
-    }, [flights, hide])
+    }, [flights, hide , oneWay])
 
 
 
