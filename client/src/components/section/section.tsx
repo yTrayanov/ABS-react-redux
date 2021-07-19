@@ -14,8 +14,8 @@ export default function Section({ section , toggleSelect}:{section:ISection , to
     },[section , toggleSelect]);
 
     return (
-        <div style={{border:"1px solid" , borderRadius:"10px" , marginTop:"10px" , textAlign:'center'}}>
-            <p style={{borderBottom:'1px solid'}}>{section.seatClass}</p>
+        <div className="section_details">
+            <p>{section.seatClass}</p>
             <div className="row">
                 {mappedSeats ? mappedSeats : 'There are no seats'}
             </div>

@@ -1,15 +1,17 @@
 import React from 'react';
 import { useSelector , useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation  , useHistory} from 'react-router-dom';
 
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
+import { getFlightActions } from '../../store/reducers/flightReducer';
 import { getIsCreatingTickets,getSelectedSeats , requestCreateTickets } from '../../store/reducers/ticketsReducer';
 
 export default function TicketRegistrationForms() {
     const location: any = useLocation();
     const dispatch = useDispatch();
+    const history = useHistory();
     const flightIds: string[] = location.state;
 
     const [mappedForms, setMappedForms] = React.useState<any>();
@@ -50,12 +52,15 @@ export default function TicketRegistrationForms() {
                 dispatch(requestCreateTickets(id, seats[index]));
                 index++;
             }
+            dispatch({type:getFlightActions.CLEAR});
+            history.push('/');
+
         }
         else {
             alert('Please fill all fields');
         }
 
-    }, [filledFormsCount, seats , dispatch , flightIds])
+    }, [filledFormsCount, seats , dispatch , flightIds , history])
  
 
     return (

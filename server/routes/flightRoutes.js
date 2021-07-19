@@ -101,15 +101,12 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
             return flights.filter(f => f.departureDate.toDateString() === returnDate)
         });;
 
-        console.log(returnFlights)
-
     if (!returnFlights)
         return Ok(res, 'There are no flights with those destinations and dates');
 
         let result = [];
         for(toFlight of toDestinationFlights){
             for(returnFlight of returnFlights){
-                console.log(toFlight.flightNumber + ' - ' + returnFlight.flightNumber );
                 result.push([toFlight , returnFlight]);
             }
         }

@@ -8,7 +8,6 @@ import {selectSeatsActions} from '../../store/reducers/ticketsReducer';
 import { getIsLogged } from '../../store/reducers/authReducer';
 
 import FlightDetails from './flightDetails';
-import { react } from '@babel/types';
 
 export default function SeatPicker() {
     const dispatch = useDispatch();
@@ -52,12 +51,12 @@ export default function SeatPicker() {
     React.useEffect(() => {
         setMappedDetails(flights.map((f, index) => {
             return <p key={index}>{f.originAirport.name} {'->'} {f.destinationAirport.name} : {index === 0 ? (toSeats ? toSeats.length : 0 ) : (returnSeats ? returnSeats.length : 0)}</p>
-        }));
+        } ,[toSeats , returnSeats]));
 
 
         setMappedFlights(flights.map((flight , index) => {
             return (<FlightDetails key={flight._id} flight={flight} setSeats={index === 0 ? setToSeats : setReturnSeats} />)
-        }));
+        } , []));
 
     }, [flights, toSeats , returnSeats]);
 

@@ -25,7 +25,7 @@ export default function FlightDetails({ flight, setSeats }: { flight: IFlight , 
                 }
             }
             
-            setSeats(selectedSeats);
+            setSeats([...selectedSeats]);
         }
 
         setMappedSections(flight?.sections?.map(s => <Section key={s._id} section={s} toggleSelect={toggleSelect} />));

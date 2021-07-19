@@ -25,7 +25,7 @@ const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
 const createFlightActions: any = actionCreator("CREATE_FLIGHT");
 const allFlightsActions: any = actionCreator("All_Flights");
 const flightInformationActions: any = actionCreator("FLIGHT_INFORMATION");
-const getFlightActions: any = actionCreator("GET_FLIGHT");
+export const getFlightActions: any = actionCreator("GET_FLIGHT");
 
 export const flightReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
@@ -53,6 +53,8 @@ export const flightReducer = (state = initialState, action: IAction) => {
         case getFlightActions.SUCCESS:
         case getFlightActions.FAILURE:
             return { ...state, getFlight: reducerHandler(state.getFlight, action, getFlightActions) };
+        case getFlightActions.CLEAR:
+            return {...state , getFlight:reducerHandler(initialAsyncState , action , getFlightActions)}
 
         default:
             return state;
