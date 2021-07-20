@@ -19,7 +19,7 @@ export default function FlightView({flights , oneWay} : {flights:IFlight[] , one
 
     return (
         <li>
-            <Link to={{pathname:'flight/reserve' , state:{flightIds:flights.map(f => f._id) , oneWay:{oneWay} }}} className="btn btn-primary" > {">"} </Link>
+            <Link to={{pathname:'flight/reserve' , state:{flightIds:flights.map(f => f._id) , oneWay:oneWay }}} className="btn btn-primary" > {">"} </Link>
             {mappedFlights ? mappedFlights : null}
         </li>
     )

@@ -9,7 +9,7 @@ import AdminFlightView from "./adminFlightView";
 export default function AllFlights() {
     const dispatch = useDispatch();
     const flights: IFlight[] = useSelector(getAllFlights);
-    const [mappedFlights, setMappedFlights] = React.useState<any>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         dispatch(requestAllFlights());

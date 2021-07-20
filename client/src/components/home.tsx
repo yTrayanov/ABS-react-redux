@@ -10,7 +10,7 @@ import IFlight from '../interfaces/models/flight.interface';
 export default function Home() {
     const dispatch = useDispatch();
     const [oneWay, setOneWay] = React.useState<any>(true);
-    const [mappedFlights, setMappedFlights] = React.useState<any>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<any[]>([]);
     const isLoading = useSelector(getIsLoadingFilteredFlights);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
@@ -18,8 +18,6 @@ export default function Home() {
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const returnDateInput = React.useRef<HTMLInputElement>(null);
     const membersInput = React.useRef<HTMLInputElement>(null);
-
-    const hide = React.useRef<string>('hide');
 
     const flights: IFlight[][] = useSelector(getFilteredFlights);
 
@@ -31,15 +29,7 @@ export default function Home() {
                     key={index} 
                     oneWay = {oneWay}/>
             )));
-
-        if (flights?.length > 0) {
-            hide.current = '';
-        }
-        else {
-            hide.current = 'hide';
-        }
-
-    }, [flights, hide , oneWay])
+    }, [flights , oneWay])
 
 
 
@@ -91,7 +81,7 @@ export default function Home() {
                 </form>
             </div>
 
-            <div className={`center-horizontally ${hide.current}`}>
+            <div className={`center-horizontally`}>
                 <ul className="home_flights" >
                     {mappedFlights ? mappedFlights : null}
                 </ul>

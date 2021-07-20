@@ -16,12 +16,13 @@ export default function CreateFlight() {
 
 
     const clearForm = React.useCallback(() => {
-        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current) {
+        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
             originAirportInput.current.value = "";
             destinationAirportInput.current.value = "";
             airlineInput.current.value = "";
             flightNumberInput.current.value = "";
             departureDateInput.current.value = "";
+            landingDateInput.current.value="";
         }
     }, []);
 
@@ -30,6 +31,7 @@ export default function CreateFlight() {
 
 
         if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
+           
             const originAirport = originAirportInput.current.value
             const destinationAirport = destinationAirportInput.current.value
             const airline = airlineInput.current.value

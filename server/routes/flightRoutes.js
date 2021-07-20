@@ -64,7 +64,6 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
         .populate('airline')
         .populate('sections').then(flights => {
             const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
-            console.log(filteredByDateFlights);
             const result = checkSectionsForSeats(membersCount , filteredByDateFlights);
             return result;
         });

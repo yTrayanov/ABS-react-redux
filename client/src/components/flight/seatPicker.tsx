@@ -16,13 +16,15 @@ export default function SeatPicker() {
     const isLogged = useSelector(getIsLogged);
 
     const [flights, setFlights] = React.useState<IFlight[]>([]);
-    const [mappedFlights, setMappedFlights] = React.useState<any>();
-    const [mappedDetails, setMappedDetails] = React.useState<any>();
+    const [mappedFlights, setMappedFlights] = React.useState<any[]>([]);
+    const [mappedDetails, setMappedDetails] = React.useState<any[]>([]);
+
     const currentFlight: IFlight = useSelector(getFlight);
     const {flightIds , oneWay}:{flightIds: string[] , oneWay:boolean} = location.state;
 
-    const [toSeats , setToSeats] = React.useState<any>()
-    const [returnSeats , setReturnSeats] = React.useState<any>()
+    const [toSeats , setToSeats] = React.useState<any[]>([])
+    const [returnSeats , setReturnSeats] = React.useState<any[]>([])
+
 
     React.useEffect(() => {
         for (let id of flightIds)
@@ -42,7 +44,8 @@ export default function SeatPicker() {
                 });
 
                 if (!contains && currentFlight) {
-                    setFlights([...flights, currentFlight])
+                    const newFlights = [...flights , currentFlight].sort((a,b) => flightIds.indexOf(a._id) - flightIds.indexOf(b._id));
+                    setFlights(newFlights)
                 }
             }
 
@@ -72,7 +75,8 @@ export default function SeatPicker() {
 
 
         if(toSeats && toSeats.length > 0){
-            if(oneWay && (!returnSeats || (returnSeats && returnSeats.length === 0))){
+            const hasNotSelectedReturn =(!returnSeats || (returnSeats && returnSeats.length === 0));
+            if(!oneWay && hasNotSelectedReturn){
                 alert('Please select return seats');
                 return;
             }
