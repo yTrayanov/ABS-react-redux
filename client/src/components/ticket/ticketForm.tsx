@@ -23,7 +23,7 @@ export default function TicketForm({ currentSeat, allSeats, incrementFilledFomrs
     }, [incrementFilledFomrsCount, allSeats , index , changeSeats , currentSeat])
 
     return (
-        <div className="container" style={{borderBottom:'1px solid' , marginTop:'30px'}}>
+        <div className="container seat-form" >
             <div className='row'>
                 <div className="col-lg-4">
                     <p>{currentSeat.seatNumber}</p>

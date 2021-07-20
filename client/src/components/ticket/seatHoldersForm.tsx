@@ -11,14 +11,14 @@ export default function RegisterTickets({incrementFilledFomrsCount , changeSeats
 
     
     React.useEffect(() => {
-        setMappedSeats(currentSeats?.map(
-            (s: ISeat ) =>
+        setMappedSeats(currentSeats?.map(s =>
              <TicketForm key={s._id} currentSeat={s} allSeats={allSeats} index={index} changeSeats={changeSeats} incrementFilledFomrsCount={incrementFilledFomrsCount} />))
     }, [currentSeats, incrementFilledFomrsCount, changeSeats , allSeats , index])
 
 
     return (
-        <div style={{ marginTop: '30px' }}>
+        <div className="ticket-registration_seats-form">
+            <p>{index===0 ? "To destination seats" : "Return seats"}</p>
             {mappedSeats ? mappedSeats : null}
         </div>
 

@@ -4,7 +4,7 @@ import { useLocation, useHistory } from "react-router-dom"
 
 import IFlight from '../../interfaces/models/flight.interface';
 import { getFlight, requestFlightById } from '../../store/reducers/flightReducer';
-import { getSelectedSeats, selectSeatsActions } from '../../store/reducers/ticketsReducer';
+import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 import { getIsLogged } from '../../store/reducers/authReducer';
 
 import FlightDetails from './flightDetails';
@@ -57,22 +57,21 @@ export default function SeatPicker() {
     React.useEffect(() => {
 
         setMappedDetails(flights.map((f, index) => {
-            return <p key={index}
-                className={`${index === 0 ? (!selectedReturnSeats ? 'selected' : '') : (selectedReturnSeats ? 'selected' : '')}`}
-                onClick={() => { if (flightIds.length > 1) setSelectReturnSeats(!selectedReturnSeats) }} >
-
+            return <p key={index} 
+            className={`${index === 0 ? (!selectedReturnSeats ? 'selected' : '' ) : (selectedReturnSeats ? 'selected' : '')}`}
+             onClick={() => {if(flightIds.length > 1) setSelectReturnSeats(!selectedReturnSeats)}}>
                 {f.originAirport.name} {'->'} {f.destinationAirport.name} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
             </p>
         }, [toDestinationSeats, returnSeats]));
 
 
         setMappedFlights(flights.map((flight, index) => {
-            return (<FlightDetails key={flight._id} flight={flight}
-                setSeats={index === 0 ? setToDestinationSeats : setReturnSeats}
-                shouldShow={index === 0 ? (selectedReturnSeats ? false : true) : (selectedReturnSeats ? true : false)} />)
+            return (<FlightDetails key={flight._id} flight={flight} 
+                setSeats={index === 0 ? setToDestinationSeats : setReturnSeats} 
+                shouldShow={index===0 ? (selectedReturnSeats ? false : true) : (selectedReturnSeats ? true : false)} />)
         }));
 
-    }, [flights, toDestinationSeats, returnSeats, selectedReturnSeats, flightIds]);
+    }, [flights, toDestinationSeats, returnSeats , selectedReturnSeats , flightIds]);
 
 
     const handleClick = () => {
