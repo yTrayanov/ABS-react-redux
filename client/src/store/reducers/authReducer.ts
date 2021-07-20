@@ -1,6 +1,4 @@
 import IAction from "../../interfaces/action.interface";
-import { postRequest } from "../../requests";
-import { LOGIN_URL, LOGOUT_URL } from '../../urls';
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 
@@ -26,9 +24,9 @@ const initialState = {
     logout: initialAsyncState,
 };
 
-const loginActions:any = actionCreator('LOGIN');
-const registerActions:any = actionCreator('REGISTER');
-const logoutActions:any = actionCreator('LOGOUT');
+export const loginActions:any = actionCreator('LOGIN');
+export const registerActions:any = actionCreator('REGISTER');
+export const logoutActions:any = actionCreator('LOGOUT');
 
 export function authReducer(state = initialState, action:IAction) {
     switch (action.type) {
@@ -58,67 +56,3 @@ export const getToken = (state:any) => state.auth.logStatus.data.token;
 export const getLoggingIn = (state:any) => state.auth.logStatus.isLoading;
 export const getLogginError = (state:any) => state.auth.logStatus.error;
 
-
-export const getState = (state:any) => state.auth.logStatus;
-
-
-
-export const login = (username:string, password:string, history:any) => (dispatch:any) => {
-
-    dispatch({ type: loginActions.REQUEST, payload: {} })
-
-    postRequest(LOGIN_URL, { username, password })
-        .then(response => {
-            if (!response.success) {
-                dispatch({ type: loginActions.FAILURE, payload: response.message })
-                return;
-            }
-
-            window.localStorage.setItem('token', response.token);
-
-            dispatch({ type: loginActions.SUCCESS, payload: { token: response.token, isLogged: true, isAdmin: response.user.isAdmin } });
-
-            if (history.length > 0) history.goBack();
-            else history.push('/');
-
-        }).catch(error => {
-            dispatch({ type: loginActions.FAILURE, payload: error.message })
-        })
-}
-
-export const logout = (history:any) => (dispatch:any) => {
-
-    dispatch({ type: logoutActions.REQUEST });
-
-    postRequest(LOGOUT_URL,{}).then(response => {
-        if (!response.success) {
-            dispatch({ type: logoutActions.FAILURE, payload: {} });
-        }
-
-        window.localStorage.clear();
-        dispatch({ type:"CLEAR"});
-        dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
-        history.push('/');
-    });
-}
-
-export const requestStats = () => (dispatch:any) => {
-    if (token)
-        window.fetch('http://localhost:5000/auth/stat', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-                if(response.success)
-                    dispatch({ type: loginActions.SUCCESS, payload: { token: token, isLogged: true, isAdmin: response.data?.isAdmin }});
-            });
-}
-
-export function getInitialStat(dispatch:any) {
-    dispatch(requestStats());
-}

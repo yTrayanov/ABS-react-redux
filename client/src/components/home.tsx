@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import FlightView from './flight/flightsViewer';
 
-import { getFilteredFlights, requestFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
+import { getFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
+import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';
 

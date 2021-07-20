@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { login, getLoggingIn, getLogginError } from '../../store/reducers/authReducer';
+import {getLoggingIn, getLogginError } from '../../store/reducers/authReducer';
+import { login } from '../../actions/auth.actions';
 
 export default function Login() {
     const dispatch = useDispatch();

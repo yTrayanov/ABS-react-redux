@@ -1,7 +1,5 @@
-import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
-import { getFilterdFlightsUrl, CREATE_FLIGHT_URL, ALL_FLIGHTS_URL, getFlightInformationUrl,getFlightDetailsUrl } from '../../urls';
 
 import IAction from "../../interfaces/action.interface";
 
@@ -21,10 +19,10 @@ const initialState = {
     setFlights:initialAsyncState,
 }
 
-const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
-const createFlightActions: any = actionCreator("CREATE_FLIGHT");
-const allFlightsActions: any = actionCreator("All_Flights");
-const flightInformationActions: any = actionCreator("FLIGHT_INFORMATION");
+export const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
+export const createFlightActions: any = actionCreator("CREATE_FLIGHT");
+export const allFlightsActions: any = actionCreator("All_Flights");
+export const flightInformationActions: any = actionCreator("FLIGHT_INFORMATION");
 export const getFlightActions: any = actionCreator("GET_FLIGHT");
 
 export const flightReducer = (state = initialState, action: IAction) => {
@@ -68,75 +66,3 @@ export const getIsCreatingFlight = (state: any) => state.flights.createFlight.is
 export const getAllFlights = (state: any) => state.flights.allFlights?.data;
 export const getFlightInformation = (state: any) => state.flights.flightInformation?.data;
 export const getFlight = (state:any) => state.flights.getFlight.data;
-
-
-export const requestFlightById = (id:string) => (dispatch:any) => {
-    dispatch({ type: getFlightActions.REQUEST });
-
-    const url = getFlightDetailsUrl(id);
-    getRequest(url).then((response) => {
-        if (!response.success) {
-            dispatch({ type: getFlightActions.FAILURE });
-            return;
-        }
-
-        dispatch({ type: getFlightActions.SUCCESS, payload: response.data });
-    })
-}
-
-export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string, returnDate?: string, membersCount?: string) => (dispatch: any) => {
-    dispatch({ type: filteredFlightsActions.REQUEST });
-
-    if (!membersCount) membersCount = '1';
-
-    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
-        .then(response => {
-            if (!response.success) {
-                dispatch({ type: filteredFlightsActions.FAILURE });
-            }
-            dispatch({ type: filteredFlightsActions.SUCCESS, payload: response.data });
-        })
-
-}
-
-export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string, landingDate: string, clearForm: () => void) =>
-    (dispatch: any) => {
-        dispatch({ type: createFlightActions.REQUEST });
-        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate, landingDate })
-            .then(response => {
-                if (!response.success)
-                    dispatch({ type: createFlightActions.FAILURE });
-
-                dispatch({ type: createFlightActions.SUCCESS, payload: response });
-                clearForm();
-                alert('Flight created');
-            })
-    }
-
-export const requestAllFlights = () => (dispatch: any) => {
-    dispatch({ type: allFlightsActions.REQUEST });
-
-    getRequest(ALL_FLIGHTS_URL).then(response => {
-        if (!response.success) {
-            dispatch({ type: allFlightsActions.FAILURE });
-            return;
-        }
-
-        dispatch({ type: allFlightsActions.SUCCESS, payload: response.data });
-    })
-}
-
-export const requestFlightInformation = (id: string) => (dispatch: any) => {
-    dispatch({ type: flightInformationActions.REQUEST });
-
-    const url = getFlightInformationUrl(id);
-
-    getRequest(url).then(response => {
-        if (!response.success) {
-            dispatch({ type: flightInformationActions.FAILURE });
-            return;
-        }
-        dispatch({ type: flightInformationActions.SUCCESS, payload: response.data });
-
-    })
-}

@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from "react-router-dom"
 
 import IFlight from '../../interfaces/models/flight.interface';
-import { getFlight, requestFlightById } from '../../store/reducers/flightReducer';
+import { getFlight } from '../../store/reducers/flightReducer';
 import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 import { getIsLogged } from '../../store/reducers/authReducer';
+
+import { requestFlightById } from '../../actions/flight.actions';
 
 import FlightDetails from './flightDetails';
 

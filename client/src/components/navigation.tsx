@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getIsLogged, getIsAdmin, logout } from '../store/reducers/authReducer';
+import { getIsLogged, getIsAdmin } from '../store/reducers/authReducer';
+import { logout } from '../actions/auth.actions';
 
 export default function Navigation() {
     const dispatch = useDispatch();

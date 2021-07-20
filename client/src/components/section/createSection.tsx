@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { requestCreateSection, getIsCreatingSection } from '../../store/reducers/sectionReducer';
+import { getIsCreatingSection } from '../../store/reducers/sectionReducer';
+import { requestCreateSection } from '../../actions/section.action';
 
 export default function CreateSection() {
     const dispatch = useDispatch();

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { requestCreateFlight, getIsCreatingFlight } from '../../store/reducers/flightReducer';
+import { getIsCreatingFlight } from '../../store/reducers/flightReducer';
+import {requestCreateFlight} from '../../actions/flight.actions';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();

@@ -19,8 +19,8 @@ const initialState = {
     selectedSeats: { ...initialAsyncState, data: { seats: null } }
 }
 
-const userTicketsActions: any = actionCreator('USER_TICKETS');
-const createTicketActions: any = actionCreator('CREATE_TICKET');
+export const userTicketsActions: any = actionCreator('USER_TICKETS');
+export const createTicketActions: any = actionCreator('CREATE_TICKET');
 export const selectSeatsActions: any = actionCreator('CHOOSE_SEATS');
 
 export const ticketsReducer = (state = initialState, action: IAction) => {
@@ -50,29 +50,3 @@ export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
 export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data;
 
-export const requestUserTickets = () => (dispatch: any) => {
-
-    dispatch({ type: userTicketsActions.REQUEST });
-    getRequest(USER_TICKETS_URL).then((response) => {
-        if (!response.success) {
-            dispatch({ type: userTicketsActions.FAILURE });
-            return;
-        }
-
-        dispatch({ type: userTicketsActions.SUCCESS, payload: { tickets: response.data } });
-    });
-}
-
-export const requestCreateTickets = (flightId: string, seats: ISeat[] ) => (dispatch: any) => {
-    dispatch({ type: createTicketActions.REQUEST });
-
-    postRequest(CREATE_TICKET_URL, { flightId, seats })
-        .then(response => {
-            if (!response.success) {
-                dispatch({ type: createTicketActions.FAILURE });
-                return;
-            }
-            dispatch({ type: createTicketActions.SUCCESS });
-        })
-
-}

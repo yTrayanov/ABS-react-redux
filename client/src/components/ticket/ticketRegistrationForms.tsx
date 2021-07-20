@@ -6,7 +6,8 @@ import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
 import { getFlightActions } from '../../store/reducers/flightReducer';
-import { getIsCreatingTickets, getSelectedSeats , requestCreateTickets } from '../../store/reducers/ticketsReducer';
+import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/ticketsReducer';
+import { requestCreateTickets } from '../../actions/ticket.action';
 
 export default function TicketRegistrationForms() {
     const location: any = useLocation();

@@ -2,8 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import IFlight from '../../interfaces/models/flight.interface';
 
-import { getFlightInformation, requestFlightInformation } from "../../store/reducers/flightReducer";
 import SectionInformation from '../section/sectionInformation';
+
+import { getFlightInformation } from "../../store/reducers/flightReducer";
+import { requestFlightInformation } from '../../actions/flight.actions';
 
 export default function FlightInformation(props: any) {
     const dispatch = useDispatch();
