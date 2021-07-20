@@ -27,7 +27,8 @@ export default function Home() {
             flights?.map((flight, index) => (
                 <FlightView flights={flight}
                     key={index} 
-                    oneWay = {oneWay}/>
+                    oneWay = {oneWay}
+                    membersCount = { membersInput.current?.value || 1} />
             )));
     }, [flights , oneWay])
 

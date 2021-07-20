@@ -64,7 +64,7 @@ export default function CreateSection() {
                                 <span className="input-group-text"> <i className="fas fa-users-class"></i> </span>
                             </div>
                             <select className="form-control" ref={seatClassInput}>
-                                <option value="first">FIRST</option>
+                                <option value="first" selected >FIRST</option>
                                 <option value="bussiness">BUSSINESS</option>
                                 <option value="economy">ECONOMY</option>
                             </select>
