@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import FlightView from './flight/flightsViewer';
+import LoadingButton from './loadingButton';
 
 import { getFilteredFlights, getIsLoadingFilteredFlights } from '../store/reducers/flightReducer';
 import { requestFilteredFlights } from '../actions/flight.actions';
@@ -76,10 +77,7 @@ export default function Home() {
 
                     <input type="Number" className="form-control" placeholder="Members" ref={membersInput}></input>
 
-                    <button type="submit" className="btn btn-primary btn-block">
-                        {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Search
-                    </button>
+                    <LoadingButton type="submit" text="Search" isLoading={isLoading}/>
                 </form>
             </div>
 

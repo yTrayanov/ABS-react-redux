@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getIsCreatingFlight } from '../../store/reducers/flightReducer';
 import {requestCreateFlight} from '../../actions/flight.actions';
+import LoadingButton from '../loadingButton';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
@@ -96,10 +97,7 @@ export default function CreateFlight() {
                         </div>
 
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" >
-                                {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Create
-                            </button>
+                            <LoadingButton type="submit" isLoading={isLoading} text="Create" />
                         </div>
                     </form>
                 </div>

@@ -26,7 +26,7 @@ export default function SeatPicker() {
     const isLogged = useSelector(getIsLogged);
     const currentFlight: IFlight = useSelector(getFlight);
 
-    const { flightIds, oneWay , membersCount }: { flightIds: string[], oneWay: boolean , membersCount:string } = location.state;
+    const { flightIds, oneWay , membersCount }: { flightIds: string[], oneWay: boolean , membersCount:number } = location.state;
 
     React.useEffect(() => {
         for (let id of flightIds)
@@ -81,12 +81,12 @@ export default function SeatPicker() {
             return;
         }
 
-        if(toDestinationSeats.length.toString() !== membersCount){
+        if(toDestinationSeats.length !== membersCount){
             alert('Invalid number of seats selected for to destination flight');
             return;
         }
 
-        if(!oneWay && returnSeats.length.toString() !== membersCount){
+        if(!oneWay && returnSeats.length !== membersCount){
             alert('Invalid number of seats selected for return flight');
             return;
         }

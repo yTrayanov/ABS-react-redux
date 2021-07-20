@@ -8,6 +8,7 @@ import ISeat from '../../interfaces/models/seat.interface';
 import { getFlightActions } from '../../store/reducers/flightReducer';
 import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/ticketsReducer';
 import { requestCreateTickets } from '../../actions/ticket.action';
+import LoadingButton from '../loadingButton';
 
 export default function TicketRegistrationForms() {
     const location: any = useLocation();
@@ -25,7 +26,7 @@ export default function TicketRegistrationForms() {
         setSeats(seats);
     }, [])
 
-    const isLoading = useSelector<boolean>(getIsCreatingTickets);
+    const isLoading:boolean = useSelector(getIsCreatingTickets);
 
     const incrementFilledFomrsCount = React.useCallback((n: number) => {
         setFilledFormsCount(c => c + n);
@@ -66,10 +67,7 @@ export default function TicketRegistrationForms() {
         <div className="center-horizontally">
             <div className="ticket-registration">
                 {mappedForms ? mappedForms : null}
-                <button className="btn btn-primary btn-block" onClick={bookSeats}>
-                    {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                    Purchase
-                </button>
+                <LoadingButton text="Purchase" onClick={bookSeats} isLoading={isLoading}/>
             </div>
         </div>
     )

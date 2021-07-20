@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getIsCreatingSection } from '../../store/reducers/sectionReducer';
 import { requestCreateSection } from '../../actions/section.action';
+import LoadingButton from '../loadingButton';
 
 export default function CreateSection() {
     const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export default function CreateSection() {
     const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
-    const isLoading:string = useSelector(getIsCreatingSection);
+    const isLoading:boolean = useSelector(getIsCreatingSection);
     
     const clearForm = React.useCallback(() => {
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
@@ -79,10 +80,7 @@ export default function CreateSection() {
                         </div>
 
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" >
-                                {isLoading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Create
-                            </button>
+                            <LoadingButton type="submit" isLoading={isLoading} text="Create" />
                         </div>
                     </form>
                 </div>

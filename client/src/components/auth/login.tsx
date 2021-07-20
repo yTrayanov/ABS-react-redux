@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {getLoggingIn, getLogginError } from '../../store/reducers/authReducer';
 import { login } from '../../actions/auth.actions';
+import LoadingButton from '../loadingButton';
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -43,10 +44,7 @@ export default function Login() {
                             <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" > 
-                            {isLogging && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Sign In
-                            </button>
+                            <LoadingButton type="submit" isLoading={isLogging} text="Sign In" />
                         </div>
                     </form>
                     {loggingError ? <span>{loggingError}</span> : null}
