@@ -6,7 +6,7 @@ import ISeat from '../../interfaces/models/seat.interface';
 import IFlight from '../../interfaces/models/flight.interface';
 
 
-export default function FlightDetails({ flight, setSeats }: { flight: IFlight , setSeats:any }) {
+export default function FlightDetails({ flight, setSeats,shouldShow }: { flight: IFlight , setSeats:any , shouldShow:boolean}) {
 
     const [mappedSections, setMappedSections] = React.useState<any>([]);
 
@@ -32,7 +32,7 @@ export default function FlightDetails({ flight, setSeats }: { flight: IFlight , 
     }, [flight , setSeats]);
 
     return (
-        <div className="sections">
+        <div className={`sections ${shouldShow ? '' : 'hide'}`}>
                 <div>
                     {mappedSections ? mappedSections : 'There are no sections'}
                 </div>
