@@ -39,17 +39,14 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount', async (r
     const departureDate = new Date(req.params.departureDate).toDateString();
     const membersCount = parseInt(req.params.membersCount);
 
-    Flight.find({ originAirport, destinationAirport })
-        .populate('originAirport')
-        .populate('destinationAirport')
-        .populate('airline')
-        .populate('sections')
-        .then(flights => {
-            const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
-            const result = checkSectionsForSeats(membersCount , filteredByDateFlights).map(f => [f]);
+    const flights = await getFlights(originAirport, destinationAirport, departureDate , membersCount);
 
-            return Ok(res, 'Filtered flights', result);
-        })
+    if(!flights){
+        return Ok(res , `There are no flights from ${originAirport.name} to ${destinationAirport.name}`);
+    }
+
+    //Mapping to array is needed here becouse the front end works with one way flights and two way flights
+    return Ok(res, 'Filtered flights', flights.map(f =>[f]));
 });
 
 router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDate/', async (req, res) => {
@@ -58,62 +55,54 @@ router.get('/filter/:origin/:destination/:departureDate/:membersCount/:returnDat
     const departureDate = new Date(req.params.departureDate).toDateString();
     const membersCount = req.params.membersCount;
 
-    const toDestinationFlights = await Flight.find({ originAirport, destinationAirport })
-        .populate('originAirport')
-        .populate('destinationAirport')
-        .populate('airline')
-        .populate('sections').then(flights => {
-            const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
-            const result = checkSectionsForSeats(membersCount , filteredByDateFlights);
-            return result;
-        });
+    const toDestinationFlights = await getFlights(originAirport , destinationAirport , departureDate , membersCount);
 
     if (!toDestinationFlights)
         return Ok(res, 'There are no flights with those destinations and dates');
 
     const returnDate = new Date(req.params.returnDate).toDateString();
-
-    const returnFlights = await Flight.find({ originAirport: destinationAirport, destinationAirport: originAirport })
-        .populate('originAirport')
-        .populate('destinationAirport')
-        .populate('airline')
-        .populate('sections')
-        .then(flights => {
-            return checkSectionsForSeats(membersCount , flights.filter(f => f.departureDate.toDateString() === returnDate))
-        });;
+    const returnFlights = await getFlights(destinationAirport , originAirport , returnDate , membersCount);
 
     if (!returnFlights)
         return Ok(res, 'There are no flights with those destinations and dates');
 
-    let result = [];
+    let flights = [];
     for (toFlight of toDestinationFlights) {
         for (returnFlight of returnFlights) {
-            result.push([toFlight, returnFlight]);
+            flights.push([toFlight, returnFlight]);
         }
     }
 
-    return Ok(res, 'Flights found', result);
-
+    return Ok(res, 'Flights found', flights);
 })
 
 
-router.get('/:id', async (req, res) => {
-    const flight = await Flight.findById(req.params.id)
-        .populate('originAirport')
-        .populate('destinationAirport')
-        .populate('airline')
-        .populate({
-            path: 'sections',
-            populate: [{
-                path: 'seats'
-            }]
-        })
+router.get('/:ids', async (req, res) => {
+
+    const ids = req.params.ids.split(',');
+    const flights = []
+
+    for (id of ids) {
+        const flight = await Flight.findById(id)
+            .populate('originAirport')
+            .populate('destinationAirport')
+            .populate('airline')
+            .populate({
+                path: 'sections',
+                populate: [{
+                    path: 'seats'
+                }]
+            })
 
 
-    if (!flight) {
-        return BadRequest(res, 'Flight couldn\'t be found');
+        if (!flight) {
+            return BadRequest(res, 'Flight couldn\'t be found');
+        }
+
+        flights.push(flight);
     }
-    return Ok(res, 'Flight found', flight);
+
+    return Ok(res, 'Flights found', flights);
 });
 
 router.get('/information/all', (req, res) => {
@@ -138,6 +127,8 @@ router.get('/information/:id', (req, res) => {
         return Unauthorized(res, 'Be gone , only admins allowed');
     }
 
+
+
     Flight.findById(req.params.id)
         .populate('originAirport')
         .populate('destinationAirport')
@@ -154,12 +145,11 @@ router.get('/information/:id', (req, res) => {
                 }
             }]
         }).then(flight => {
-
             for (index in flight.sections) {
 
                 const section = flight.sections[index];
 
-                if (section.availableSeats == section.rows * section.columns) {
+                if (section.availableSeats === section.rows * section.columns) {
                     flight.sections.splice(index, 1);
                 }
                 else {
@@ -171,13 +161,8 @@ router.get('/information/:id', (req, res) => {
         })
 })
 
-module.exports = router;
-
-
-function checkSectionsForSeats(membersCount , flights) {
+function checkSectionsForSeats(membersCount, flights) {
     let toBeRemoved = [];
-
-
     for (flightIndex in flights) {
         let flightHasAvailableSeats = false;
 
@@ -201,3 +186,19 @@ function checkSectionsForSeats(membersCount , flights) {
 
     return flights;
 }
+
+function getFlights(origin, destination, departureDate , membersCount) {
+
+    return Flight.find({ originAirport: origin, destinationAirport: destination })
+        .populate('originAirport')
+        .populate('destinationAirport')
+        .populate('airline')
+        .populate('sections')
+        .then(flights => {
+            const filteredByDateFlights = flights.filter(f => f.departureDate.toDateString() === departureDate);
+            return checkSectionsForSeats(membersCount, filteredByDateFlights);
+        })
+}
+
+
+module.exports = router;

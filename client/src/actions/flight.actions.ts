@@ -1,19 +1,19 @@
 import { getRequest , postRequest } from "../requests";
 import { getFlightDetailsUrl , getFilterdFlightsUrl , CREATE_FLIGHT_URL,ALL_FLIGHTS_URL, getFlightInformationUrl} from "../urls";
-import { getFlightActions , filteredFlightsActions , createFlightActions,allFlightsActions , flightInformationActions } from "../store/reducers/flightReducer";
+import { getFlightsByIdsActions , filteredFlightsActions , createFlightActions,allFlightsActions , flightInformationActions } from "../store/reducers/flightReducer";
 
 
-export const requestFlightById = (id:string) => (dispatch:any) => {
-    dispatch({ type: getFlightActions.REQUEST });
+export const requestFlightsByIds = (ids:string[]) => (dispatch:any) => {
+    dispatch({ type: getFlightsByIdsActions.REQUEST });
 
-    const url = getFlightDetailsUrl(id);
+    const url = getFlightDetailsUrl(ids);
     getRequest(url).then((response) => {
         if (!response.success) {
-            dispatch({ type: getFlightActions.FAILURE });
+            dispatch({ type: getFlightsByIdsActions.FAILURE });
             return;
         }
 
-        dispatch({ type: getFlightActions.SUCCESS, payload: response.data });
+        dispatch({ type: getFlightsByIdsActions.SUCCESS, payload: response.data });
     })
 }
 

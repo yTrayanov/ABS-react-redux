@@ -5,7 +5,7 @@ import { useLocation  , useHistory} from 'react-router-dom';
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
-import { getFlightActions } from '../../store/reducers/flightReducer';
+import { getFlightsByIdsActions } from '../../store/reducers/flightReducer';
 import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/ticketsReducer';
 import { requestCreateTickets } from '../../actions/ticket.action';
 import LoadingButton from '../loadingButton';
@@ -52,7 +52,7 @@ export default function TicketRegistrationForms() {
                 dispatch(requestCreateTickets(id, seats[index]));
                 index++;
             }
-            dispatch({type:getFlightActions.CLEAR});
+            dispatch({type:getFlightsByIdsActions.CLEAR});
             history.push('/');
 
         }

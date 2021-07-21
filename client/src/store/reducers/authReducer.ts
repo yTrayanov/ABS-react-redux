@@ -54,5 +54,6 @@ export const getIsLogged = (state:any) => state.auth.logStatus.data.isLogged;
 export const getIsAdmin = (state:any) => state.auth.logStatus.data.isAdmin;
 export const getToken = (state:any) => state.auth.logStatus.data.token;
 export const getLoggingIn = (state:any) => state.auth.logStatus.isLoading;
+export const getIsRegistering = (state:any) => state.auth.register.isLoading;
 export const getLogginError = (state:any) => state.auth.logStatus.error;
 

@@ -1,6 +1,6 @@
 import { postRequest } from "../requests"
-import { LOGIN_URL, LOGOUT_URL } from '../urls';
-import {loginActions , logoutActions } from '../store/reducers/authReducer';
+import { LOGIN_URL, LOGOUT_URL , REGISTER_URL } from '../urls';
+import {loginActions , logoutActions  , registerActions} from '../store/reducers/authReducer';
 
 const token = window.localStorage.getItem('token');
 
@@ -41,6 +41,20 @@ export const logout = (history:any) => (dispatch:any) => {
         dispatch({ type: logoutActions.SUCCESS, payload: { isLogged: false, isAdmin: false, token: "" } });
         history.push('/');
     });
+}
+
+export const register = (username:string , password:string , email:string) => (dispatch:any) => {
+    dispatch({type:registerActions.REQUEST});
+
+    postRequest(REGISTER_URL ,{username , password , email})
+        .then(response => {
+            if(!response.success){
+                dispatch({type:registerActions.FAILURE});
+                return;
+            }
+
+            dispatch({type:registerActions.SUCCESS})
+        })
 }
 
 export const requestStats = () => (dispatch:any) => {

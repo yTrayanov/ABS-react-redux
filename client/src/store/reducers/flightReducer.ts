@@ -23,7 +23,7 @@ export const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
 export const createFlightActions: any = actionCreator("CREATE_FLIGHT");
 export const allFlightsActions: any = actionCreator("All_Flights");
 export const flightInformationActions: any = actionCreator("FLIGHT_INFORMATION");
-export const getFlightActions: any = actionCreator("GET_FLIGHT");
+export const getFlightsByIdsActions: any = actionCreator("GET_FLIGHT");
 
 export const flightReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
@@ -47,12 +47,12 @@ export const flightReducer = (state = initialState, action: IAction) => {
         case flightInformationActions.FAILURE:
             return { ...state, flightInformation: reducerHandler(state.flightInformation, action, flightInformationActions) };
 
-        case getFlightActions.REQUEST:
-        case getFlightActions.SUCCESS:
-        case getFlightActions.FAILURE:
-            return { ...state, getFlight: reducerHandler(state.getFlight, action, getFlightActions) };
-        case getFlightActions.CLEAR:
-            return {...state , getFlight:reducerHandler(initialAsyncState , action , getFlightActions)}
+        case getFlightsByIdsActions.REQUEST:
+        case getFlightsByIdsActions.SUCCESS:
+        case getFlightsByIdsActions.FAILURE:
+            return { ...state, getFlight: reducerHandler(state.getFlight, action, getFlightsByIdsActions) };
+        case getFlightsByIdsActions.CLEAR:
+            return {...state , getFlight:reducerHandler(initialAsyncState , action , getFlightsByIdsActions)}
 
         default:
             return state;
@@ -65,4 +65,4 @@ export const getIsLoadingFilteredFlights = (state: any) => state.flights.filtere
 export const getIsCreatingFlight = (state: any) => state.flights.createFlight.isLoading;
 export const getAllFlights = (state: any) => state.flights.allFlights?.data;
 export const getFlightInformation = (state: any) => state.flights.flightInformation?.data;
-export const getFlight = (state:any) => state.flights.getFlight.data;
+export const getFlightsByIds = (state:any) => state.flights.getFlight.data;

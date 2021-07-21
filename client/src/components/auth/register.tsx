@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch , useSelector } from 'react-redux';
 
-import { postRequest } from '../../requests';
-import { REGISTER_URL } from '../../urls';
+import { getIsRegistering } from '../../store/reducers/authReducer';
+import { register } from '../../actions/auth.actions';
+import LoadingButton from '../loadingButton';
 
 
 const initialState = {
@@ -32,12 +34,15 @@ const reducer = (state=initialState, action:{type:string}) => {
 
 export default function Register() {
     const history = useHistory();
+    const  reduxDispatch = useDispatch();
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
 
-    const [state, dispatch] = React.useReducer(reducer, initialState);
+    const isLoading = useSelector(getIsRegistering);
+
+    const [state, innerDispatch] = React.useReducer(reducer, initialState);
 
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
@@ -46,11 +51,11 @@ export default function Register() {
 
         const passwordRegex = new RegExp(/[A-za-z]+[1-9]+/);
 
-        dispatch({ type: "initial" });
+        innerDispatch({ type: "initial" });
 
         if (usernameInput.current && emailInput.current && passwordInput.current) {
             if (usernameInput.current.value.length < 4) {
-                dispatch({ type: 'username' });
+                innerDispatch({ type: 'username' });
                 error = true;
             }
 
@@ -58,13 +63,13 @@ export default function Register() {
             const emailRegex = new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]+)\])/);
 
             if (!emailRegex.test(emailInput.current.value)) {
-                dispatch({ type: 'email' });
+                innerDispatch({ type: 'email' });
                 error = true;
             }
 
 
             if (!passwordRegex.test(passwordInput.current.value)) {
-                dispatch({ type: 'password' });
+                innerDispatch({ type: 'password' });
                 error = true;
             }
 
@@ -72,15 +77,11 @@ export default function Register() {
                 return;
             }
 
-            postRequest(REGISTER_URL, { username: usernameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value })
-                .then((response) => {
-                    if (!response.success) {
-                        console.log('Registration failed');
-                        return;
-                    }
-
-                    history.push('/login')
-                })
+            reduxDispatch(register(usernameInput.current.value , passwordInput.current.value , emailInput.current.value));
+            
+            if(!isLoading){
+                history.push('./login')
+            }
         }
 
     }
@@ -115,7 +116,7 @@ export default function Register() {
                         </div>
                         {state.passwordError ? <span>{state.passwordError}</span> : null}
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block" > Sign Up </button>
+                            <LoadingButton text="Sign Up" isLoading={isLoading} type="submit" />
                         </div>
                     </form>
                 </div>
