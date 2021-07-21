@@ -6,12 +6,14 @@ import SectionInformation from '../section/sectionInformation';
 
 import { getFlightInformation } from "../../store/reducers/flightReducer";
 import { requestFlightInformation } from '../../actions/flight.actions';
+import { useParams } from 'react-router-dom';
 
-export default function FlightInformation(props: any) {
+export default function FlightInformation() {
     const dispatch = useDispatch();
     const flightInfo: IFlight = useSelector(getFlightInformation);
     const [mappedSections, setMappedSections] = React.useState<any>([]);
-    const id: string = props.match.params.id;
+    const params:{id:string} = useParams();
+    const id: string =params.id;
 
     React.useEffect(() => {
         dispatch(requestFlightInformation(id));

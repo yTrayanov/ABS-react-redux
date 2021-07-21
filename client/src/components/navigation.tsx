@@ -29,16 +29,16 @@ export default function Navigation() {
                             <li className='nav-link'>
                                 <Link to='/'>Home</Link>
                             </li>
-                            {isLogged && !isAdmin ? <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li> : null}
-                            {(isLogged && isAdmin) ? <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li> : null}
-                            {isLogged && isAdmin ? <li className='nav-link'><Link to="/section/create" >Create Section</Link></li> : null}
-                            {(isLogged && isAdmin) ? <li className='nav-link'><Link to='/flight/all'>All Flights</Link></li> : null}
+                            {(isLogged && !isAdmin) && <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li>}
+                            {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li>}
+                            {(isLogged && isAdmin) && <li className='nav-link'><Link to="/section/create" >Create Section</Link></li>}
+                            {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/all'>All Flights</Link></li> }
                         </div>
 
                         <div className="link-container">
-                            {!isLogged ? <li className='nav-link'><Link to='/login'>Login</Link></li> : null}
-                            {!isLogged ? <li className='nav-link'><Link to='/register'>Register</Link></li> : null}
-                            {isLogged ? <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li> : null}
+                            {!isLogged && <li className='nav-link'><Link to='/login'>Login</Link></li>}
+                            {!isLogged && <li className='nav-link'><Link to='/register'>Register</Link></li>}
+                            {isLogged && <li className='nav-link'><a href="/" onClick={Logout}>Logout</a></li>}
                         </div>
                     </ul>
                 </div>
