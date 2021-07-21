@@ -32,11 +32,11 @@ export default function SeatPicker() {
 
 
     React.useEffect(() => {
-        setMappedDetails(flights?.map((f, index) => {
+        setMappedDetails(flights?.map((flight, index) => {
             return <p key={index}
                 className={`${index === 0 ? (!selectedReturnSeats ? 'selected' : '') : (selectedReturnSeats ? 'selected' : '')}`}
                 onClick={() => { if (flightIds.length > 1) setSelectReturnSeats(!selectedReturnSeats) }}>
-                {f.originAirport.name} {'->'} {f.destinationAirport.name} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
+                {flight.originAirport.name} {'->'} {flight.destinationAirport.name} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
             </p>
         }));
 

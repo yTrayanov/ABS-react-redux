@@ -1,11 +1,10 @@
 import React from 'react';
-import { useSelector , useDispatch } from 'react-redux';
-import { useLocation  , useHistory} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
-import { getFlightsByIdsActions } from '../../store/reducers/flightReducer';
 import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/ticketsReducer';
 import { requestCreateTickets } from '../../actions/ticket.action';
 import LoadingButton from '../loadingButton';
@@ -20,54 +19,51 @@ export default function TicketRegistrationForms() {
     const [filledFormsCount, setFilledFormsCount] = React.useState<number>(0);
 
     const [seats, setSeats] = React.useState<any>(useSelector(getSelectedSeats));
-    
+
 
     const changeSeats = React.useCallback((seats: ISeat[][]) => {
         setSeats(seats);
     }, [])
 
-    const isLoading:boolean = useSelector(getIsCreatingTickets);
+    const isLoading: boolean = useSelector(getIsCreatingTickets);
 
     const incrementFilledFomrsCount = React.useCallback((n: number) => {
         setFilledFormsCount(c => c + n);
-     }, []);
+    }, []);
 
     React.useEffect(() => {
-        setMappedForms(flightIds?.map((id, index) => <SeatHoldersForm key={id} incrementFilledFomrsCount={incrementFilledFomrsCount} changeSeats={changeSeats} currentSeats={seats[index] } index={index} allSeats={seats}/>))
-    }, [flightIds,incrementFilledFomrsCount , changeSeats, seats])
+        setMappedForms(flightIds?.map((id, index) => <SeatHoldersForm key={id} incrementFilledFomrsCount={incrementFilledFomrsCount} changeSeats={changeSeats} currentSeats={seats[index]} index={index} allSeats={seats} />))
+    }, [flightIds, incrementFilledFomrsCount, changeSeats, seats])
 
- 
-    const bookSeats = React.useCallback((event:React.FormEvent<HTMLButtonElement>) => {
+
+    const bookSeats = React.useCallback((event: React.FormEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        const formsCount = seats?.reduce((acc:number , curr:any) => {
-            if(curr)
+        const formsCount = seats?.reduce((acc: number, curr: any) => {
+            if (curr)
                 return acc + curr.length;
             return acc;
-        } ,0);
+        }, 0);
 
         if (filledFormsCount === formsCount) {
-            let index = 0;
-            for(let id of flightIds){
-                dispatch(requestCreateTickets(id, seats[index]));
-                index++;
-            }
-            dispatch({type:getFlightsByIdsActions.CLEAR});
-            history.push('/');
+            dispatch(requestCreateTickets(flightIds, seats));
+
+            if(!isLoading)
+                history.push('/');
 
         }
         else {
             alert('Please fill all fields');
         }
 
-    }, [filledFormsCount, seats , dispatch , flightIds , history])
- 
+    }, [filledFormsCount, seats, dispatch, flightIds, history , isLoading])
+
 
     return (
         <div className="center-horizontally">
             <div className="ticket-registration">
                 {mappedForms ? mappedForms : null}
-                <LoadingButton text="Purchase" onClick={bookSeats} isLoading={isLoading}/>
+                <LoadingButton text="Purchase" onClick={bookSeats} isLoading={isLoading} />
             </div>
         </div>
     )

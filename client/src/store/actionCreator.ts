@@ -1,6 +1,6 @@
 export default function actionCreator(action:any) {
 
-        const values:string[] = ['SUCCESS' , 'FAILURE' , 'REQUEST' , 'CLEAR'];
+        const values:string[] = ['SUCCESS' , 'FAILURE' , 'REQUEST'];
         const types:{} = values.reduce((acc:{[key:string]:any} , value:string) => {
             const type = `${action}_${value}`;
             acc[value] = type;

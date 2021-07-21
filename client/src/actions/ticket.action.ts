@@ -17,10 +17,10 @@ export const requestUserTickets = () => (dispatch: any) => {
     });
 }
 
-export const requestCreateTickets = (flightId: string, seats: ISeat[] ) => (dispatch: any) => {
+export const requestCreateTickets = (flightIds: string[], seats: ISeat[] ) => (dispatch: any) => {
     dispatch({ type: createTicketActions.REQUEST });
 
-    postRequest(CREATE_TICKET_URL, { flightId, seats })
+    postRequest(CREATE_TICKET_URL, { flightIds, seats })
         .then(response => {
             if (!response.success) {
                 dispatch({ type: createTicketActions.FAILURE });

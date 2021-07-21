@@ -51,8 +51,6 @@ export const flightReducer = (state = initialState, action: IAction) => {
         case getFlightsByIdsActions.SUCCESS:
         case getFlightsByIdsActions.FAILURE:
             return { ...state, getFlight: reducerHandler(state.getFlight, action, getFlightsByIdsActions) };
-        case getFlightsByIdsActions.CLEAR:
-            return {...state , getFlight:reducerHandler(initialAsyncState , action , getFlightsByIdsActions)}
 
         default:
             return state;

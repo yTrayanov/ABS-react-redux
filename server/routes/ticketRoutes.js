@@ -16,51 +16,59 @@ router.post('/create', async (req, res) => {
         return BadRequest(res, 'Not logged');
     }
 
-    const flight = await Flight.findById(req.body.flightId)
-        .populate('sections')
-        .populate({
-            path: 'sections',
-            populate: 'seats'
-        });
+    const flights = [];
+    for (flightId of req.body.flightIds) {
 
-    if (!flight) {
-        return BadRequest(res, 'Flight doesn\'t exist');
+        const flight = await Flight.findById(flightId)
+            .populate('sections')
+            .populate({
+                path: 'sections',
+                populate: 'seats'
+            });
+
+        flights.push(flight);
     }
 
-    for (let item of req.body.seats) {
+    if (!flights) {
+        return BadRequest(res, 'There are no flights with those ids');
+    }
 
-        const seat = await Seat.findById(item._id).populate('section');
+    for (index in req.body.seats) {
+        for (item of req.body.seats[index]) {
 
-        if (!seat) {
-            return BadRequest(res, 'Seat doesn\'t exist');
+            const seat = await Seat.findById(item._id).populate('section');
+
+            if (!seat) {
+                return BadRequest(res, 'Seat doesn\'t exist');
+            }
+
+            if (seat.isBooked) {
+                return BadRequest(res, 'Seat is already booked');
+            }
+
+            if (!item.passangerName) {
+                return BadRequest(res, 'Passenger name is required');
+            }
+
+            seat.isBooked = true;
+
+
+            const ticket = await Ticket.create({
+                flight:flights[index],
+                seat,
+                user: req.user._id,
+                passengerName: item.passangerName
+            });
+            
+            seat.ticket = ticket;
+            seat.save();
+
+            req.user.tickets.push(ticket);
+            req.user.save();
+
+            seat.section.availableSeats -= 1;
+            seat.section.save();
         }
-
-        if (seat.isBooked) {
-            return BadRequest(res, 'Seat is already booked');
-        }
-
-        if (!item.passangerName) {
-            return BadRequest(res, 'Passenger name is required');
-        }
-
-        seat.isBooked = true;
-
-
-        const ticket = await Ticket.create({
-            flight,
-            seat,
-            user: req.user._id,
-            passengerName: item.passangerName
-        });
-
-        seat.ticket = ticket;
-        seat.save();
-
-        req.user.tickets.push(ticket);
-        req.user.save();
-
-        seat.section.availableSeats -= 1;
-        seat.section.save();
 
     }
 
@@ -96,15 +104,15 @@ router.get('/user', async (req, res) => {
             path: 'tickets',
             populate: [{
                 path: 'flight',
-                populate:[{
-                    path:'originAirport',
-                    model:Airport
-                },{
-                    path:'destinationAirport',
-                    model:Airport
-                },{
-                    path:'airline',
-                    model:Airline
+                populate: [{
+                    path: 'originAirport',
+                    model: Airport
+                }, {
+                    path: 'destinationAirport',
+                    model: Airport
+                }, {
+                    path: 'airline',
+                    model: Airline
                 }]
             },
             {
@@ -124,7 +132,7 @@ router.get('/user', async (req, res) => {
 
         return {
             ticketId: t._id,
-            passengerName:t.passengerName,
+            passengerName: t.passengerName,
             flight: t.flight,
             seat: t.seat,
         }

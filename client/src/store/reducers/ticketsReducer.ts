@@ -1,9 +1,6 @@
-import { getRequest, postRequest } from "../../requests";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
-import { USER_TICKETS_URL, CREATE_TICKET_URL } from '../../urls';
 
-import ISeat from "../../interfaces/models/seat.interface";
 import IAction from "../../interfaces/action.interface";
 
 const initialAsyncState = {
