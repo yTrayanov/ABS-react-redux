@@ -6,26 +6,26 @@ import ISeat from "../interfaces/models/seat.interface";
 
 export const requestUserTickets = () => (dispatch: any) => {
 
-    dispatch({ type: userTicketsActions.REQUEST });
+    dispatch(userTicketsActions.request());
     getRequest(USER_TICKETS_URL).then((response) => {
         if (!response.success) {
-            dispatch({ type: userTicketsActions.FAILURE });
+            dispatch(userTicketsActions.failure());
             return;
         }
 
-        dispatch({ type: userTicketsActions.SUCCESS, payload: { tickets: response.data } });
+        dispatch(userTicketsActions.success(response.data));
     });
 }
 
 export const requestCreateTickets = (flightIds: string[], seats: ISeat[][] ) => (dispatch: any) => {
-    dispatch({ type: createTicketActions.REQUEST });
+    dispatch(createTicketActions.request());
 
     postRequest(CREATE_TICKET_URL, { flightIds, seats })
         .then(response => {
             if (!response.success) {
-                dispatch({ type: createTicketActions.FAILURE });
+                dispatch(createTicketActions.failure);
                 return;
             }
-            dispatch({ type: createTicketActions.SUCCESS });
+            dispatch(createTicketActions.success());
         })
 }

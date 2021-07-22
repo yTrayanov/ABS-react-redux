@@ -1,9 +1,12 @@
-import IAction from "../../interfaces/action.interface";
+import {IAction , IActionType} from "../../interfaces/action.interface";
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 
+
 const token = window.localStorage.getItem('token');
 
+
+type AppState = typeof initialState;
 
 const initialAsyncState = {
     isLoading: false,
@@ -11,6 +14,7 @@ const initialAsyncState = {
     error: null,
     data: null,
 }
+
 
 const initialState = {
     logStatus: {
@@ -24,11 +28,12 @@ const initialState = {
     logout: initialAsyncState,
 };
 
-export const loginActions:any = actionCreator('LOGIN');
-export const registerActions:any = actionCreator('REGISTER');
-export const logoutActions:any = actionCreator('LOGOUT');
+export const loginActions:IActionType = actionCreator('LOGIN');
+export const registerActions:IActionType = actionCreator('REGISTER');
+export const logoutActions:IActionType = actionCreator('LOGOUT');
 
-export function authReducer(state = initialState, action:IAction) {
+
+export function authReducer(state:AppState = initialState, action:IAction) {
     switch (action.type) {
         case loginActions.REQUEST:
         case loginActions.SUCCESS:

@@ -35,8 +35,6 @@ export default function Home() {
     }, [flights , oneWay])
 
 
-
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 

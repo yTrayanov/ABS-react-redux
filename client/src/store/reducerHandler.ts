@@ -1,4 +1,4 @@
-import IAction from "../interfaces/action.interface";
+import {IAction} from "../interfaces/action.interface";
 
 export default function reducerHandler(state: any, action: IAction, actionHandler: any) {
 

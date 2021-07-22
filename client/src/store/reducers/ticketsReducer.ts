@@ -1,7 +1,7 @@
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 
-import IAction from "../../interfaces/action.interface";
+import {IAction,IActionType} from "../../interfaces/action.interface";
 
 const initialAsyncState = {
     isLoading: false,
@@ -16,9 +16,9 @@ const initialState = {
     selectedSeats: { ...initialAsyncState, data: { seats: null } }
 }
 
-export const userTicketsActions: any = actionCreator('USER_TICKETS');
-export const createTicketActions: any = actionCreator('CREATE_TICKET');
-export const selectSeatsActions: any = actionCreator('CHOOSE_SEATS');
+export const userTicketsActions: IActionType = actionCreator('USER_TICKETS');
+export const createTicketActions: IActionType = actionCreator('CREATE_TICKET');
+export const selectSeatsActions: IActionType = actionCreator('CHOOSE_SEATS');
 
 export const ticketsReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
@@ -42,7 +42,7 @@ export const ticketsReducer = (state = initialState, action: IAction) => {
 
 }
 
-export const getUserTickets = (state: any) => state.tickets.userTickets.data?.tickets;
+export const getUserTickets = (state: any) => state.tickets.userTickets.data;
 export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
 export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data;

@@ -1,7 +1,7 @@
 
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
-import IAction from "../../interfaces/action.interface";
+import {IAction,IActionType} from "../../interfaces/action.interface";
 
 const initialAsyncState = {
     isLoading: false,
@@ -14,7 +14,7 @@ const initialState = {
     createSection: initialAsyncState,
 }
 
-export const createSectionActions:any = actionCreator("CREATE_SECTION");
+export const createSectionActions:IActionType = actionCreator("CREATE_SECTION");
 
 
 export const sectionReducer = (state = initialState, action:IAction) => {

@@ -1,12 +1,12 @@
-export default function actionCreator(action:any) {
+export default function actionCreator(action:string) {
 
         const values:string[] = ['SUCCESS' , 'FAILURE' , 'REQUEST'];
-        const types:{} = values.reduce((acc:{[key:string]:any} , value:string) => {
-            const type = `${action}_${value}`;
+        const types:any = values.reduce((acc:{[key:string]:any} , value:string) => {
+            const type:string = `${action}_${value}`;
             acc[value] = type;
-            acc[value.toLowerCase()] = (data:any) => ({
+            acc[value.toLowerCase()] = (payload:any) => ({
                 type,
-                data
+                payload
             })
 
             return acc;

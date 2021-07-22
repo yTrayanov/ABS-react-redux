@@ -4,72 +4,72 @@ import { getFlightsByIdsActions , filteredFlightsActions , createFlightActions,a
 
 
 export const requestFlightsByIds = (ids:string[]) => (dispatch:any) => {
-    dispatch({ type: getFlightsByIdsActions.REQUEST });
+    dispatch(getFlightsByIdsActions.request());
 
     const url = getFlightDetailsUrl(ids);
     getRequest(url).then((response) => {
         if (!response.success) {
-            dispatch({ type: getFlightsByIdsActions.FAILURE });
+            dispatch(getFlightsByIdsActions.failure());
             return;
         }
 
-        dispatch({ type: getFlightsByIdsActions.SUCCESS, payload: response.data });
+        dispatch(getFlightsByIdsActions.success(response.data));
     })
 }
 
 export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string, returnDate?: string, membersCount?: string) => (dispatch: any) => {
-    dispatch({ type: filteredFlightsActions.REQUEST });
+    dispatch(filteredFlightsActions.request());
 
     if (!membersCount) membersCount = '1';
 
     getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
         .then(response => {
             if (!response.success) {
-                dispatch({ type: filteredFlightsActions.FAILURE });
+                dispatch(filteredFlightsActions.failure());
             }
-            dispatch({ type: filteredFlightsActions.SUCCESS, payload: response.data });
+            dispatch(filteredFlightsActions.success(response.data));
         })
 
 }
 
 export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string, landingDate: string, clearForm: () => void) =>
     (dispatch: any) => {
-        dispatch({ type: createFlightActions.REQUEST });
+        dispatch(createFlightActions.request());
         postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate, landingDate })
             .then(response => {
                 if (!response.success)
-                    dispatch({ type: createFlightActions.FAILURE });
+                    dispatch(createFlightActions.failure() );
 
-                dispatch({ type: createFlightActions.SUCCESS, payload: response });
+                dispatch(createFlightActions.success(response));
                 clearForm();
                 alert('Flight created');
             })
     }
 
 export const requestAllFlights = () => (dispatch: any) => {
-    dispatch({ type: allFlightsActions.REQUEST });
+    dispatch(allFlightsActions.request());
 
     getRequest(ALL_FLIGHTS_URL).then(response => {
         if (!response.success) {
-            dispatch({ type: allFlightsActions.FAILURE });
+            dispatch(allFlightsActions.failure());
             return;
         }
 
-        dispatch({ type: allFlightsActions.SUCCESS, payload: response.data });
+        dispatch(allFlightsActions.success(response.data));
     })
 }
 
 export const requestFlightInformation = (id: string) => (dispatch: any) => {
-    dispatch({ type: flightInformationActions.REQUEST });
+    dispatch(flightInformationActions.request());
 
     const url = getFlightInformationUrl(id);
 
     getRequest(url).then(response => {
         if (!response.success) {
-            dispatch({ type: flightInformationActions.FAILURE });
+            dispatch(flightInformationActions.failure());
             return;
         }
-        dispatch({ type: flightInformationActions.SUCCESS, payload: response.data });
+        dispatch(flightInformationActions.success(response.data));
 
     })
 }

@@ -1,7 +1,7 @@
 import actionCreator from "../actionCreator";
 import reducerHandler from "../reducerHandler";
 
-import IAction from "../../interfaces/action.interface";
+import {IAction , IActionType} from "../../interfaces/action.interface";
 
 const initialAsyncState = {
     isLoading: false,
@@ -19,11 +19,11 @@ const initialState = {
     setFlights:initialAsyncState,
 }
 
-export const filteredFlightsActions: any = actionCreator("FILTERED_FLIGHTS");
-export const createFlightActions: any = actionCreator("CREATE_FLIGHT");
-export const allFlightsActions: any = actionCreator("All_Flights");
-export const flightInformationActions: any = actionCreator("FLIGHT_INFORMATION");
-export const getFlightsByIdsActions: any = actionCreator("GET_FLIGHT");
+export const filteredFlightsActions: IActionType = actionCreator("FILTERED_FLIGHTS");
+export const createFlightActions: IActionType = actionCreator("CREATE_FLIGHT");
+export const allFlightsActions: IActionType = actionCreator("All_Flights");
+export const flightInformationActions: IActionType = actionCreator("FLIGHT_INFORMATION");
+export const getFlightsByIdsActions: IActionType = actionCreator("GET_FLIGHT");
 
 export const flightReducer = (state = initialState, action: IAction) => {
     switch (action.type) {

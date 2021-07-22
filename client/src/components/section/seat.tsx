@@ -21,7 +21,7 @@ export default function Seat({ seat, toggleSelect } : {seat:ISeat , toggleSelect
     }
 
     return (
-        <div onClick={handleClick} className={`col-1 text-${seat.isBooked ? "danger" : selected ? "warning" : "success"}`}>
+        <div onClick={handleClick} className={`col-1 text-${seat.isBooked ? "danger" : (selected ? "warning" : "success")}`}>
             <p>{seat.seatNumber}</p>
         </div>
     )
