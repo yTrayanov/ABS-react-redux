@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
-import {getLoggingIn, getLogginError } from '../../store/reducers/authReducer';
+import {getIsLogging, getLogginError } from '../../store/reducers/authReducer';
 import { login } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 
@@ -13,7 +13,7 @@ export default function Login() {
     const usernameInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
 
-    const isLogging = useSelector(getLoggingIn);
+    const isLogging = useSelector(getIsLogging);
     const loggingError = useSelector(getLogginError);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

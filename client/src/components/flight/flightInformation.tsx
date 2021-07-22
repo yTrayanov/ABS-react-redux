@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 export default function FlightInformation() {
     const dispatch = useDispatch();
     const flightInfo: IFlight = useSelector(getFlightInformation);
-    const [mappedSections, setMappedSections] = React.useState<any>([]);
+    const [mappedSections, setMappedSections] = React.useState<object[] | undefined>([]);
     const params:{id:string} = useParams();
     const id: string =params.id;
 

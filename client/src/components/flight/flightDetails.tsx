@@ -6,9 +6,9 @@ import ISeat from '../../interfaces/models/seat.interface';
 import IFlight from '../../interfaces/models/flight.interface';
 
 
-export default function FlightDetails({ flight, setSeats,shouldShow }: { flight: IFlight , setSeats:any , shouldShow:boolean}) {
+export default function FlightDetails({ flight, setSeats,shouldShow }: { flight: IFlight , setSeats:(seats:ISeat[]) => void , shouldShow:boolean}) {
 
-    const [mappedSections, setMappedSections] = React.useState<any>([]);
+    const [mappedSections, setMappedSections] = React.useState<object[] | undefined>([]);
 
     React.useEffect(() => {
         const selectedSeats: ISeat[] = [];

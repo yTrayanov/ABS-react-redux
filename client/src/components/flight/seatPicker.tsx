@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from "react-router-dom"
 
 import IFlight from '../../interfaces/models/flight.interface';
+import ISeat from '../../interfaces/models/seat.interface';
+
 import { getFlightsByIds } from '../../store/reducers/flightReducer';
 import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 import { getIsLogged } from '../../store/reducers/authReducer';
@@ -11,20 +13,28 @@ import { requestFlightsByIds } from '../../actions/flight.actions';
 
 import FlightDetails from './flightDetails';
 
+interface ILocation{
+    state:{
+        flightIds:string[],
+        oneWay:boolean,
+        membersCount:string
+    }
+}
+
 export default function SeatPicker() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const location: any = useLocation();
-    const [mappedFlights, setMappedFlights] = React.useState<any[]>([]);
-    const [mappedDetails, setMappedDetails] = React.useState<any[]>([]);
-    const [toDestinationSeats, setToDestinationSeats] = React.useState<any[]>([])
-    const [returnSeats, setReturnSeats] = React.useState<any[]>([]);
+    const location: ILocation = useLocation();
+    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
+    const [mappedDetails, setMappedDetails] = React.useState<object[]>([]);
+    const [toDestinationSeats, setToDestinationSeats] = React.useState<ISeat[]>([])
+    const [returnSeats, setReturnSeats] = React.useState<ISeat[]>([]);
     const [selectedReturnSeats, setSelectReturnSeats] = React.useState<boolean>(false)
 
     const isLogged = useSelector(getIsLogged);
     const flights: IFlight[] = useSelector(getFlightsByIds);
 
-    const { flightIds, oneWay, membersCount }: { flightIds: string[], oneWay: boolean, membersCount: string } = location.state;
+    const { flightIds, oneWay, membersCount }= location.state;
 
     React.useEffect(() => {
         dispatch(requestFlightsByIds(flightIds));

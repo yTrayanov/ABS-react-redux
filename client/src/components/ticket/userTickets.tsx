@@ -12,7 +12,7 @@ import ITicket from '../../interfaces/models/ticket.interface';
 
 export default function UserTickets() {
     const dispatch = useDispatch();
-    const [mappedTickets, setMappedTickets] = React.useState<any>([]);
+    const [mappedTickets, setMappedTickets] = React.useState<object[]>([]);
 
     const tickets: ITicket[] = useSelector(getUserTickets);
 

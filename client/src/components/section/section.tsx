@@ -6,7 +6,7 @@ import ISeat from '../../interfaces/models/seat.interface';
 
 export default function Section({ section , toggleSelect}:{section:ISection , toggleSelect:(seat:ISeat , selected:boolean) => void}) {
 
-    const [mappedSeats , setMappedSeats] = React.useState<any>();
+    const [mappedSeats , setMappedSeats] = React.useState<object[]>([]);
 
 
     React.useEffect(() => {

@@ -11,8 +11,8 @@ import IFlight from '../interfaces/models/flight.interface';
 
 export default function Home() {
     const dispatch = useDispatch();
-    const [oneWay, setOneWay] = React.useState<any>(true);
-    const [mappedFlights, setMappedFlights] = React.useState<any[]>([]);
+    const [oneWay, setOneWay] = React.useState<boolean>(true);
+    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
     const isLoading = useSelector(getIsLoadingFilteredFlights);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);

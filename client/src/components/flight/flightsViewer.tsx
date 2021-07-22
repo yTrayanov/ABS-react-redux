@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function FlightView({flights , oneWay , membersCount} : {flights:IFlight[] , oneWay:boolean  , membersCount:string | number}) {
 
     
-    const [mappedFlights, setMappedFlights] = React.useState<any>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
 
     React.useEffect(() => {
         setMappedFlights(

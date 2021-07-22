@@ -9,7 +9,7 @@ export default function Ticket({ ticket } : {ticket:ITicket}) {
     const departureTime = departureDate.toLocaleTimeString();
     const landingTime = new Date(ticket.flight.landingDate).toLocaleTimeString();
 
-    const diffrence:any = formatDistanceStrict(departureDate , landingDate ,{unit:'minute'});
+    const diffrence:string = formatDistanceStrict(departureDate , landingDate ,{unit:'minute'});
     const diffInMinutes:number = parseInt(diffrence.split(' ')[0]);
     const hours = Math.floor(diffInMinutes / 60);
     const minutes:number = diffInMinutes -  hours*60;

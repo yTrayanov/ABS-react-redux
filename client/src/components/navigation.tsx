@@ -3,10 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsLogged, getIsAdmin } from '../store/reducers/authReducer';
 import { logout } from '../actions/auth.actions';
+import { getIsLogging } from '../store/reducers/authReducer';
 
 export default function Navigation() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const isLoggingOut:boolean = useSelector(getIsLogging)
 
 
     const isLogged: boolean = useSelector(getIsLogged);
@@ -14,7 +16,12 @@ export default function Navigation() {
 
     const Logout = (event: React.MouseEvent) => {
         event.preventDefault();
-        dispatch(logout(history));
+        dispatch(logout());
+
+        if(isLoggingOut){
+            history.push('/');
+        }
+
     }
 
     return (

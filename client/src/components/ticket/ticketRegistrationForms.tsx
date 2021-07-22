@@ -9,16 +9,20 @@ import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/tic
 import { requestCreateTickets } from '../../actions/ticket.action';
 import LoadingButton from '../loadingButton';
 
+interface ILocation{
+    state:string[]
+}
+
 export default function TicketRegistrationForms() {
-    const location: any = useLocation();
+    const location: ILocation = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
     const flightIds: string[] = location.state;
 
-    const [mappedForms, setMappedForms] = React.useState<any>();
+    const [mappedForms, setMappedForms] = React.useState<object[]>([]);
     const [filledFormsCount, setFilledFormsCount] = React.useState<number>(0);
 
-    const [seats, setSeats] = React.useState<any>(useSelector(getSelectedSeats));
+    const [seats, setSeats] = React.useState<ISeat[][]>(useSelector(getSelectedSeats));
 
 
     const changeSeats = React.useCallback((seats: ISeat[][]) => {
@@ -39,7 +43,7 @@ export default function TicketRegistrationForms() {
     const bookSeats = React.useCallback((event: React.FormEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        const formsCount = seats?.reduce((acc: number, curr: any) => {
+        const formsCount = seats?.reduce((acc: number, curr: ISeat[]) => {
             if (curr)
                 return acc + curr.length;
             return acc;
@@ -56,7 +60,7 @@ export default function TicketRegistrationForms() {
             alert('Please fill all fields');
         }
 
-    }, [filledFormsCount, seats, dispatch, flightIds, history , isLoading])
+    }, [filledFormsCount, seats, dispatch, flightIds, history ,isLoading])
 
 
     return (
