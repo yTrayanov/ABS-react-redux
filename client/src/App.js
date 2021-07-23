@@ -12,6 +12,8 @@ import AllFlights from './components/flight/allFlights';
 import FlightInformation from './components/flight/flightInformation';
 import SeatPicker from './components/flight/seatPicker';
 import TicketRegistrationForms from './components/ticket/ticketRegistrationForms';
+import ForgottenPasswordForm from './components/auth/forgottenPasswordForm';
+import ForgottenPassword from './components/auth/forgottenPassword';
 
 import { AdminRoute, PrivateRoute ,PublicRoute } from './routes';
 
@@ -30,8 +32,10 @@ function App() {
           <PrivateRoute exact path='/flight/ticketsForms' component={TicketRegistrationForms}/>
           <PublicRoute exact path='/login' component={Login} />
           <PublicRoute exact path='/register' component={Register} />
+          <PublicRoute exact path='/forgotten-password/:id' component={ForgottenPassword}/>
           <Route exact path='/flight/reserve' component={SeatPicker} />
           <Route exact path='/' component={Home} />
+          <Route exact path="/forgotten-password" component={ForgottenPasswordForm} />
         </Switch>
     </div>
   );

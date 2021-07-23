@@ -5,6 +5,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import { getIsRegistering } from '../../store/reducers/authReducer';
 import { register } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
+import { ValidateEmail } from '../../utils/validator';
 
 
 const initialState = {
@@ -59,10 +60,7 @@ export default function Register() {
                 error = true;
             }
 
-
-            const emailRegex = new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]+)\])/);
-
-            if (!emailRegex.test(emailInput.current.value)) {
+            if (!ValidateEmail(emailInput.current.value)) {
                 innerDispatch({ type: 'email' });
                 error = true;
             }

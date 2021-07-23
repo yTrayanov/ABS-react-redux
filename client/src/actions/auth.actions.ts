@@ -1,6 +1,6 @@
 import { postRequest } from "../requests"
-import { LOGIN_URL, LOGOUT_URL, REGISTER_URL } from '../urls';
-import { loginActions, logoutActions, registerActions } from '../store/reducers/authReducer';
+import { LOGIN_URL, LOGOUT_URL, REGISTER_URL, FORGOTTEN_PASSWORD_URL, getChangePasswordUrl } from '../urls';
+import { changingPasswordActions, forgottenPasswordActions, loginActions, logoutActions, registerActions } from '../store/reducers/authReducer';
 
 export const login = (username: string, password: string, history: any) => (dispatch: any) => {
 
@@ -76,4 +76,31 @@ export const requestStats = () => (dispatch: any) => {
 
 export function getInitialStat(dispatch: any) {
     dispatch(requestStats());
+}
+
+export const requestForgottenPassword = (email: string, setEmailLink: any) => (dispatch: any) => {
+    dispatch(forgottenPasswordActions.request());
+
+    postRequest(FORGOTTEN_PASSWORD_URL, { email }).then(response => {
+        if (!response.success){
+            dispatch(forgottenPasswordActions.failure());
+            return;
+        }
+
+        dispatch(forgottenPasswordActions.success());
+        setEmailLink(response.data);
+    })
+}
+
+export const requestChangePassword = (password:string , requestId:string) => (dispatch:any) => {
+    dispatch(changingPasswordActions.request());
+
+    postRequest(getChangePasswordUrl(requestId) , {password}).then(response => {
+        if(!response.success){
+            dispatch(changingPasswordActions.failure());
+            return;
+        }
+
+        dispatch(changingPasswordActions.success());
+    })
 }

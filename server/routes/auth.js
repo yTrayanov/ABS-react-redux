@@ -2,8 +2,15 @@ const express = require('express')
 const jwt = require('jsonwebtoken');
 const passport = require('passport')
 const validator = require('validator');
+const nodemailer = require('nodemailer');
+const User = require('../models/User');
+const PasswordChangeRequest = require('../models/PasswordChangeRequest');
+const emailjs = require('emailjs-com');
+const encryption = require('../util/encryption');
+
+
 const { tokenDecoder } = require('../middleware/auth-check');
-const { Ok, Unauthorized } = require('./responses');
+const { Ok, Unauthorized, BadRequest } = require('./responses');
 
 
 
@@ -186,5 +193,72 @@ router.post('/stat', tokenDecoder, (req, res) => {
   return Ok(res, 'Auth cookie is set', userData);
 
 })
+
+router.post('/forgottenPassword', async (req , res) => {
+
+  const email = req.body.email;
+
+  if (!email || typeof email !== 'string' || !validator.isEmail(email)) {
+    return BadRequest(res , "Invalid email");
+  }
+
+  const user = await User.findOne({email});
+
+  if(!user){
+    return BadRequest(res , "User with this email does not exist");
+  }
+
+  const  changeRequest =  await PasswordChangeRequest.create({user});
+
+  //emailjs.sendForm('','template_wds40p3',email,'user_CBFjjlI7LoTbxcKH4fLE6');
+
+  let testAccount = await nodemailer.createTestAccount();
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: `"Fred Foo 👻" ${testAccount.email}`, // sender address
+    to: email, // list of receivers
+    subject: "ABS Forgotten password", // Subject line
+    text: "You can reset your password here", // plain text body
+    html: `<a href=\"http://localhost:3000/forgotten-password/${changeRequest._id}\">Reset</a>`, // html body
+  });
+
+  return Ok(res ,"User has 10 minutes to change password" , nodemailer.getTestMessageUrl(info) );
+
+
+})
+
+router.post('/changePassword/:id' , async (req , res) => {
+  
+  const request = await PasswordChangeRequest.findById(req.params.id);
+  if(!request){
+    return BadRequest(res, 'Request does not exist');
+  }
+  const user = await User.findById(request.user);
+
+  if(!user){
+    return BadRequest(res , 'User not found');
+  }
+
+  const salt = encryption.generateSalt();
+  const hashedPassword = encryption.generateHashedPassword(salt , req.body.password);
+
+  console.log(`${user.hashedPass} ----- ${hashedPassword}`);
+  user.salt = salt;
+  user.hashedPass = hashedPassword;
+  user.save();
+
+  return Ok(res , 'Password changed');
+});
 
 module.exports = router

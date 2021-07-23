@@ -9,6 +9,8 @@ const SECTION_BASE_URL:string = BASE_URL + 'section/';
 export const LOGIN_URL:string = AUTH_BASE_URL + 'login';
 export const REGISTER_URL:string = AUTH_BASE_URL + 'register';
 export const LOGOUT_URL:string = AUTH_BASE_URL + 'logout';
+export const FORGOTTEN_PASSWORD_URL:string = AUTH_BASE_URL + 'forgottenPassword';
+export const getChangePasswordUrl = (id:string) => AUTH_BASE_URL + `changePassword/${id}`;
 
 //flight
 export const CREATE_FLIGHT_URL:string = FLIGHT_BASE_URL + 'create';
