@@ -39,20 +39,20 @@ export default function ForgottenPassword () {
                     <form onSubmit={handleSubmit}>
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text">  <i className="fas fa-envelope-square"></i></span>
+                                <span className="input-group-text"> <i className="fas fa-unlock-alt"></i></span>
                             </div>
-                            <input ref={passwordInput} type='text' className="form-control" placeholder="New password" />
+                            <input ref={passwordInput} type='password' className="form-control" placeholder="New password" />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
-                                <span className="input-group-text">  <i className="fas fa-envelope-square"></i></span>
+                                <span className="input-group-text"> <i className="fas fa-unlock-alt"></i></span>
                             </div>
-                            <input ref={confirmPasswordInput} type='text' className="form-control" placeholder="New password" />
+                            <input ref={confirmPasswordInput} type='password' className="form-control" placeholder="New password" />
                         </div>
 
                         <div className="form-group">
-                            <LoadingButton type="submit" isLoading={isLoading} text="Change password+" />
+                            <LoadingButton type="submit" isLoading={isLoading} text="Change password" />
                         </div>
                     </form>
                 </div>

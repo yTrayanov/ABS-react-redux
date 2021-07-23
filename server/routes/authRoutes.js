@@ -252,8 +252,7 @@ router.post('/changePassword/:id' , async (req , res) => {
 
   const salt = encryption.generateSalt();
   const hashedPassword = encryption.generateHashedPassword(salt , req.body.password);
-
-  console.log(`${user.hashedPass} ----- ${hashedPassword}`);
+  
   user.salt = salt;
   user.hashedPass = hashedPassword;
   user.save();

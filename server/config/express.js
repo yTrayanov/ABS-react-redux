@@ -5,7 +5,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
 
-const authRoutes = require('../routes/auth');
+const authRoutes = require('../routes/authRoutes');
 const flightRoutes = require('../routes/flightRoutes');
 const createRoutes = require('../routes/createRoutes');
 const ticketRoutes = require('../routes/ticketRoutes');
