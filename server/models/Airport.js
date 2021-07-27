@@ -9,6 +9,14 @@ const airportSchema = new mongoose.Schema({
     }
 })
 
+airportSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+airportSchema.set('toJSON', {
+    virtuals: true
+});
 
 airportSchema.path('name').validate((value) =>{
     return value.match("^[A-Z]+$");

@@ -13,7 +13,7 @@ export default interface IFlight {
     departureDate: Date,
     landingDate:Date,
     flightNumber: string,
-    _id: string,
+    id: string,
     sections:ISection[] | null,
 
 }

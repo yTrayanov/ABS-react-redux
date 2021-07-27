@@ -17,6 +17,15 @@ sectionSchema.path('seatClass').validate(value =>{
     return false;
 });
 
+sectionSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+sectionSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Section = mongoose.model('Section' , sectionSchema);
 
 module.exports = Section;

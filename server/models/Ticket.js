@@ -12,6 +12,15 @@ ticketSchema.pre('remove' , (ticket) =>{
     ticket.seat.isBooked = false;
 })
 
+ticketSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+ticketSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Ticket = mongoose.model('Ticket' , ticketSchema);
 
 module.exports = Ticket;

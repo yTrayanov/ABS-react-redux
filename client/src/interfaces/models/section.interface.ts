@@ -2,7 +2,7 @@ import ISeat from './seat.interface';
 import IFlight from './flight.interface';
 
 export default interface ISection{
-    _id:string,
+    id:string,
     seats:ISeat[],
     rows:number,
     columns:number,

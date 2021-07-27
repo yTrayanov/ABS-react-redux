@@ -24,11 +24,7 @@ router.post('/create', async (req, res) => {
         return Created(res, 'Flight from ' + originAirport.name + ' to ' + destinationAirport.name + ' was created with airline ' + airline.name, flight);
     })
         .catch((e) => {
-            res.status(400).json({
-                success: false,
-                message: 'Flight couldn\'t be created',
-                error: e.message
-            })
+            return BadRequest(res , " Flight could not be created" , e.message);
         })
 });
 

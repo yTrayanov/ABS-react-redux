@@ -3,7 +3,7 @@ import ITicket from "./ticket.interface";
 
 
 export default interface ISeat{
-    _id:string,
+    id:string,
     row:number,
     column:number,
     isBooked:boolean,

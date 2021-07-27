@@ -10,6 +10,15 @@ const seatSchema = new mongoose.Schema({
 })
 
 
+seatSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+seatSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Seat = mongoose.model('Seat' , seatSchema);
 
 module.exports = Seat;

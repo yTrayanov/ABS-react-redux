@@ -10,6 +10,15 @@ const airlineSchema = new mongoose.Schema({
     flights:[{type:mongoose.Schema.Types.ObjectId , ref:'Flight'}]
 });
 
+airlineSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+airlineSchema.set('toJSON', {
+    virtuals: true
+});
+
 airlineSchema.path('name').validate((value) =>{
     return value.match("^[A-Z]+$");
 })

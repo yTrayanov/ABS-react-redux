@@ -10,7 +10,7 @@ export default function AdminFlightView({flight} : {flight:IFlight}) {
     const landingDate = new Date(flight.landingDate);
 
     return (
-        <Link to={`/flight/information/${flight._id}`}>
+        <Link to={`/flight/information/${flight.id}`}>
             <li className="all-flights_flight">
                 <p>{flight.flightNumber}</p>
                 <p>{flight.airline.name}</p>

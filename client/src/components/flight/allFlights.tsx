@@ -21,7 +21,7 @@ export default function AllFlights() {
         setMappedFlights(
             flights?.map((flight) => (
                 <AdminFlightView flight={flight}
-                    key={flight._id} />
+                    key={flight.id} />
             )));
     }, [flights]);
 

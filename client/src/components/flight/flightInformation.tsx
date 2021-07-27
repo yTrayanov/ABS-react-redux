@@ -20,7 +20,7 @@ export default function FlightInformation() {
     }, [dispatch, id]);
 
     React.useEffect(() => {
-        setMappedSections(flightInfo?.sections?.map(s => <SectionInformation key={s._id} section={s} />));
+        setMappedSections(flightInfo?.sections?.map(s => <SectionInformation key={s.id} section={s} />));
     }, [flightInfo]);
 
     return (

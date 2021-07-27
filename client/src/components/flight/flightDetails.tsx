@@ -28,7 +28,7 @@ export default function FlightDetails({ flight, setSeats,shouldShow }: { flight:
             setSeats([...selectedSeats]);
         }
 
-        setMappedSections(flight?.sections?.map(s => <Section key={s._id} section={s} toggleSelect={toggleSelect} />));
+        setMappedSections(flight?.sections?.map(s => <Section key={s.id} section={s} toggleSelect={toggleSelect} />));
     }, [flight , setSeats]);
 
     return (

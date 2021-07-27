@@ -10,7 +10,7 @@ export default function Section({ section , toggleSelect}:{section:ISection , to
 
 
     React.useEffect(() => {
-        setMappedSeats(section.seats?.map(s =>  <Seat key={s._id} seat={s} toggleSelect={toggleSelect}  />))
+        setMappedSeats(section.seats?.map(s =>  <Seat key={s.id} seat={s} toggleSelect={toggleSelect}  />))
     },[section , toggleSelect]);
 
     return (

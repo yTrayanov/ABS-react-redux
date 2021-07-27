@@ -10,6 +10,15 @@ const flightSchema = new mongoose.Schema({
     sections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section' }]
 })
 
+flightSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+flightSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Flight = mongoose.model('Flight', flightSchema);
 
 Flight.isAvailable = async (id) => {

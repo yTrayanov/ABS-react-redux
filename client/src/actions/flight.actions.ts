@@ -18,12 +18,14 @@ export const requestFlightsByIds = (ids:string[]) => (dispatch:any) => {
 }
 
 export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string, returnDate?: string, membersCount?: string) => (dispatch: any) => {
+
     dispatch(filteredFlightsActions.request());
 
     if (!membersCount) membersCount = '1';
 
     getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
         .then(response => {
+            console.log(response);
             if (!response.success) {
                 dispatch(filteredFlightsActions.failure());
             }

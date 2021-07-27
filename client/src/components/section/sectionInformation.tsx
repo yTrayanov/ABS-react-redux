@@ -3,7 +3,7 @@ import SeatInformation from "./seatInformation";
 
 export default function SectionInformation({section}:{section:ISection}) {
 
-    const mappedSeats = section.seats?.map(s => <SeatInformation key={s._id} seat={s} />);    
+    const mappedSeats = section.seats?.map(s => <SeatInformation key={s.id} seat={s} />);    
 
     return (
         <div>

@@ -19,7 +19,7 @@ export default function FlightView({flights , oneWay , membersCount} : {flights:
 
     return (
         <li>
-            <Link to={{pathname:'flight/reserve' , state:{flightIds:flights.map(f => f._id) , oneWay:oneWay , membersCount:membersCount }}} className="btn btn-primary" > {">"} </Link>
+            <Link to={{pathname:'flight/reserve' , state:{flightIds:flights.map(f => f.id) , oneWay:oneWay , membersCount:membersCount }}} className="btn btn-primary" > {">"} </Link>
             {mappedFlights ? mappedFlights : null}
         </li>
     )

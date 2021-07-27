@@ -51,7 +51,7 @@ export default function SeatPicker() {
         }));
 
         setMappedFlights(flights?.map((flight, index) => {
-            return (<FlightDetails key={flight._id} flight={flight}
+            return (<FlightDetails key={flight.id} flight={flight}
                 setSeats={index === 0 ? setToDestinationSeats : setReturnSeats}
                 shouldShow={index === 0 ? (selectedReturnSeats ? false : true) : (selectedReturnSeats ? true : false)} />)
         }));
