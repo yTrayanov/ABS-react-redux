@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { getIsRegistering } from '../../store/reducers/authReducer';
 import { register } from '../../actions/auth.actions';
@@ -40,8 +40,6 @@ export default function Register() {
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
-
-    const isLoading = useSelector(getIsRegistering);
 
     const [state, innerDispatch] = React.useReducer(reducer, initialState);
 
@@ -110,7 +108,7 @@ export default function Register() {
                         </div>
                         {state.passwordError ? <span>{state.passwordError}</span> : null}
                         <div className="form-group">
-                            <LoadingButton text="Sign Up" isLoading={isLoading} type="submit" />
+                            <LoadingButton text="Sign Up" loadingSelector={getIsRegistering} type="submit" />
                         </div>
                     </form>
                 </div>

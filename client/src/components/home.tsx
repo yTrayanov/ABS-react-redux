@@ -13,7 +13,6 @@ export default function Home() {
     const dispatch = useDispatch();
     const [oneWay, setOneWay] = React.useState<boolean>(true);
     const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
-    const isLoading = useSelector(getIsLoadingFilteredFlights);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
@@ -75,7 +74,7 @@ export default function Home() {
 
                     <input type="Number" className="form-control" placeholder="Members" ref={membersInput}></input>
 
-                    <LoadingButton type="submit" text="Search" isLoading={isLoading}/>
+                    <LoadingButton type="submit" text="Search" loadingSelector={getIsLoadingFilteredFlights}/>
                 </form>
             </div>
 

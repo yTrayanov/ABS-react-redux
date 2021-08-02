@@ -104,8 +104,7 @@ export default function SeatPicker() {
                     <button className="btn btn-primary" onClick={handleClick}>Continue</button>
                 </div>
                 <div className="reserves_flights">
-                    {(mappedFlights && !isLoading) ? mappedFlights : 'Something went wrong'}
-                    {isLoading && "Loading..."}
+                    {isLoading ? "Loading..." : mappedFlights ? mappedFlights : 'There are no flights'}
                 </div>
             </div>
         </div>

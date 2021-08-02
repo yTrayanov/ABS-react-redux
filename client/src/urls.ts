@@ -17,7 +17,7 @@ export const CREATE_FLIGHT_URL:string = FLIGHT_BASE_URL + 'create';
 export const getFilterdFlightsUrl = (originAirport:string , destinationAirport:string , departureDate:string ,membersCount:string ,returnDate?:string | null) => FLIGHT_BASE_URL + `filter/${originAirport}/${destinationAirport}/${departureDate}/${membersCount}/${returnDate ? returnDate : ''}`;
 export const getFlightDetailsUrl = (flightId:string[] | string) => FLIGHT_BASE_URL + flightId; 
 export const ALL_FLIGHTS_URL = FLIGHT_BASE_URL + "information/all";
-export const getFlightInformationUrl = (flightId:string) => FLIGHT_BASE_URL + `/information/${flightId}`;
+export const getFlightInformationUrl = (flightId:string) => FLIGHT_BASE_URL + `information/${flightId}`;
 
 //sections
 //export const CREATE_SECTION_URL:string = SECTION_BASE_URL + 'create';

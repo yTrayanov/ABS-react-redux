@@ -12,8 +12,6 @@ export default function Login() {
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
-
-    const isLogging = useSelector(getIsLogging);
     const loggingError = useSelector(getLogginError);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +42,7 @@ export default function Login() {
                     </div>
                     <Link to="/forgotten-password">Forgot password?</Link>
                     <div className="form-group">
-                        <LoadingButton type="submit" isLoading={isLogging} text="Sign In" />
+                        <LoadingButton type="submit" loadingSelector={getIsLogging} text="Sign In" />
                     </div>
                 </form>
                 {loggingError ? <span>{loggingError}</span> : null}

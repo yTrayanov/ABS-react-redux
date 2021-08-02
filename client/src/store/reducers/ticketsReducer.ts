@@ -43,6 +43,7 @@ export const ticketsReducer = (state = initialState, action: IAction) => {
 }
 
 export const getUserTickets = (state: any) => state.tickets.userTickets.data;
+export const getIsLoadingUserTickets = (state:any) => state.tickets.userTickets.isLoading;
 export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
 export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data;

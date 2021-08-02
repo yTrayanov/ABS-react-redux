@@ -13,5 +13,7 @@ export const requestCreateSection = (rows:number, columns:number, seatClass:stri
             dispatch(createSectionActions.success());
             alert("Section created");
             callback();
+        }).catch(err => {
+            dispatch(createSectionActions.failure(err.message));
         })
 }

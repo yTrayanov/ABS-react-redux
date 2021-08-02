@@ -9,9 +9,11 @@ import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/tic
 import { requestCreateTickets } from '../../actions/ticket.action';
 import LoadingButton from '../loadingButton';
 
-interface ILocation{
-    state:string[]
+interface ILocation {
+    state: string[]
 }
+
+export const SeatHoldersContext = React.createContext<any>(null);
 
 export default function TicketRegistrationForms() {
     const location: ILocation = useLocation();
@@ -24,20 +26,14 @@ export default function TicketRegistrationForms() {
 
     const [seats, setSeats] = React.useState<ISeat[][]>(useSelector(getSelectedSeats));
 
-
-    const changeSeats = React.useCallback((seats: ISeat[][]) => {
-        setSeats(seats);
-    }, [])
-
-    const isLoading: boolean = useSelector(getIsCreatingTickets);
-
-    const incrementFilledFomrsCount = React.useCallback((n: number) => {
+    const incrementFilledFormsCount = React.useCallback((n: number) => {
         setFilledFormsCount(c => c + n);
     }, []);
 
+    
     React.useEffect(() => {
-        setMappedForms(flightIds?.map((id, index) => <SeatHoldersForm key={id} incrementFilledFomrsCount={incrementFilledFomrsCount} changeSeats={changeSeats} currentSeats={seats[index]} index={index} allSeats={seats} />))
-    }, [flightIds, incrementFilledFomrsCount, changeSeats, seats])
+        setMappedForms(flightIds?.map((id, index) => <SeatHoldersForm key={id} currentSeats={seats[index]} index={index}/>))
+    }, [flightIds, seats])
 
 
     const bookSeats = React.useCallback((event: React.FormEvent<HTMLButtonElement>) => {
@@ -50,7 +46,7 @@ export default function TicketRegistrationForms() {
         }, 0);
 
         if (filledFormsCount === formsCount) {
-            dispatch(requestCreateTickets(flightIds, seats , history));
+            dispatch(requestCreateTickets(flightIds, seats, history));
 
         }
         else {
@@ -63,8 +59,14 @@ export default function TicketRegistrationForms() {
     return (
         <div className="center-horizontally">
             <div className="ticket-registration">
-                {mappedForms ? mappedForms : null}
-                <LoadingButton text="Purchase" onClick={bookSeats} isLoading={isLoading} />
+                <SeatHoldersContext.Provider value={{
+                    incrementFilledFormsCount,
+                    setSeats,
+                    allSeats: seats
+                }} >
+                    {mappedForms ? mappedForms : null}
+                </SeatHoldersContext.Provider>
+                <LoadingButton text="Purchase" onClick={bookSeats} loadingSelector={getIsCreatingTickets} />
             </div>
         </div>
     )

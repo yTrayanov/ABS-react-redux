@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { getIsCreatingFlight } from '../../store/reducers/flightReducer';
 import {requestCreateFlight} from '../../actions/flight.actions';
@@ -13,8 +13,6 @@ export default function CreateFlight() {
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const landingDateInput = React.useRef<HTMLInputElement>(null);
-
-    const isLoading = useSelector(getIsCreatingFlight);
 
 
     const clearForm = React.useCallback(() => {
@@ -97,7 +95,7 @@ export default function CreateFlight() {
                         </div>
 
                         <div className="form-group">
-                            <LoadingButton type="submit" isLoading={isLoading} text="Create" />
+                            <LoadingButton type="submit" loadingSelector={getIsCreatingFlight} text="Create" />
                         </div>
                     </form>
                 </div>

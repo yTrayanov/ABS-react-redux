@@ -14,6 +14,8 @@ export const requestUserTickets = () => (dispatch: any) => {
         }
 
         dispatch(userTicketsActions.success(response.data));
+    }).catch(err => {
+        dispatch(userTicketsActions.failure(err.message));
     });
 }
 
@@ -28,5 +30,7 @@ export const requestCreateTickets = (flightIds: string[], seats: ISeat[][] , his
             }
             dispatch(createTicketActions.success());
             history.push('/');
+        }).catch(err => {
+            dispatch(createTicketActions.failure(err.message));
         })
 }

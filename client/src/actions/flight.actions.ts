@@ -14,6 +14,8 @@ export const requestFlightsByIds = (ids:string[]) => (dispatch:any) => {
         }
 
         dispatch(getFlightsByIdsActions.success(response.data));
+    }).catch(err => {
+        dispatch(getFlightsByIdsActions.failure(err.message));
     })
 }
 
@@ -28,7 +30,12 @@ export const requestFilteredFlights = (originAirport: string, destinationAirport
             if (!response.success) {
                 dispatch(filteredFlightsActions.failure());
             }
+
+            console.log(response);
             dispatch(filteredFlightsActions.success(response.data));
+        })
+        .catch(err => {
+            dispatch(filteredFlightsActions.failure(err.message));
         })
 
 }
@@ -44,6 +51,8 @@ export const requestCreateFlight = (originAirport: string, destinationAirport: s
                 dispatch(createFlightActions.success(response));
                 clearForm();
                 alert('Flight created');
+            }).catch(err => {
+                dispatch(createFlightActions.failure(err.message));
             })
     }
 
@@ -57,6 +66,8 @@ export const requestAllFlights = () => (dispatch: any) => {
         }
 
         dispatch(allFlightsActions.success(response.data));
+    }).catch(err => {
+        dispatch(allFlightsActions.failure(err.message));
     })
 }
 
@@ -72,5 +83,7 @@ export const requestFlightInformation = (id: string) => (dispatch: any) => {
         }
         dispatch(flightInformationActions.success(response.data));
 
+    }).catch(err => {
+        dispatch(flightInformationActions.failure(err.message));
     })
 }

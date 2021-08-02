@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { requestForgottenPassword } from '../../actions/auth.actions';
 import {getIsSendingEmail } from '../../store/reducers/authReducer';
 import { ValidateEmail } from '../../utils/validator';
@@ -13,7 +13,6 @@ export default function ForgottenPasswordForm() {
     const [emailLink , setEmailLink] = React.useState("");
 
     const emailInput = React.useRef<HTMLInputElement>(null);
-    const isLoading = useSelector(getIsSendingEmail);
 
     React.useEffect(() => {
         console.log(emailLink);
@@ -42,7 +41,7 @@ export default function ForgottenPasswordForm() {
                         </div>
 
                         <div className="form-group">
-                            <LoadingButton type="submit" isLoading={isLoading} text="Continue" />
+                            <LoadingButton type="submit" loadingSelector={getIsSendingEmail} text="Continue" />
                         </div>
                     </form>
                     {emailLink ? <a href={emailLink} >Email here</a> : null}

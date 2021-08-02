@@ -13,6 +13,7 @@ export const login = (username: string, password: string, history: any) => (disp
                 return;
             }
 
+            console.log(response);
             window.localStorage.setItem('token', response.data.token);
 
             dispatch(loginActions.success({ token: response.data.token, isLogged: true, isAdmin: response.data.isAdmin }));
@@ -38,6 +39,8 @@ export const logout = () => (dispatch: any) => {
         window.localStorage.clear();
         dispatch({ type: "CLEAR" });
         dispatch(logoutActions.success({ isLogged: false, isAdmin: false, token: "" }));
+    }).catch(err => {
+        dispatch(logoutActions.failure(err.message));
     });
 }
 
@@ -53,6 +56,8 @@ export const register = (username: string, password: string, email: string , his
 
             dispatch(registerActions.success())
             history.push('/login');
+        }).catch(err => {
+            dispatch(registerActions.failure(err.message));
         })
 }
 
@@ -77,6 +82,8 @@ export const requestStats = () => (dispatch: any) => {
                     localStorage.clear();
                     dispatch(loginActions.success({ token: token, isLogged: true, isAdmin: response.data?.isAdmin }));
                 }
+            }).catch(err => {
+                dispatch(loginActions.failure(err.message));
             });
 }
 
@@ -95,10 +102,12 @@ export const requestForgottenPassword = (email: string, setEmailLink: any) => (d
 
         dispatch(forgottenPasswordActions.success());
         setEmailLink(response.data);
+    }).catch(err => {
+        dispatch(forgottenPasswordActions.failure(err.message));
     })
 }
 
-export const requestChangePassword = (password: string, requestId: string) => (dispatch: any) => {
+export const requestChangePassword = (password: string, requestId: string , history:any) => (dispatch: any) => {
     dispatch(changingPasswordActions.request());
 
     postRequest(getChangePasswordUrl(requestId), { password }).then(response => {
@@ -108,5 +117,8 @@ export const requestChangePassword = (password: string, requestId: string) => (d
         }
 
         dispatch(changingPasswordActions.success());
+        history.push('/login');
+    }).catch(err => {
+        dispatch(changingPasswordActions.failure(err.message));
     })
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { getIsCreatingSection } from '../../store/reducers/sectionReducer';
 import { requestCreateSection } from '../../actions/section.action';
@@ -12,8 +12,6 @@ export default function CreateSection() {
     const columnsInput = React.useRef<HTMLInputElement>(null);
     const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
-
-    const isLoading:boolean = useSelector(getIsCreatingSection);
     
     const clearForm = React.useCallback(() => {
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
@@ -80,7 +78,7 @@ export default function CreateSection() {
                         </div>
 
                         <div className="form-group">
-                            <LoadingButton type="submit" isLoading={isLoading} text="Create" />
+                            <LoadingButton type="submit" loadingSelector={getIsCreatingSection} text="Create" />
                         </div>
                     </form>
                 </div>
@@ -89,6 +87,3 @@ export default function CreateSection() {
         </div>
     )
 }
-
-//<input type='text'  placeholder="Seat Class" ref={seatClassInput} />
-//

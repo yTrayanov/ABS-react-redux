@@ -4,7 +4,7 @@ import ISeat from "../../interfaces/models/seat.interface";
 
 import TicketForm from './ticketForm';
 
-export default function SeatHoldersForm({incrementFilledFomrsCount , changeSeats , currentSeats , allSeats , index} : {incrementFilledFomrsCount:(n:number) => void , changeSeats:(seats:ISeat[][]) => void , currentSeats:ISeat[] , allSeats:ISeat[][] , index:number}) {
+export default function SeatHoldersForm({ currentSeats , index} : { currentSeats:ISeat[] ,  index:number}) {
 
 
     const [mappedSeats, setMappedSeats] = React.useState<object[]>([]);
@@ -12,8 +12,8 @@ export default function SeatHoldersForm({incrementFilledFomrsCount , changeSeats
     
     React.useEffect(() => {
         setMappedSeats(currentSeats?.map(s =>
-             <TicketForm key={s.id} currentSeat={s} allSeats={allSeats} index={index} changeSeats={changeSeats} incrementFilledFomrsCount={incrementFilledFomrsCount} />))
-    }, [currentSeats, incrementFilledFomrsCount, changeSeats , allSeats , index])
+             <TicketForm key={s.id} currentSeat={s}  index={index}  />))
+    }, [currentSeats , index])
 
 
     return (

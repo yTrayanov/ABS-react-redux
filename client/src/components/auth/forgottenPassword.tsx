@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { requestChangePassword } from '../../actions/auth.actions';
 import { getIsChangingPassowrd } from '../../store/reducers/authReducer';
@@ -11,8 +11,6 @@ export default function ForgottenPassword () {
     const history = useHistory();
     const id = params.id;
 
-    const isLoading = useSelector(getIsChangingPassowrd);
-
     const passwordInput = React.useRef<HTMLInputElement>(null);
     const confirmPasswordInput = React.useRef<HTMLInputElement>(null);
 
@@ -21,11 +19,7 @@ export default function ForgottenPassword () {
         event.preventDefault();
 
         if(passwordInput.current && confirmPasswordInput.current && passwordInput.current.value === confirmPasswordInput.current.value){
-            dispatch(requestChangePassword(passwordInput.current.value , id));
-
-            if(!isLoading){
-                history.push('/login');
-            }
+            dispatch(requestChangePassword(passwordInput.current.value , id , history));
         }
 
     }
@@ -52,7 +46,7 @@ export default function ForgottenPassword () {
                         </div>
 
                         <div className="form-group">
-                            <LoadingButton type="submit" isLoading={isLoading} text="Change password" />
+                            <LoadingButton type="submit" loadingSelector={getIsChangingPassowrd} text="Change password" />
                         </div>
                     </form>
                 </div>
