@@ -2,8 +2,8 @@ const BASE_URL:string = 'http://localhost:5000/';
 const AUTH_BASE_URL:string = BASE_URL + 'auth/';
 const FLIGHT_BASE_URL:string = BASE_URL + 'flight/';
 const TICKET_BASE_URL:string = BASE_URL + 'ticket/';
-const SECTION_BASE_URL:string = BASE_URL + 'section/';
-// const CREATE_BASE_URL = BASE_URL + 'create/';
+//const SECTION_BASE_URL:string = BASE_URL + 'section/';
+const CREATE_BASE_URL = BASE_URL + 'create/';
 
 //auth
 export const LOGIN_URL:string = AUTH_BASE_URL + 'login';
@@ -20,7 +20,8 @@ export const ALL_FLIGHTS_URL = FLIGHT_BASE_URL + "information/all";
 export const getFlightInformationUrl = (flightId:string) => FLIGHT_BASE_URL + `/information/${flightId}`;
 
 //sections
-export const CREATE_SECTION_URL:string = SECTION_BASE_URL + 'create';
+//export const CREATE_SECTION_URL:string = SECTION_BASE_URL + 'create';
+export const CREATE_SECTION_URL:string = CREATE_BASE_URL + 'section';
 
 //tickets
 export const USER_TICKETS_URL:string =  TICKET_BASE_URL + 'user';

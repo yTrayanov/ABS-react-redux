@@ -149,7 +149,8 @@ router.post('/login', (req, res, next) => {
 
     const data = {
       username: user.username,
-      isAdmin: user.roles.indexOf('Admin') != -1
+      isAdmin: user.roles.indexOf('Admin') != -1,
+      token
     }
 
     res.cookie('passport', user._id);
@@ -157,14 +158,13 @@ router.post('/login', (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: 'You have successfully logged in!',
-      token,
-      user: data,
+      data,
     });
 
   })(req, res, next)
 });
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   if (req.isAuthenticated()) {
     req.logOut();
   }
@@ -177,7 +177,7 @@ router.post('/logout', (req, res) => {
   })
 })
 
-router.post('/stat', tokenDecoder, (req, res) => {
+router.get('/stat', tokenDecoder, (req, res) => {
 
   if (!req.user) return Ok(res, 'No user');
 

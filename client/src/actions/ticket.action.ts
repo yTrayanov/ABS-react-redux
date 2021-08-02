@@ -17,7 +17,7 @@ export const requestUserTickets = () => (dispatch: any) => {
     });
 }
 
-export const requestCreateTickets = (flightIds: string[], seats: ISeat[][] ) => (dispatch: any) => {
+export const requestCreateTickets = (flightIds: string[], seats: ISeat[][] , history:any ) => (dispatch: any) => {
     dispatch(createTicketActions.request());
 
     postRequest(CREATE_TICKET_URL, { flightIds, seats })
@@ -27,5 +27,6 @@ export const requestCreateTickets = (flightIds: string[], seats: ISeat[][] ) => 
                 return;
             }
             dispatch(createTicketActions.success());
+            history.push('/');
         })
 }

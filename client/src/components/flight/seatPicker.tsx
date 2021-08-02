@@ -10,6 +10,7 @@ import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
 import { getIsLogged } from '../../store/reducers/authReducer';
 
 import { requestFlightsByIds } from '../../actions/flight.actions';
+import { getIsGettingFlightsByIds } from '../../store/reducers/flightReducer';
 
 import FlightDetails from './flightDetails';
 
@@ -33,6 +34,7 @@ export default function SeatPicker() {
 
     const isLogged = useSelector(getIsLogged);
     const flights: IFlight[] = useSelector(getFlightsByIds);
+    const isLoading:boolean = useSelector(getIsGettingFlightsByIds);
 
     const { flightIds, oneWay, membersCount }= location.state;
 
@@ -102,7 +104,8 @@ export default function SeatPicker() {
                     <button className="btn btn-primary" onClick={handleClick}>Continue</button>
                 </div>
                 <div className="reserves_flights">
-                    {mappedFlights ? mappedFlights : 'Something went wrong'}
+                    {(mappedFlights && !isLoading) ? mappedFlights : 'Something went wrong'}
+                    {isLoading && "Loading..."}
                 </div>
             </div>
         </div>

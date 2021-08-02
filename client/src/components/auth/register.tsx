@@ -75,11 +75,7 @@ export default function Register() {
                 return;
             }
 
-            reduxDispatch(register(usernameInput.current.value , passwordInput.current.value , emailInput.current.value));
-            
-            if(!isLoading){
-                history.push('./login')
-            }
+            reduxDispatch(register(usernameInput.current.value , passwordInput.current.value , emailInput.current.value , history));
         }
 
     }

@@ -50,17 +50,14 @@ export default function TicketRegistrationForms() {
         }, 0);
 
         if (filledFormsCount === formsCount) {
-            dispatch(requestCreateTickets(flightIds, seats));
-
-            if(!isLoading)
-                history.push('/');
+            dispatch(requestCreateTickets(flightIds, seats , history));
 
         }
         else {
             alert('Please fill all fields');
         }
 
-    }, [filledFormsCount, seats, dispatch, flightIds, history ,isLoading])
+    }, [filledFormsCount, seats, dispatch, flightIds, history])
 
 
     return (

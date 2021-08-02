@@ -64,3 +64,4 @@ export const getIsCreatingFlight = (state: any) => state.flights.createFlight.is
 export const getAllFlights = (state: any) => state.flights.allFlights?.data;
 export const getFlightInformation = (state: any) => state.flights.flightInformation?.data;
 export const getFlightsByIds = (state:any) => state.flights.getFlight.data;
+export const getIsGettingFlightsByIds = (state:any) => state.flights.getFlight.isLoading;

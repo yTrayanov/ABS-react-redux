@@ -25,7 +25,6 @@ export const requestFilteredFlights = (originAirport: string, destinationAirport
 
     getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
         .then(response => {
-            console.log(response);
             if (!response.success) {
                 dispatch(filteredFlightsActions.failure());
             }

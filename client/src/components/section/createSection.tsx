@@ -65,8 +65,8 @@ export default function CreateSection() {
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-users-class"></i> </span>
                             </div>
-                            <select className="form-control" ref={seatClassInput}>
-                                <option value="first" selected >FIRST</option>
+                            <select className="form-control" defaultValue="FIRST" ref={seatClassInput}>
+                                <option value="first" >FIRST</option>
                                 <option value="bussiness">BUSSINESS</option>
                                 <option value="economy">ECONOMY</option>
                             </select>

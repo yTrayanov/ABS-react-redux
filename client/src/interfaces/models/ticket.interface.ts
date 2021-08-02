@@ -3,7 +3,7 @@ import ISeat from './seat.interface';
 import IUser from './user.interface';
 
 export default interface ITicket{
-    ticketId:string,
+    id:string,
     flight:IFlight,
     seat:ISeat,
     passengerName:string,

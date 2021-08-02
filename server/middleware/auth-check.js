@@ -29,6 +29,8 @@ const AuthCheck = (req, res, next) => {
 
 const tokenDecoder = (req , res , next) =>{
 
+  
+  console.log('here');
   if(req.user){
     next();
   }
@@ -37,7 +39,7 @@ const tokenDecoder = (req , res , next) =>{
     next();
   }
 
-  const token = req.headers.authorization;
+  const token = req.headers.authorization.split(' ')[1];
 
   jwt.verify(token , 's0m3 r4nd0m str1ng' , (err , decoded) =>{
 

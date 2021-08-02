@@ -27,7 +27,6 @@ export default function TicketForm({ currentSeat, allSeats, incrementFilledFomrs
             <div className='row'>
                 <div className="col-lg-4">
                     <p>{currentSeat.seatNumber}</p>
-                    <p>{currentSeat.section.seatClass}</p>
                 </div>
                 <div className="col-lg-6">
                     <div className="form-group input-group">
