@@ -13,7 +13,6 @@ export const login = (username: string, password: string, history: any) => (disp
                 return;
             }
 
-            console.log(response);
             window.localStorage.setItem('token', response.data.token);
 
             dispatch(loginActions.success({ token: response.data.token, isLogged: true, isAdmin: response.data.isAdmin }));

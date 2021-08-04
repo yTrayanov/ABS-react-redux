@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import {authReducer} from './reducers/authReducer';
 import { ticketsReducer } from './reducers/ticketsReducer';
 import { sectionReducer } from './reducers/sectionReducer';
-import {flightReducer} from './reducers/flightReducer'
+import {flightReducer} from './reducers/flightReducer';
 
 
 const appReducer = combineReducers({

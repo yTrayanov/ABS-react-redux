@@ -110,13 +110,11 @@ router.post('/login', (req, res, next) => {
 
     const data = {
       token,
-      user: {
-        username: req.user.username,
-        isAdmin: req.user.roles.indexOf('Admin') != -1
-      }
+      username: req.user.username,
+      isAdmin: req.user.roles.indexOf('Admin') != -1
     }
 
-    return Ok(res, 'You have successfully logged in!',data)
+    return Ok(res, 'You have successfully logged in!', data)
   }
 
   const validationResult = validateLoginForm(req.body)

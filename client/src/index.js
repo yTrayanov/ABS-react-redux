@@ -5,10 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { store } from './store/storeRTK';
 import { getInitialStat } from './actions/auth.actions';
 
-store.dispatch(getInitialStat);
+//store.dispatch(getInitialStat);
 
 ReactDOM.render(
   <Router>

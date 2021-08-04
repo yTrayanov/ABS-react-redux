@@ -1,24 +1,25 @@
 import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsLogging, getLogginError } from '../../store/reducers/authReducer';
-import { login } from '../../actions/auth.actions';
+import { requestLogin } from '../../actionsWithRTK/auth.actions';
 import LoadingButton from '../loadingButton';
+import  {getIsLogging, getLogginError } from '../../store/slices/authSlice';
 
 export default function Login() {
     const dispatch = useDispatch();
-    const history = useHistory();
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
     const loggingError = useSelector(getLogginError);
 
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (usernameInput.current && passwordInput.current)
-            dispatch(login(usernameInput.current.value, passwordInput.current.value, history));
+            dispatch(requestLogin({username:usernameInput.current.value ,password:passwordInput.current.value})); 
+
     }
 
     return (
