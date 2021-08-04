@@ -11,6 +11,7 @@ export const REGISTER_URL:string = AUTH_BASE_URL + 'register';
 export const LOGOUT_URL:string = AUTH_BASE_URL + 'logout';
 export const FORGOTTEN_PASSWORD_URL:string = AUTH_BASE_URL + 'forgottenPassword';
 export const getChangePasswordUrl = (id:string) => AUTH_BASE_URL + `changePassword/${id}`;
+export const STAT_URL =  AUTH_BASE_URL + 'stat';
 
 //flight
 export const CREATE_FLIGHT_URL:string = FLIGHT_BASE_URL + 'create';

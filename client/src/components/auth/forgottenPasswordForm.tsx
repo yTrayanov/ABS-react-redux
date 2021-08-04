@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { requestForgottenPassword } from '../../actions/auth.actions';
-import {getIsSendingEmail } from '../../store/reducers/authReducer';
+import { requestForgottenPassword } from '../../actionsWithRTK/auth.actions';
+import {getIsSendingEmail } from '../../store/slices/authSlice';
 import { ValidateEmail } from '../../utils/validator';
 
 import LoadingButton from '../loadingButton';
@@ -14,15 +14,11 @@ export default function ForgottenPasswordForm() {
 
     const emailInput = React.useRef<HTMLInputElement>(null);
 
-    React.useEffect(() => {
-        console.log(emailLink);
-    },[emailLink]);
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if(emailInput.current && ValidateEmail(emailInput.current.value)){
-            dispatch(requestForgottenPassword(emailInput.current.value , setEmailLink));
+            dispatch(requestForgottenPassword({email:emailInput.current.value , setEmailLink}));
         }
     }
 

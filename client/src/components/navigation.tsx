@@ -1,13 +1,11 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsLogged, getIsAdmin } from '../store/slices/authSlice';
 import { requestLogout } from '../actionsWithRTK/auth.actions';
 
 export default function Navigation() {
     const dispatch = useDispatch();
-    const history = useHistory();
-
 
     const isLogged: boolean = useSelector(getIsLogged);
     const isAdmin: boolean = useSelector(getIsAdmin);
@@ -16,8 +14,6 @@ export default function Navigation() {
     const Logout = (event: React.MouseEvent) => {
         event.preventDefault();
         dispatch(requestLogout([]));
-
-
     }
 
     return (

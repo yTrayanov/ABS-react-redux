@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { requestChangePassword } from '../../actions/auth.actions';
-import { getIsChangingPassowrd } from '../../store/reducers/authReducer';
+import { requestChangePassword } from '../../actionsWithRTK/auth.actions';
+import { getIsChangingPassowrd } from '../../store/slices/authSlice';
 import LoadingButton from '../loadingButton';
 
 export default function ForgottenPassword () {
@@ -19,7 +19,7 @@ export default function ForgottenPassword () {
         event.preventDefault();
 
         if(passwordInput.current && confirmPasswordInput.current && passwordInput.current.value === confirmPasswordInput.current.value){
-            dispatch(requestChangePassword(passwordInput.current.value , id , history));
+            dispatch(requestChangePassword({password:passwordInput.current.value ,requestId:id} ));
         }
 
     }
