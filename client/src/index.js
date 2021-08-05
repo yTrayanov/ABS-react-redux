@@ -5,8 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import { store } from './store/storeRTK';
-import { getInitialStat } from './actionsWithRTK/auth.actions';
+import { store } from './store/store';
+import { getInitialStat } from './actions/auth.actions';
 
 store.dispatch(getInitialStat);
 

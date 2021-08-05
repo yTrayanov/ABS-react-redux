@@ -5,12 +5,11 @@ import { useLocation, useHistory } from "react-router-dom"
 import IFlight from '../../interfaces/models/flight.interface';
 import ISeat from '../../interfaces/models/seat.interface';
 
-import { getFlightsByIds } from '../../store/reducers/flightReducer';
-import { selectSeatsActions } from '../../store/reducers/ticketsReducer';
-import { getIsLogged } from '../../store/reducers/authReducer';
+import { getFlightsByIds, getIsGettingFlightsByIds } from '../../store/slices/flightSlice';
+import { selectSeats } from '../../store/slices/ticketSlice';
+import { getIsLogged } from '../../store/slices/authSlice';
 
 import { requestFlightsByIds } from '../../actions/flight.actions';
-import { getIsGettingFlightsByIds } from '../../store/reducers/flightReducer';
 
 import FlightDetails from './flightDetails';
 
@@ -36,10 +35,10 @@ export default function SeatPicker() {
     const flights: IFlight[] = useSelector(getFlightsByIds);
     const isLoading:boolean = useSelector(getIsGettingFlightsByIds);
 
-    const { flightIds, oneWay, membersCount }= location.state;
+    const { flightIds, oneWay, membersCount } = location.state;
 
     React.useEffect(() => {
-        dispatch(requestFlightsByIds(flightIds));
+        dispatch(requestFlightsByIds({ids:flightIds}));
     }, [dispatch, flightIds])
 
 
@@ -87,7 +86,7 @@ export default function SeatPicker() {
                 return;
             }
 
-            dispatch({ type: selectSeatsActions.SUCCESS, payload: [toDestinationSeats, returnSeats] });
+            dispatch(selectSeats([toDestinationSeats, returnSeats]));
             history.push(`/flight/ticketsForms`, flightIds);
         }
         else {

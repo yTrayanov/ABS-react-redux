@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingSection } from '../../store/reducers/sectionReducer';
-import { requestCreateSection } from '../../actions/section.action';
+import { getIsCreatingSection , getHasCreatedSection , getCreateSectionError } from '../../store/slices/sectionSlice';
+import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
 
 export default function CreateSection() {
@@ -12,27 +12,34 @@ export default function CreateSection() {
     const columnsInput = React.useRef<HTMLInputElement>(null);
     const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
-    
-    const clearForm = React.useCallback(() => {
+
+    const hasCreatedSection = useSelector(getHasCreatedSection);
+    const error = useSelector(getCreateSectionError);
+
+    if(hasCreatedSection)
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
             rowsInput.current.value = '';
             columnsInput.current.value = '';
             seatClassInput.current.value = '';
             flightNumberInput.current.value = '';
         }
-    }, []);
 
 
-    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
-            const rows:number = Number.parseInt(rowsInput.current.value);
-            const columns:number = Number.parseInt(columnsInput.current.value);
-            const seatClass:string = seatClassInput.current.value;
-            const flightNumber:string = flightNumberInput.current.value;
+            const rows: number = Number.parseInt(rowsInput.current.value);
+            const columns: number = Number.parseInt(columnsInput.current.value);
+            const seatClass: string = seatClassInput.current.value;
+            const flightNumber: string = flightNumberInput.current.value;
 
-            dispatch(requestCreateSection(rows, columns, seatClass, flightNumber, clearForm));
+            dispatch(requestCreateSection({
+                rows,
+                columns,
+                seatClass,
+                flightNumber
+            }));
         }
 
     }
@@ -80,6 +87,7 @@ export default function CreateSection() {
                         <div className="form-group">
                             <LoadingButton type="submit" loadingSelector={getIsCreatingSection} text="Create" />
                         </div>
+                        {error ? <p>{error}</p> : null}
                     </form>
                 </div>
             </div>

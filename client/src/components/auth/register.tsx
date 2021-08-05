@@ -3,7 +3,7 @@ import {useHistory } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
 
 import { getIsRegistering , getHasRegistered } from '../../store/slices/authSlice';
-import { requestRegister } from '../../actionsWithRTK/auth.actions';
+import { requestRegister } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import { ValidateEmail } from '../../utils/validator';
 

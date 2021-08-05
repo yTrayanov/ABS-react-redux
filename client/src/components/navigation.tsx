@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsLogged, getIsAdmin } from '../store/slices/authSlice';
-import { requestLogout } from '../actionsWithRTK/auth.actions';
+import { requestLogout } from '../actions/auth.actions';
 
 export default function Navigation() {
     const dispatch = useDispatch();

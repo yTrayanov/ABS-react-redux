@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { requestChangePassword } from '../../actionsWithRTK/auth.actions';
+import { requestChangePassword } from '../../actions/auth.actions';
 import { getIsChangingPassowrd } from '../../store/slices/authSlice';
 import LoadingButton from '../loadingButton';
 

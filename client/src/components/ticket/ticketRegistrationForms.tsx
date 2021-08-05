@@ -5,8 +5,8 @@ import { useLocation, useHistory } from 'react-router-dom';
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
-import { getIsCreatingTickets, getSelectedSeats } from '../../store/reducers/ticketsReducer';
-import { requestCreateTickets } from '../../actions/ticket.action';
+import { getIsCreatingTickets, getSelectedSeats , getHasBookedSeats } from '../../store/slices/ticketSlice';
+import { requestCreateTickets } from '../../actions/ticket.actions';
 import LoadingButton from '../loadingButton';
 
 interface ILocation {
@@ -30,9 +30,10 @@ export default function TicketRegistrationForms() {
         setFilledFormsCount(c => c + n);
     }, []);
 
-    
+
     React.useEffect(() => {
-        setMappedForms(flightIds?.map((id, index) => <SeatHoldersForm key={id} currentSeats={seats[index]} index={index}/>))
+        setMappedForms(flightIds?.map((id, index) => 
+        <SeatHoldersForm key={id} currentSeats={seats[index]} index={index} />))
     }, [flightIds, seats])
 
 
@@ -46,15 +47,23 @@ export default function TicketRegistrationForms() {
         }, 0);
 
         if (filledFormsCount === formsCount) {
-            dispatch(requestCreateTickets(flightIds, seats, history));
+            dispatch(requestCreateTickets({
+                flightIds,
+                seats
+            }));
 
         }
         else {
             alert('Please fill all fields');
         }
 
-    }, [filledFormsCount, seats, dispatch, flightIds, history])
+    }, [filledFormsCount, seats, dispatch, flightIds])
 
+
+    if(useSelector(getHasBookedSeats)){
+        history.push('/');
+        return;
+    }
 
     return (
         <div className="center-horizontally">

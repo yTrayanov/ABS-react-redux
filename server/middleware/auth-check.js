@@ -29,8 +29,6 @@ const AuthCheck = (req, res, next) => {
 
 const tokenDecoder = (req , res , next) =>{
 
-  
-  console.log('here');
   if(req.user){
     next();
   }

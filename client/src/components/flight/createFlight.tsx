@@ -1,12 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingFlight } from '../../store/reducers/flightReducer';
-import {requestCreateFlight} from '../../actions/flight.actions';
+import { getIsCreatingFlight, getHasCreatedFlight } from '../../store/slices/flightSlice';
+import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
+
+    const flightWasCreated: boolean = useSelector(getHasCreatedFlight);
+
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
     const airlineInput = React.useRef<HTMLInputElement>(null);
@@ -15,32 +18,40 @@ export default function CreateFlight() {
     const landingDateInput = React.useRef<HTMLInputElement>(null);
 
 
-    const clearForm = React.useCallback(() => {
+
+    if (flightWasCreated)
         if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
             originAirportInput.current.value = "";
             destinationAirportInput.current.value = "";
             airlineInput.current.value = "";
             flightNumberInput.current.value = "";
             departureDateInput.current.value = "";
-            landingDateInput.current.value="";
+            landingDateInput.current.value = "";
         }
-    }, []);
 
-    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
 
         if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
-           
+
             const originAirport = originAirportInput.current.value
             const destinationAirport = destinationAirportInput.current.value
             const airline = airlineInput.current.value
             const flightNumber = flightNumberInput.current.value
             const departureDate = departureDateInput.current.value
             const landingDate = landingDateInput.current.value;
-            dispatch(requestCreateFlight(originAirport, destinationAirport, airline, flightNumber, departureDate , landingDate ,clearForm));
+            
+            dispatch(requestCreateFlight({
+                originAirport,
+                destinationAirport,
+                airline,
+                flightNumber,
+                departureDate,
+                landingDate
+            }));
         }
- 
+
     }
 
     return (
@@ -86,7 +97,7 @@ export default function CreateFlight() {
                             <input type='datetime-local' className="form-control" ref={departureDateInput} />
                         </div>
 
-                        
+
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>

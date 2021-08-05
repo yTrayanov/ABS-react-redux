@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { requestLogin } from '../../actionsWithRTK/auth.actions';
+import { requestLogin } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import  {getIsLogging, getLogginError } from '../../store/slices/authSlice';
 

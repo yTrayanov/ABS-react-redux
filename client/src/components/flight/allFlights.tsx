@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import IFlight from "../../interfaces/models/flight.interface";
-import { getAllFlights } from "../../store/reducers/flightReducer";
+import { getAllFlights } from "../../store/slices/flightSlice";
 import { requestAllFlights } from "../../actions/flight.actions";
 
 import AdminFlightView from "./adminFlightView";

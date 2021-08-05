@@ -13,7 +13,7 @@ interface IContextProps{
 export default function TicketForm({ currentSeat, index }: { currentSeat: ISeat, index: number }) {
 
     const nameInput = React.useRef<HTMLInputElement>(null);
-    const {incrementFilledFormsCount , setSeats , allSeats} = React.useContext<IContextProps>(SeatHoldersContext);
+    let {incrementFilledFormsCount , setSeats , allSeats} = React.useContext<IContextProps>(SeatHoldersContext);
 
     const checkIfFilled = React.useCallback(() => {
         if (nameInput.current) {

@@ -7,7 +7,9 @@ import {
     requestStats,
     requestForgottenPassword,
     requestChangePassword
-} from "../../actionsWithRTK/auth.actions";
+} from "../../actions/auth.actions";
+
+import { actions } from '../../actions/auth.actions';
 
 const token = window.localStorage.getItem('token');
 
@@ -16,6 +18,23 @@ const initialAsyncState = {
     loaded: false,
     error: null,
     data: null,
+}
+
+function GetTargetState(state: any, action: any) {
+    const logStatusUsers = [requestLogin.typePrefix, requestLogout.typePrefix, requestStats.typePrefix];
+
+    for (const type of logStatusUsers) {
+        if (action.type.includes(type)) {
+            return state.logStatus;
+        }
+    }
+    if (action.type.includes(requestRegister.typePrefix))
+        return state.register;
+    else if (action.type.includes(requestForgottenPassword.typePrefix))
+        return state.forgottenPassword;
+    else if (action.type.includes(requestChangePassword.typePrefix))
+        return state.changePassword;
+
 }
 
 const authSlice = createSlice({
@@ -29,93 +48,28 @@ const authSlice = createSlice({
             }
         },
         register: initialAsyncState,
-        forgottenPassword:initialAsyncState,
-        changePassword:initialAsyncState
+        forgottenPassword: initialAsyncState,
+        changePassword: initialAsyncState
     },
     reducers: {},
     extraReducers: (builder) => {
-        //login actions
-        (() => {
-            builder.addCase((requestLogin.fulfilled), ({ logStatus }, action) => {
-                success(logStatus, action);
-            });
-            builder.addCase((requestLogin.rejected), ({ logStatus }, action) => {
-                failure(logStatus, action);
-            });
-            builder.addCase((requestLogin.pending), ({ logStatus }) => {
-                request(logStatus)
-            });
-        })();
-
-        //logout actions
-        (() => {
+        for (let item of actions) {
             (() => {
-                builder.addCase(requestLogout.fulfilled, ({ logStatus }, action) => {
-                    success(logStatus, action);
+                builder.addCase((item.fulfilled), (state, action) => {
+
+                    const targetState = GetTargetState(state, action);
+                    success(targetState, action);
                 });
-                builder.addCase(requestLogout.rejected, ({ logStatus }, action) => {
-                    failure(logStatus, action);
+                builder.addCase((item.rejected), (state, action) => {
+                    const targetState = GetTargetState(state , action);
+                    failure(targetState, action);
                 });
-                builder.addCase(requestLogout.pending, ({ logStatus }) => {
-                    request(logStatus)
+                builder.addCase((item.pending), (state , action) => {
+                    const targetState = GetTargetState(state , action);
+                    request(targetState);
                 });
             })();
-        })();
-
-        //register actions
-        (() => {
-            (() => {
-                builder.addCase(requestRegister.fulfilled, ({ register }, action) => {
-                    success(register, action);
-                });
-                builder.addCase(requestRegister.rejected, ({ register }, action) => {
-                    failure(register, action);
-                });
-                builder.addCase(requestRegister.pending, ({ register }) => {
-                    request(register)
-                });
-            })();
-        })();
-
-        //stat actions
-        (() => {
-            builder.addCase((requestStats.fulfilled), ({ logStatus }, action) => {
-                success(logStatus, action);
-            });
-            builder.addCase((requestStats.rejected), ({ logStatus }, action) => {
-                failure(logStatus, action);
-            });
-            builder.addCase((requestStats.pending), ({ logStatus }) => {
-                request(logStatus)
-            });
-        })();
-
-        //ForgottenPassword actions
-        (() => {
-            builder.addCase((requestForgottenPassword.fulfilled), ({ forgottenPassword }, action) => {
-                success(forgottenPassword, action);
-            });
-            builder.addCase((requestForgottenPassword.rejected), ({ forgottenPassword }, action) => {
-                failure(forgottenPassword, action);
-            });
-            builder.addCase((requestForgottenPassword.pending), ({ forgottenPassword }) => {
-                request(forgottenPassword)
-            });
-        })();
-
-        //ChangePassword actions
-        (() => {
-            builder.addCase((requestChangePassword.fulfilled), ({ changePassword }, action) => {
-                success(changePassword, action);
-            });
-            builder.addCase((requestChangePassword.rejected), ({ changePassword }, action) => {
-                failure(changePassword, action);
-            });
-            builder.addCase((requestChangePassword.pending), ({ changePassword}) => {
-                request(changePassword)
-            });
-        })();
-
+        }
     }
 });
 
@@ -136,6 +90,8 @@ function request(state: any) {
     state.loaded = false;
 }
 
+
+
 //Log status selectors
 export const getIsLogged = (state: any) => state.auth.logStatus.data.isLogged;
 export const getIsAdmin = (state: any) => state.auth.logStatus.data.isAdmin;
@@ -143,7 +99,7 @@ export const getToken = (state: any) => state.auth.logStatus.data.token;
 export const getIsLogging = (state: any) => state.auth.logStatus.isLoading;
 export const getLogginError = (state: any) => state.auth.logStatus.error;
 
-export const getState = (state:any) => state.auth;
+export const getState = (state: any) => state.auth;
 
 
 //register status selectors
@@ -151,8 +107,8 @@ export const getIsRegistering = (state: any) => state.auth.register.isLoading;
 export const getHasRegistered = (state: any) => state.auth.register.loaded;
 
 //Forgotten password and changing email selectors
-export const getIsSendingEmail = (state:any) => state.auth.forgottenPassword.isLoading;
-export const getIsChangingPassowrd = (state:any) => state.auth.changePassword.isLoading;
+export const getIsSendingEmail = (state: any) => state.auth.forgottenPassword.isLoading;
+export const getIsChangingPassowrd = (state: any) => state.auth.changePassword.isLoading;
 
 
 

@@ -1,25 +1,14 @@
-import {createStore , combineReducers , applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
+import { configureStore } from "@reduxjs/toolkit";
+import authSlice from './slices/authSlice';
+import flightSlice from "./slices/flightSlice";
+import sectionSlice from "./slices/sectionSlice";
+import ticketSlice from "./slices/ticketSlice";
 
-import {authReducer} from './reducers/authReducer';
-import { ticketsReducer } from './reducers/ticketsReducer';
-import { sectionReducer } from './reducers/sectionReducer';
-import {flightReducer} from './reducers/flightReducer';
-
-
-const appReducer = combineReducers({
-    auth:authReducer,
-    tickets:ticketsReducer,
-    sections:sectionReducer,
-    flights:flightReducer
-})
-
-const rootReducer = (state:any , action:any ) => {
-    if(action.type === "CLEAR"){
-        return appReducer(undefined , action);
+export const store = configureStore({
+    reducer:{
+        auth:authSlice.reducer,
+        flights:flightSlice.reducer,
+        sections:sectionSlice.reducer,
+        tickets:ticketSlice.reducer
     }
-
-    return appReducer(state, action);
-}
-
-export const store = createStore(rootReducer , applyMiddleware(thunk));
+})

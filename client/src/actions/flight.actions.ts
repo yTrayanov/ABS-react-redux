@@ -1,89 +1,106 @@
-import { getRequest , postRequest } from "../requests";
-import { getFlightDetailsUrl , getFilterdFlightsUrl , CREATE_FLIGHT_URL,ALL_FLIGHTS_URL, getFlightInformationUrl} from "../urls";
-import { getFlightsByIdsActions , filteredFlightsActions , createFlightActions,allFlightsActions , flightInformationActions } from "../store/reducers/flightReducer";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getRequest, postRequest } from "../requests";
+import { ALL_FLIGHTS_URL, CREATE_FLIGHT_URL, getFilterdFlightsUrl, getFlightDetailsUrl, getFlightInformationUrl } from "../urls";
+import { checkResponse } from "../utils/responseUtils";
 
-
-export const requestFlightsByIds = (ids:string[]) => (dispatch:any) => {
-    dispatch(getFlightsByIdsActions.request());
-
-    const url = getFlightDetailsUrl(ids);
-    getRequest(url).then((response) => {
-        if (!response.success) {
-            dispatch(getFlightsByIdsActions.failure());
-            return;
-        }
-
-        dispatch(getFlightsByIdsActions.success(response.data));
-    }).catch(err => {
-        dispatch(getFlightsByIdsActions.failure(err.message));
-    })
+interface IFilteredFlightsModel {
+    originAirport: string;
+    destinationAirport: string;
+    departureDate: string;
+    returnDate?: string;
+    membersCount?: string;
 }
 
-export const requestFilteredFlights = (originAirport: string, destinationAirport: string, departureDate: string, returnDate?: string, membersCount?: string) => (dispatch: any) => {
-
-    dispatch(filteredFlightsActions.request());
-
-    if (!membersCount) membersCount = '1';
-
-    getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
-        .then(response => {
-            if (!response.success) {
-                dispatch(filteredFlightsActions.failure());
-            }
-
-            console.log(response);
-            dispatch(filteredFlightsActions.success(response.data));
-        })
-        .catch(err => {
-            dispatch(filteredFlightsActions.failure(err.message));
-        })
-
+interface ICreateFlightModel {
+    originAirport: string;
+    destinationAirport: string;
+    airline: string, flightNumber: string;
+    departureDate: string;
+    landingDate: string;
 }
 
-export const requestCreateFlight = (originAirport: string, destinationAirport: string, airline: string, flightNumber: string, departureDate: string, landingDate: string, clearForm: () => void) =>
-    (dispatch: any) => {
-        dispatch(createFlightActions.request());
-        postRequest(CREATE_FLIGHT_URL, { originAirport, destinationAirport, airline, flightNumber, departureDate, landingDate })
+
+export const requestFlightsByIds = createAsyncThunk(
+    'flights/flightsByIds',
+    (data: { ids: string[] }, thunkApi) => {
+
+        const url = getFlightDetailsUrl(data.ids);
+        return getRequest(url).then((response) => {
+            checkResponse(response);
+
+            return response.data;
+        }).catch(err => {
+            return thunkApi.rejectWithValue(err.message);
+        })
+    });
+
+export const requestFilteredFlights = createAsyncThunk(
+    'flights/filterFlights',
+    (data: IFilteredFlightsModel, thunkApi) => {
+        const { originAirport, destinationAirport, departureDate, returnDate } = data
+        let { membersCount } = data;
+
+        if (!membersCount) membersCount = '1';
+
+        return getRequest(getFilterdFlightsUrl(originAirport, destinationAirport, departureDate, membersCount, returnDate))
             .then(response => {
-                if (!response.success)
-                    dispatch(createFlightActions.failure() );
+                checkResponse(response);
 
-                dispatch(createFlightActions.success(response));
-                clearForm();
-                alert('Flight created');
+                return response.data;
             }).catch(err => {
-                dispatch(createFlightActions.failure(err.message));
+                return thunkApi.rejectWithValue(err.message);
             })
-    }
 
-export const requestAllFlights = () => (dispatch: any) => {
-    dispatch(allFlightsActions.request());
-
-    getRequest(ALL_FLIGHTS_URL).then(response => {
-        if (!response.success) {
-            dispatch(allFlightsActions.failure());
-            return;
-        }
-
-        dispatch(allFlightsActions.success(response.data));
-    }).catch(err => {
-        dispatch(allFlightsActions.failure(err.message));
     })
-}
 
-export const requestFlightInformation = (id: string) => (dispatch: any) => {
-    dispatch(flightInformationActions.request());
+export const requestCreateFlight = createAsyncThunk(
+    'flights/create',
+    (data: ICreateFlightModel, thunkApi) => {
 
-    const url = getFlightInformationUrl(id);
+        return postRequest(CREATE_FLIGHT_URL, data)
+            .then(response => {
+                checkResponse(response);
 
-    getRequest(url).then(response => {
-        if (!response.success) {
-            dispatch(flightInformationActions.failure());
-            return;
-        }
-        dispatch(flightInformationActions.success(response.data));
+                return response.data;
+            }).catch(err => {
+                return thunkApi.rejectWithValue(err.message);
+            })
+    })
+
+export const requestAllFlights = createAsyncThunk(
+    'flights/all',
+    (data?, thunkApi?) => {
+
+        return getRequest(ALL_FLIGHTS_URL).then(response => {
+            checkResponse(response);
+
+            return response.data;
+        }).catch(err => {
+            return thunkApi.rejectWithValue(err.message);
+        })
+    });
+
+    
+export const requestFlightInformation = createAsyncThunk(
+    'flights/flightInfo',
+    (data:{id: string} , thunkApi)=> {
+
+    const url = getFlightInformationUrl(data.id);
+
+    return getRequest(url).then(response => {
+        checkResponse(response);
+
+        return response.data;
 
     }).catch(err => {
-        dispatch(flightInformationActions.failure(err.message));
+        return thunkApi.rejectWithValue(err.message);
     })
-}
+})
+
+export const actions = [
+    requestFlightsByIds,
+    requestFilteredFlights,
+    requestCreateFlight,
+    requestAllFlights,
+    requestFlightInformation
+]

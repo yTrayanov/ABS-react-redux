@@ -4,7 +4,7 @@ import IFlight from '../../interfaces/models/flight.interface';
 
 import SectionInformation from '../section/sectionInformation';
 
-import { getFlightInformation } from "../../store/reducers/flightReducer";
+import { getFlightInformation } from "../../store/slices/flightSlice";
 import { requestFlightInformation } from '../../actions/flight.actions';
 import { useParams } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ export default function FlightInformation() {
     const id: string =params.id;
 
     React.useEffect(() => {
-        dispatch(requestFlightInformation(id));
+        dispatch(requestFlightInformation({id}));
     }, [dispatch, id]);
 
     React.useEffect(() => {
