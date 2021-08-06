@@ -55,8 +55,8 @@ export default function Home() {
 
     const handleCheckOneWay = () => {
         setOneWay(!oneWay);
-        if (returnDateInput.current)
-            returnDateInput.current.value = '';
+        //if (returnDateInput.current)
+            //returnDateInput.current.value = '';
     }
 
     return (
@@ -68,9 +68,9 @@ export default function Home() {
 
                     <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
 
-                    <input type="Date" className="form-control short-input" ref={departureDateInput} defaultValue="2025-07-10" />
+                    <input type="Date" className="form-control short-input" ref={departureDateInput} defaultValue="2021-07-10" />
 
-                    <input disabled={oneWay} type="Date" className="form-control short-input" ref={returnDateInput} />
+                    <input disabled={oneWay} type="Date" className="form-control short-input" defaultValue="2021-08-10" ref={returnDateInput} />
 
                     <div className="checkbox-container">
                         <label htmlFor="oneWayCheck">One way</label>

@@ -3,6 +3,7 @@ import ISeat from "../../interfaces/models/seat.interface";
 import SectionClassMapper from "../sectionClassMapper";
 import { addSeat, removeSeat } from "../../store/slices/ticketSlice";
 import { useDispatch } from "react-redux";
+import { TicketContext } from "./ticketRegistrationForms";
 
 
 export default function TicketForm({ currentSeat , index }: { currentSeat: ISeat , index:number }) {
@@ -10,17 +11,19 @@ export default function TicketForm({ currentSeat , index }: { currentSeat: ISeat
     const nameInput = React.useRef<HTMLInputElement>(null);
     const [checked, setChecked] = React.useState<boolean>(false);
 
+    const {incrementCount} = React.useContext(TicketContext);
 
     const toggleReady = (e: any) => {
-
         if (nameInput.current && nameInput.current.value.length > 0) {
             setChecked(e.target.checked);
             const newSeat = { ...currentSeat, passengerName: nameInput.current.value }
             if (e.target.checked) {
                 dispatch(addSeat({seat:newSeat , index}));
+                incrementCount(1);
             }
             else {
                 dispatch(removeSeat({seat:newSeat , index}));
+                incrementCount(-1);
             }
 
         }
