@@ -35,13 +35,6 @@ export const requestCreateTickets = createAsyncThunk(
             })
     })
 
-    // export const request = createAsyncThunk(
-    //     'tickets/selectSeats',
-    //     (data) => {
-    //         return data;
-    //     })
-
-
 export const actions = [
     requestUserTickets,
     requestCreateTickets

@@ -42,11 +42,14 @@ router.post('/create', async (req, res) => {
                 return BadRequest(res, 'Seat doesn\'t exist');
             }
 
+
+            console.log(seat);
+
             if (seat.isBooked) {
                 return BadRequest(res, 'Seat is already booked');
             }
 
-            if (!item.passangerName) {
+            if (!item.passengerName) {
                 return BadRequest(res, 'Passenger name is required');
             }
 
@@ -57,7 +60,7 @@ router.post('/create', async (req, res) => {
                 flight:flights[index],
                 seat,
                 user: req.user._id,
-                passengerName: item.passangerName
+                passengerName: item.passengerName
             });
             
             seat.ticket = ticket;

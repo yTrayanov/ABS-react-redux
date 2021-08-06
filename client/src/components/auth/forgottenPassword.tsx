@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { requestChangePassword } from '../../actions/auth.actions';
-import { getIsChangingPassowrd } from '../../store/slices/authSlice';
+import { getIsChangingPassowrd , getHasChangedPassword } from '../../store/slices/authSlice';
 import LoadingButton from '../loadingButton';
 
 export default function ForgottenPassword () {
@@ -14,6 +14,10 @@ export default function ForgottenPassword () {
     const passwordInput = React.useRef<HTMLInputElement>(null);
     const confirmPasswordInput = React.useRef<HTMLInputElement>(null);
 
+    if(useSelector(getHasChangedPassword)){
+        dispatch({type:requestChangePassword.rejected.type});
+        history.push('/login');
+    }
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

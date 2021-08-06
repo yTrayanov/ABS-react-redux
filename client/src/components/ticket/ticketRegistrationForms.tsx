@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
-import { getIsCreatingTickets, getSelectedSeats , getHasBookedSeats } from '../../store/slices/ticketSlice';
+import { getSelectedSeats, getHasBookedSeats, getIsCreatingTickets , getReadySeats, clearSeats } from '../../store/slices/ticketSlice';
 import { requestCreateTickets } from '../../actions/ticket.actions';
 import LoadingButton from '../loadingButton';
 
@@ -13,68 +13,41 @@ interface ILocation {
     state: string[]
 }
 
-export const SeatHoldersContext = React.createContext<any>(null);
-
 export default function TicketRegistrationForms() {
-    const location: ILocation = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
+    const location: ILocation = useLocation();
     const flightIds: string[] = location.state;
 
     const [mappedForms, setMappedForms] = React.useState<object[]>([]);
-    const [filledFormsCount, setFilledFormsCount] = React.useState<number>(0);
 
-    const [seats, setSeats] = React.useState<ISeat[][]>(useSelector(getSelectedSeats));
-
-    const incrementFilledFormsCount = React.useCallback((n: number) => {
-        setFilledFormsCount(c => c + n);
-    }, []);
-
+    const seats: ISeat[][] = useSelector(getSelectedSeats);
+    const readySeats:ISeat[][] = useSelector(getReadySeats);
 
     React.useEffect(() => {
-        setMappedForms(flightIds?.map((id, index) => 
-        <SeatHoldersForm key={id} currentSeats={seats[index]} index={index} />))
+        setMappedForms(flightIds?.map((id, index) =>
+            <SeatHoldersForm key={id} currentSeats={seats[index]} index={index} />))
     }, [flightIds, seats])
 
 
-    const bookSeats = React.useCallback((event: React.FormEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-
-        const formsCount = seats?.reduce((acc: number, curr: ISeat[]) => {
-            if (curr)
-                return acc + curr.length;
-            return acc;
-        }, 0);
-
-        if (filledFormsCount === formsCount) {
-            dispatch(requestCreateTickets({
-                flightIds,
-                seats
-            }));
-
-        }
-        else {
-            alert('Please fill all fields');
-        }
-
-    }, [filledFormsCount, seats, dispatch, flightIds])
-
-
-    if(useSelector(getHasBookedSeats)){
+    if (useSelector(getHasBookedSeats)) {
+        dispatch({type:requestCreateTickets.rejected.type});
+        dispatch(clearSeats());
         history.push('/');
         return;
     }
 
+    const bookSeats = (event: React.FormEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        dispatch(requestCreateTickets({ flightIds, seats:readySeats }));
+    }
+
+    
+
     return (
         <div className="center-horizontally">
             <div className="ticket-registration">
-                <SeatHoldersContext.Provider value={{
-                    incrementFilledFormsCount,
-                    setSeats,
-                    allSeats: seats
-                }} >
-                    {mappedForms ? mappedForms : null}
-                </SeatHoldersContext.Provider>
+                {mappedForms ? mappedForms : null}
                 <LoadingButton text="Purchase" onClick={bookSeats} loadingSelector={getIsCreatingTickets} />
             </div>
         </div>

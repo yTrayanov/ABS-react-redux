@@ -1,48 +1,49 @@
 import React from "react";
 import ISeat from "../../interfaces/models/seat.interface";
-import { SeatHoldersContext } from "./ticketRegistrationForms";
+import SectionClassMapper from "../sectionClassMapper";
+import { addSeat, removeSeat } from "../../store/slices/ticketSlice";
+import { useDispatch } from "react-redux";
 
 
-interface IContextProps{
-    incrementFilledFormsCount:(n:number) => void,
-    setSeats:(seats:ISeat[][]) => void,
-    allSeats:ISeat[][]
-
-}
-
-export default function TicketForm({ currentSeat, index }: { currentSeat: ISeat, index: number }) {
-
+export default function TicketForm({ currentSeat , index }: { currentSeat: ISeat , index:number }) {
+    const dispatch = useDispatch();
     const nameInput = React.useRef<HTMLInputElement>(null);
-    let {incrementFilledFormsCount , setSeats , allSeats} = React.useContext<IContextProps>(SeatHoldersContext);
+    const [checked, setChecked] = React.useState<boolean>(false);
 
-    const checkIfFilled = React.useCallback(() => {
-        if (nameInput.current) {
-            if (nameInput.current.value.length === 1) {
-                incrementFilledFormsCount(1);
+
+    const toggleReady = (e: any) => {
+
+        if (nameInput.current && nameInput.current.value.length > 0) {
+            setChecked(e.target.checked);
+            const newSeat = { ...currentSeat, passengerName: nameInput.current.value }
+            if (e.target.checked) {
+                dispatch(addSeat({seat:newSeat , index}));
             }
-            else if (!nameInput.current.value) {
-                incrementFilledFormsCount(-1)
+            else {
+                dispatch(removeSeat({seat:newSeat , index}));
             }
 
-            const seatIndex = allSeats[index]?.indexOf(currentSeat);
-            allSeats[index][seatIndex].passangerName = nameInput.current.value;
-            setSeats(allSeats);
         }
-
-    }, [incrementFilledFormsCount, allSeats , index , setSeats , currentSeat])
+    }
 
     return (
         <div className="container seat-form" >
             <div className='row'>
                 <div className="col-lg-4">
-                    <p>{currentSeat.seatNumber}</p>
+                    <p>{currentSeat.seatNumber} / <SectionClassMapper seatClass={currentSeat.section.seatClass} /></p>
+
                 </div>
-                <div className="col-lg-6">
+                <div className="col-lg-5">
                     <div className="form-group input-group">
                         <div className="input-group-prepend">
                             <span className="input-group-text"> <i className="fa fa-user"></i> </span>
                         </div>
-                        <input type='text' className="form-control" placeholder="Seat holder full name" ref={nameInput} onChange={checkIfFilled} />
+                        <input disabled={checked} type='text' className="form-control" placeholder="Seat holder full name" ref={nameInput} />
+                    </div>
+                </div>
+                <div className="col-lg-3">
+                    <div className="checkbox-container">
+                        <input type="checkbox" onClick={toggleReady} readOnly checked={checked} />
                     </div>
                 </div>
             </div>

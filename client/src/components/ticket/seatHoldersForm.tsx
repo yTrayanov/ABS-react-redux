@@ -12,7 +12,7 @@ export default function SeatHoldersForm({ currentSeats , index} : { currentSeats
     
     React.useEffect(() => {
         setMappedSeats(currentSeats?.map(s =>
-             <TicketForm key={s.id} currentSeat={s}  index={index}  />))
+             <TicketForm key={s.id} currentSeat={s} index={index}/>))
     }, [currentSeats , index])
 
 

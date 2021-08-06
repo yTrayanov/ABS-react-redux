@@ -86,7 +86,10 @@ router.get('/:ids', async (req, res) => {
             .populate({
                 path: 'sections',
                 populate: [{
-                    path: 'seats'
+                    path: 'seats',
+                    populate:[{
+                        path:'section',
+                    }]
                 }]
             })
 

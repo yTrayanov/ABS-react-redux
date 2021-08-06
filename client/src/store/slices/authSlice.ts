@@ -109,6 +109,7 @@ export const getHasRegistered = (state: any) => state.auth.register.loaded;
 //Forgotten password and changing email selectors
 export const getIsSendingEmail = (state: any) => state.auth.forgottenPassword.isLoading;
 export const getIsChangingPassowrd = (state: any) => state.auth.changePassword.isLoading;
+export const getHasChangedPassword = (state:any) => state.auth.changePassword.loaded;
 
 
 
