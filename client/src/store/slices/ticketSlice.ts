@@ -1,38 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { GetTargetState , initialAsyncState , success, failure , request } from "../../utils/sliceUtils";
 
-import {
-    requestUserTickets,
-    requestCreateTickets
-} from "../../actions/ticket.actions";
 
 import { actions } from '../../actions/ticket.actions';
 import ISeat from "../../interfaces/models/seat.interface";
 
-const initialAsyncState = {
-    isLoading: false,
-    loaded: false,
-    error: null,
-    data: null,
-}
 const initialBookingState = {
     data: [[],[]]
-}
-
-function GetTargetState(state: any, action: any) {
-
-    if (action.type.includes(requestUserTickets.typePrefix))
-        return state.userTickets;
-    else if (action.type.includes(requestCreateTickets.typePrefix))
-        return state.bookSeats;
-    else
-        return state.generalState;
-
 }
 
 const ticketSlice = createSlice({
     name: "tickets",
     initialState: {
-        generalState: initialAsyncState,
         userTickets: initialAsyncState,
         bookSeats: initialAsyncState,
         selectedSeats: initialBookingState,
@@ -78,24 +57,6 @@ const ticketSlice = createSlice({
         }
     }
 });
-
-function success(state: any, action: any) {
-    state.isLoading = false;
-    state.data = action.payload;
-    state.error = null;
-    state.loaded = true
-}
-
-function failure(state: any, action: any) {
-    state.isLoading = false;
-    state.error = action.payload;
-    state.loaded = false;
-}
-function request(state: any) {
-    state.isLoading = true;
-    state.loaded = false;
-}
-
 
 //selectors
 export const getUserTickets = (state: any) => state.tickets.userTickets.data;

@@ -11,7 +11,7 @@ interface ICreateSectionModel{
 }
 
 export const requestCreateSection = createAsyncThunk(
-    'sections/create',
+    'sections/createSection',
     (data:ICreateSectionModel , thunkApi) => {
         return postRequest(CREATE_SECTION_URL, data)
             .then(response => {

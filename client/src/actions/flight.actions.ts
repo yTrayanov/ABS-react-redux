@@ -54,7 +54,7 @@ export const requestFilteredFlights = createAsyncThunk(
     })
 
 export const requestCreateFlight = createAsyncThunk(
-    'flights/create',
+    'flights/createFlight',
     (data: ICreateFlightModel, thunkApi) => {
 
         return postRequest(CREATE_FLIGHT_URL, data)
@@ -68,7 +68,7 @@ export const requestCreateFlight = createAsyncThunk(
     })
 
 export const requestAllFlights = createAsyncThunk(
-    'flights/all',
+    'flights/allFlights',
     (data?, thunkApi?) => {
 
         return getRequest(ALL_FLIGHTS_URL).then(response => {

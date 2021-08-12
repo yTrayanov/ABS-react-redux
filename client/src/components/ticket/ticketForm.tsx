@@ -1,6 +1,5 @@
 import React from "react";
 import ISeat from "../../interfaces/models/seat.interface";
-import SectionClassMapper from "../sectionClassMapper";
 import { addSeat, removeSeat } from "../../store/slices/ticketSlice";
 import { useDispatch } from "react-redux";
 import { TicketContext } from "./ticketRegistrationForms";
@@ -33,7 +32,7 @@ export default function TicketForm({ currentSeat , index }: { currentSeat: ISeat
         <div className="container seat-form" >
             <div className='row'>
                 <div className="col-lg-4">
-                    <p>{currentSeat.seatNumber} / <SectionClassMapper seatClass={currentSeat.section.seatClass} /></p>
+                    <p>{currentSeat.seatNumber}</p>
 
                 </div>
                 <div className="col-lg-5">

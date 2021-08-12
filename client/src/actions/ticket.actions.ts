@@ -11,7 +11,7 @@ interface ICreateTicketModel{
 }
 
 export const requestUserTickets = createAsyncThunk(
-    'tickets/user',
+    'tickets/userTickets',
     (data?, thunkApi?) => {
         return getRequest(USER_TICKETS_URL)
             .then(response => {
@@ -24,7 +24,7 @@ export const requestUserTickets = createAsyncThunk(
     })
 
 export const requestCreateTickets = createAsyncThunk(
-    'tickets/create',
+    'tickets/bookSeats',
     (data:ICreateTicketModel, thunkApi) => {
         return postRequest(CREATE_TICKET_URL, data)
             .then(response => {

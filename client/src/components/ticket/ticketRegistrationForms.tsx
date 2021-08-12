@@ -41,6 +41,7 @@ export default function TicketRegistrationForms() {
         dispatch({ type: requestCreateTickets.rejected.type });
         dispatch(clearSeats());
         history.push('/');
+        return;
     }
 
     const bookSeats = (event: React.FormEvent<HTMLButtonElement>) => {

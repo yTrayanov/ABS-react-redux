@@ -42,9 +42,6 @@ router.post('/create', async (req, res) => {
                 return BadRequest(res, 'Seat doesn\'t exist');
             }
 
-
-            console.log(seat);
-
             if (seat.isBooked) {
                 return BadRequest(res, 'Seat is already booked');
             }

@@ -1,41 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-
-import {
-    requestLogin,
-    requestLogout,
-    requestRegister,
-    requestStats,
-    requestForgottenPassword,
-    requestChangePassword
-} from "../../actions/auth.actions";
-
+import { GetTargetState , initialAsyncState , success ,failure , request } from "../../utils/sliceUtils";
 import { actions } from '../../actions/auth.actions';
 
 const token = window.localStorage.getItem('token');
-
-const initialAsyncState = {
-    isLoading: false,
-    loaded: false,
-    error: null,
-    data: null,
-}
-
-function GetTargetState(state: any, action: any) {
-    const logStatusUsers = [requestLogin.typePrefix, requestLogout.typePrefix, requestStats.typePrefix];
-
-    for (const type of logStatusUsers) {
-        if (action.type.includes(type)) {
-            return state.logStatus;
-        }
-    }
-    if (action.type.includes(requestRegister.typePrefix))
-        return state.register;
-    else if (action.type.includes(requestForgottenPassword.typePrefix))
-        return state.forgottenPassword;
-    else if (action.type.includes(requestChangePassword.typePrefix))
-        return state.changePassword;
-
-}
 
 const authSlice = createSlice({
     name: "auth",
@@ -73,29 +40,10 @@ const authSlice = createSlice({
     }
 });
 
-function success(state: any, action: any) {
-    state.isLoading = false;
-    state.data = action.payload;
-    state.error = null;
-    state.loaded = true
-}
-
-function failure(state: any, action: any) {
-    state.isLoading = false;
-    state.error = action.payload;
-    state.loaded = false;
-}
-function request(state: any) {
-    state.isLoading = true;
-    state.loaded = false;
-}
-
-
-
 //Log status selectors
-export const getIsLogged = (state: any) => state.auth.logStatus.data.isLogged;
-export const getIsAdmin = (state: any) => state.auth.logStatus.data.isAdmin;
-export const getToken = (state: any) => state.auth.logStatus.data.token;
+export const getIsLogged = (state: any) => state.auth.logStatus.data?.isLogged;
+export const getIsAdmin = (state: any) => state.auth.logStatus.data?.isAdmin;
+export const getToken = (state: any) => state.auth.logStatus.data?.token;
 export const getIsLogging = (state: any) => state.auth.logStatus.isLoading;
 export const getLogginError = (state: any) => state.auth.logStatus.error;
 

@@ -66,35 +66,35 @@ export default function CreateFlight() {
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-plane-departure"></i> </span>
                             </div>
-                            <input type='text' className="form-control" placeholder="From" ref={originAirportInput} />
+                            <input type='text' className="form-control" placeholder="From" ref={originAirportInput} defaultValue="LAA" />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-plane-arrival"></i> </span>
                             </div>
-                            <input type='text' className="form-control" placeholder="To" ref={destinationAirportInput} />
+                            <input type='text' className="form-control" placeholder="To" ref={destinationAirportInput} defaultValue="NYC"/>
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-building"></i> </span>
                             </div>
-                            <input type='text' className="form-control" placeholder="Airline" ref={airlineInput} />
+                            <input type='text' className="form-control" placeholder="Airline" ref={airlineInput} defaultValue="DELTA" />
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-fingerprint"></i> </span>
                             </div>
-                            <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} />
+                            <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} defaultValue="1"/>
                         </div>
 
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
                             </div>
-                            <input type='datetime-local' className="form-control" ref={departureDateInput} />
+                            <input type='datetime-local' className="form-control" ref={departureDateInput}  defaultValue="2025-07-10T10:30"/>
                         </div>
 
 
@@ -102,7 +102,7 @@ export default function CreateFlight() {
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
                             </div>
-                            <input type='datetime-local' className="form-control" ref={landingDateInput} />
+                            <input type='datetime-local' className="form-control" ref={landingDateInput} defaultValue="2025-07-10T11:33"/>
                         </div>
 
                         <div className="form-group">

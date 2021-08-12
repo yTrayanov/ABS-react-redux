@@ -4,7 +4,7 @@ import { FORGOTTEN_PASSWORD_URL, getChangePasswordUrl, LOGIN_URL, LOGOUT_URL, RE
 import { checkResponse } from "../utils/responseUtils";
 
 export const requestLogin = createAsyncThunk(
-    'auth/login',
+    'auth/logStatus/login',
     (data: { username: string, password: string }, thunkApi) => {
         return postRequest(LOGIN_URL, data).then(response => {
             checkResponse(response);
@@ -19,7 +19,7 @@ export const requestLogin = createAsyncThunk(
 )
 
 export const requestLogout = createAsyncThunk(
-    'auth/logout',
+    'auth/logStatus/logout',
     (data?: any, thunkApi?): any => {
         return getRequest(LOGOUT_URL).then(response => {
             checkResponse(response)
@@ -43,7 +43,7 @@ export const requestRegister = createAsyncThunk(
 )
 
 export const requestStats = createAsyncThunk(
-    'auth/stat',
+    'auth/logStatus/stat',
     (data?, thunkApi?) => {
         const token = window.localStorage.getItem('token');
 
