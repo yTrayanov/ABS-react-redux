@@ -64,7 +64,6 @@ export const getIsLoadingUserTickets = (state: any) => state.tickets.userTickets
 
 export const getIsBooked = (state: any) => state.tickets.bookSeats.data?.booked;
 export const getIsCreatingTickets = (state: any) => state.tickets.bookSeats.isLoading;
-export const getHasBookedSeats = (state: any) => state.tickets.bookSeats.loaded;
 
 export const getSelectedSeats = (state: any) => state.tickets.selectedSeats.data;
 export const getReadySeats = (state: any) => state.tickets.seatsForBooking.data;

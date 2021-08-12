@@ -33,8 +33,8 @@ export const requestLogout = createAsyncThunk(
 
 export const requestRegister = createAsyncThunk(
     'auth/register',
-    (data: { username: string, email: string, password: string }, thunkApi) => {
-        return postRequest(REGISTER_URL, data).then(response => {
+    (data: { username: string, email: string, password: string}, thunkApi) => {
+        return postRequest(REGISTER_URL,data).then(response => {
             checkResponse(response);
         }).catch(err => {
             return thunkApi.rejectWithValue(err.message);
@@ -91,6 +91,7 @@ export const requestChangePassword = createAsyncThunk(
         });
     }
 )
+
 
 export const actions = [
     requestLogin,

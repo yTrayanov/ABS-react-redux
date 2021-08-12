@@ -32,7 +32,6 @@ export default function CreateFlight() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-
         if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
 
             const originAirport = originAirportInput.current.value

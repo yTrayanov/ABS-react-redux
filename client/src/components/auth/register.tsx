@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import {useHistory } from 'react-router-dom';
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
-import { getIsRegistering , getHasRegistered } from '../../store/slices/authSlice';
+import { getIsRegistering } from '../../store/slices/authSlice';
 import { requestRegister } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import { ValidateEmail } from '../../utils/validator';
@@ -35,7 +35,6 @@ export default function Register() {
     const reduxDispatch = useDispatch();
 
     const history = useHistory();
-    const hasRegistered:boolean = useSelector(getHasRegistered);
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
@@ -43,15 +42,7 @@ export default function Register() {
 
     const [state, innerDispatch] = React.useReducer(reducer, initialState);
 
-
-    
-    if(hasRegistered){
-       reduxDispatch({type:requestRegister.rejected.type})
-       history.push("/login");
-       return;
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         let error = false;
 
@@ -80,11 +71,15 @@ export default function Register() {
                 return;
             }
 
-            reduxDispatch(requestRegister({
+            const result:any = await reduxDispatch(requestRegister({
                 username: usernameInput.current.value,
                 password: passwordInput.current.value,
-                email: emailInput.current.value
+                email: emailInput.current.value,
             }));
+
+            if(result.type === requestRegister.fulfilled.type){
+                history.push('/login')
+            }
         }
 
     }

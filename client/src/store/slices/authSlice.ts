@@ -52,14 +52,10 @@ export const getState = (state: any) => state.auth;
 
 //register status selectors
 export const getIsRegistering = (state: any) => state.auth.register.isLoading;
-export const getHasRegistered = (state: any) => state.auth.register.loaded;
 
 //Forgotten password and changing email selectors
 export const getIsSendingEmail = (state: any) => state.auth.forgottenPassword.isLoading;
 export const getIsChangingPassowrd = (state: any) => state.auth.changePassword.isLoading;
-export const getHasChangedPassword = (state:any) => state.auth.changePassword.loaded;
-
-
 
 
 export default authSlice;
