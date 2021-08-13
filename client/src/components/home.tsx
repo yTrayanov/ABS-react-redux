@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FlightView from './flight/flightsViewer';
 import LoadingButton from './loadingButton';
 
-import { getFilteredFlights, getIsLoadingFilteredFlights } from '../store/slices/flightSlice';
+import { getFilteredFlights, getIsLoadingFilteredFlights } from '../store/slices/flight.slice';
 import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';

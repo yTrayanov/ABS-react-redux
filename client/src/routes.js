@@ -1,7 +1,7 @@
 import { Route , Redirect } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
-import {getIsAdmin , getIsLogged } from './store/slices/authSlice'
+import {getIsAdmin , getIsLogged } from './store/slices/auth.slice'
 
 export const AdminRoute = ({ component: Component, ...res }) => {
     const isAdmin = useSelector(getIsAdmin);

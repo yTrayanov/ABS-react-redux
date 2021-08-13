@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingFlight, getHasCreatedFlight } from '../../store/slices/flightSlice';
+import { getIsCreatingFlight, getHasCreatedFlight } from '../../store/slices/flight.slice';
 import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
 
@@ -16,8 +16,6 @@ export default function CreateFlight() {
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const landingDateInput = React.useRef<HTMLInputElement>(null);
-
-
 
     if (flightWasCreated)
         if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {

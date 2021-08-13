@@ -1,6 +1,6 @@
 import React from "react";
 import ISeat from "../../interfaces/models/seat.interface";
-import { addSeat, removeSeat } from "../../store/slices/ticketSlice";
+import { addSeat, removeSeat } from "../../store/slices/ticket.slice";
 import { useDispatch } from "react-redux";
 import { TicketContext } from "./ticketRegistrationForms";
 

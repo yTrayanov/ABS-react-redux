@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import SeatHoldersForm from './seatHoldersForm';
 
 import ISeat from '../../interfaces/models/seat.interface';
-import { getSelectedSeats, getIsCreatingTickets, getReadySeats, clearSeats } from '../../store/slices/ticketSlice';
+import { getSelectedSeats, getIsCreatingTickets, getReadySeats, clearSeats } from '../../store/slices/ticket.slice';
 import { requestCreateTickets } from '../../actions/ticket.actions';
 import LoadingButton from '../loadingButton';
 

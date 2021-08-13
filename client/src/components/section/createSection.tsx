@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingSection , getHasCreatedSection , getCreateSectionError } from '../../store/slices/sectionSlice';
+import { getIsCreatingSection , getHasCreatedSection , getCreateSectionError } from '../../store/slices/section.slice';
 import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { requestLogin } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
-import  {getIsLogging, getLogginError } from '../../store/slices/authSlice';
+import  {getIsLogging, getLogginError } from '../../store/slices/auth.slice';
 
 export default function Login() {
     const dispatch = useDispatch();

@@ -5,7 +5,6 @@ const validator = require('validator');
 const nodemailer = require('nodemailer');
 const User = require('../models/User');
 const PasswordChangeRequest = require('../models/PasswordChangeRequest');
-const emailjs = require('emailjs-com');
 const encryption = require('../util/encryption');
 
 

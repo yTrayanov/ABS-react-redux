@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSlice from './slices/authSlice';
-import flightSlice from "./slices/flightSlice";
-import sectionSlice from "./slices/sectionSlice";
-import ticketSlice from "./slices/ticketSlice";
+import authSlice from './slices/auth.slice';
+import flightSlice from "./slices/flight.slice";
+import sectionSlice from "./slices/section.slice";
+import ticketSlice from "./slices/ticket.slice";
+
 
 export const store = configureStore({
     reducer:{
@@ -11,4 +12,4 @@ export const store = configureStore({
         sections:sectionSlice.reducer,
         tickets:ticketSlice.reducer
     }
-})
+});

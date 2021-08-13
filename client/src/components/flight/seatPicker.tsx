@@ -5,9 +5,9 @@ import { useLocation, useHistory } from "react-router-dom"
 import IFlight from '../../interfaces/models/flight.interface';
 import ISeat from '../../interfaces/models/seat.interface';
 
-import { getFlightsByIds, getIsGettingFlightsByIds } from '../../store/slices/flightSlice';
-import { selectSeats } from '../../store/slices/ticketSlice';
-import { getIsLogged } from '../../store/slices/authSlice';
+import { getFlightsByIds, getIsGettingFlightsByIds } from '../../store/slices/flight.slice';
+import { selectSeats } from '../../store/slices/ticket.slice';
+import { getIsLogged } from '../../store/slices/auth.slice';
 
 import { requestFlightsByIds } from '../../actions/flight.actions';
 

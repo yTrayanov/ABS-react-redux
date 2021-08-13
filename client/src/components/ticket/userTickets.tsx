@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Ticket from './ticket';
 
-import { getUserTickets, getIsLoadingUserTickets } from '../../store/slices/ticketSlice';
+import { getUserTickets, getIsLoadingUserTickets } from '../../store/slices/ticket.slice';
 import { requestUserTickets } from '../../actions/ticket.actions';
 import ITicket from '../../interfaces/models/ticket.interface';
 

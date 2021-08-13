@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { requestChangePassword } from '../../actions/auth.actions';
-import { getIsChangingPassowrd } from '../../store/slices/authSlice';
+import { getIsChangingPassowrd } from '../../store/slices/auth.slice';
 import LoadingButton from '../loadingButton';
 
 export default function ForgottenPassword () {
@@ -24,7 +24,6 @@ export default function ForgottenPassword () {
                 history.push('/login');
             }
         }
-
     }
 
     return (

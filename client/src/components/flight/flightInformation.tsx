@@ -4,7 +4,7 @@ import IFlight from '../../interfaces/models/flight.interface';
 
 import SectionInformation from '../section/sectionInformation';
 
-import { getFlightInformation } from "../../store/slices/flightSlice";
+import { getFlightInformation } from "../../store/slices/flight.slice";
 import { requestFlightInformation } from '../../actions/flight.actions';
 import { useParams } from 'react-router-dom';
 

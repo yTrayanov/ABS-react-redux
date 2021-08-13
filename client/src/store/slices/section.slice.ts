@@ -3,13 +3,18 @@ import { GetTargetState , initialAsyncState , success , failure , request } from
 
 import { actions } from '../../actions/section.actions';
 
+const initialState = {
+    createSection:initialAsyncState
+}
 
 const sectionSlice = createSlice({
     name: "sections",
-    initialState: {
-        createSection:initialAsyncState,
+    initialState,
+    reducers: {
+        clearSectionSlice:(state) => {
+            state = initialState
+        }
     },
-    reducers: {},
     extraReducers: (builder) => {
         for (let item of actions) {
             (() => {
@@ -32,9 +37,9 @@ const sectionSlice = createSlice({
 });
 
 //selectors
-export const getIsCreatingSection = (state:any) => state.sections.createSection.isLoading;
-export const getHasCreatedSection = (state:any) => state.sections.createSection.loaded;
-export const getCreateSectionError = (state:any) => state.sections.createSection.error;
+export const getIsCreatingSection = ({sections:{createSection}}:any) => createSection.isLoading;
+export const getHasCreatedSection = ({sections:{createSection}}:any) => createSection.loaded;
+export const getCreateSectionError = ({sections:{createSection}}:any) => createSection.error;
 
-
+export const {clearSectionSlice} = sectionSlice.actions;
 export default sectionSlice;

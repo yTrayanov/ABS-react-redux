@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { requestForgottenPassword } from '../../actions/auth.actions';
-import {getIsSendingEmail } from '../../store/slices/authSlice';
+import {getIsSendingEmail } from '../../store/slices/auth.slice';
 import { ValidateEmail } from '../../utils/validator';
 
 import LoadingButton from '../loadingButton';

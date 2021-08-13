@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import {useHistory } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 
-import { getIsRegistering } from '../../store/slices/authSlice';
+import { getIsRegistering } from '../../store/slices/auth.slice';
 import { requestRegister } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import { ValidateEmail } from '../../utils/validator';

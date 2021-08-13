@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getIsLogged, getIsAdmin } from '../store/slices/authSlice';
+import { getIsLogged, getIsAdmin } from '../store/slices/auth.slice';
 import { requestLogout } from '../actions/auth.actions';
 
 export default function Navigation() {
