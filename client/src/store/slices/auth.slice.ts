@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { GetTargetState , initialAsyncState , success ,failure , request } from "../../utils/sliceUtils";
+import {initialAsyncState ,generateActionCases } from "../../utils/sliceUtils";
 import { actions } from '../../actions/auth.actions';
 
 const token = window.localStorage.getItem('token');
@@ -26,23 +26,7 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        for (let item of actions) {
-            (() => {
-                builder.addCase((item.fulfilled), (state, action) => {
-
-                    const targetState = GetTargetState(state, action);
-                    success(targetState, action);
-                });
-                builder.addCase((item.rejected), (state, action) => {
-                    const targetState = GetTargetState(state , action);
-                    failure(targetState, action);
-                });
-                builder.addCase((item.pending), (state , action) => {
-                    const targetState = GetTargetState(state , action);
-                    request(targetState);
-                });
-            })();
-        }
+        generateActionCases(builder , actions);
     }
 });
 

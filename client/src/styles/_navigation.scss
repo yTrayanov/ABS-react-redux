@@ -2,6 +2,8 @@
     display: flex;
 }
 
+$logoTextColor:rgba(0,0,0 , .5);
+
 .navigation-container{
     display: flex;
     justify-content: center;
@@ -10,5 +12,15 @@
     width: 97%;
     display: flex;
     justify-content: space-between;
+}
+
+.logo{
+    text-decoration: none;
+    color: $logoTextColor;
+
+    &:hover{
+        text-decoration: none;
+        color: $logoTextColor ;
+    }
 }
 

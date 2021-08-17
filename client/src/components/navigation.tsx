@@ -23,10 +23,7 @@ export default function Navigation() {
                     <ul className="navbar-nav mr-auto navigation-list">
                         <div className="link-container">
                             <li className='nav-link'>
-                                <span>AirlineBookingSystem</span>
-                            </li>
-                            <li className='nav-link'>
-                                <Link to='/'>Home</Link>
+                                <Link to='/' className='logo'>AirlineBookingSystem</Link>
                             </li>
                             {(isLogged && !isAdmin) && <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li>}
                             {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li>}
