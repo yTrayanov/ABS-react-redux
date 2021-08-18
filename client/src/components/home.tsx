@@ -65,19 +65,13 @@ export default function Home() {
                 <form onSubmit={handleSubmit}>
 
                     <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
-
                     <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
-
                     <input type="Date" className="form-control short-input" ref={departureDateInput} defaultValue="2025-07-10" />
-
                     <input disabled={oneWay} type="Date" className="form-control short-input" ref={returnDateInput} />
-
                     <div className="checkbox-container">
                         <label htmlFor="oneWayCheck">One way</label>
                         <input type="checkbox" name="oneWayCheck" defaultChecked onClick={handleCheckOneWay} />
                     </div>
-
-
                     <input type="Number" className="form-control" placeholder="Members" ref={membersInput}></input>
 
                     <LoadingButton type="submit" text="Search" loadingSelector={getIsLoadingFilteredFlights}/>

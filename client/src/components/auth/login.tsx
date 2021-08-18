@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { requestLogin } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import  {getIsLogging, getLogginError } from '../../store/slices/auth.slice';
+import { FormGroupInput } from '../formInput';
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -28,19 +29,8 @@ export default function Login() {
             <div className="col-lg-4">
                 <h1>Sign In</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                        </div>
-                        <input ref={usernameInput} type='text' className="form-control" placeholder="Username" defaultValue="user1" />
-                    </div>
-
-                    <div className="form-group input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text"><i className="fas fa-unlock-alt"></i> </span>
-                        </div>
-                        <input ref={passwordInput} type="password" className="form-control" placeholder="Password" defaultValue="user123" />
-                    </div>
+                    <FormGroupInput type='text' placeholder="Username" defaultValue="user1" iconClass="fa fa-user" ref={usernameInput}/>
+                    <FormGroupInput type='password' iconClass="fas fa-unlock-alt" placeholder="Password" defaultValue="user123" ref={passwordInput}/>
                     <Link to="/forgotten-password">Forgot password?</Link>
                     <div className="form-group">
                         <LoadingButton type="submit" loadingSelector={getIsLogging} text="Sign In" />

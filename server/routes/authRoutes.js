@@ -204,7 +204,6 @@ router.post('/forgottenPassword', async (req, res) => {
   const changeRequest = await PasswordChangeRequest.create({ user });
 
   //emailjs.sendForm('','template_wds40p3',email,'user_CBFjjlI7LoTbxcKH4fLE6');
-
   let testAccount = await nodemailer.createTestAccount();
 
   let transporter = nodemailer.createTransport({

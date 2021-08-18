@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { requestForgottenPassword } from '../../actions/auth.actions';
-import {getIsSendingEmail } from '../../store/slices/auth.slice';
+import { getIsSendingEmail } from '../../store/slices/auth.slice';
 import { ValidateEmail } from '../../utils/validator';
+import { FormGroupInput } from '../formInput';
 
 import LoadingButton from '../loadingButton';
 
@@ -10,15 +11,17 @@ export default function ForgottenPasswordForm() {
 
     const dispatch = useDispatch();
 
-    const [emailLink , setEmailLink] = React.useState("");
+    const [emailLink, setEmailLink] = React.useState("");
 
     const emailInput = React.useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(emailInput.current && ValidateEmail(emailInput.current.value)){
-            dispatch(requestForgottenPassword({email:emailInput.current.value , setEmailLink}));
+        if (emailInput.current && ValidateEmail(emailInput.current.value)) {
+            const response:any = await dispatch(requestForgottenPassword({ email: emailInput.current.value }));
+            if(response.type === requestForgottenPassword.fulfilled.type)
+                setEmailLink(response.payload.data);
         }
     }
 
@@ -29,13 +32,7 @@ export default function ForgottenPasswordForm() {
                 <div className="col-lg-4">
                     <h1>Enter your email here</h1>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">  <i className="fas fa-envelope-square"></i></span>
-                            </div>
-                            <input ref={emailInput} type='text' className="form-control" placeholder="Email" defaultValue="oogami@abv.bg"/>
-                        </div>
-
+                        <FormGroupInput ref={emailInput} type='text' iconClass="fas fa-envelope-square" placeholder="Email" defaultValue="oogami@abv.bg" />
                         <div className="form-group">
                             <LoadingButton type="submit" loadingSelector={getIsSendingEmail} text="Continue" />
                         </div>

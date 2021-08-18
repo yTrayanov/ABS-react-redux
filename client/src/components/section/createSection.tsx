@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingSection , getHasCreatedSection , getCreateSectionError } from '../../store/slices/section.slice';
+import { getIsCreatingSection, getHasCreatedSection, getCreateSectionError } from '../../store/slices/section.slice';
 import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
+import { FormGroupInput } from '../formInput';
 
 export default function CreateSection() {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function CreateSection() {
     const hasCreatedSection = useSelector(getHasCreatedSection);
     const error = useSelector(getCreateSectionError);
 
-    if(hasCreatedSection)
+    if (hasCreatedSection)
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
             rowsInput.current.value = '';
             columnsInput.current.value = '';
@@ -51,21 +52,8 @@ export default function CreateSection() {
                 <div className="col-lg-4">
                     <h1>Create Section</h1>
                     <form onSubmit={handleSubmit}>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-columns"></i> </span>
-                            </div>
-                            <input type='number' className="form-control" placeholder="Rows" ref={rowsInput} />
-                        </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-columns"></i> </span>
-                            </div>
-                            <input type='number' className="form-control" placeholder="Columns" ref={columnsInput} />
-                        </div>
-
+                        <FormGroupInput type='number' iconClass="fas fa-columns" placeholder="Rows" ref={rowsInput} />
+                        <FormGroupInput type='number' iconClass="fas fa-columns" placeholder="Columns" ref={columnsInput} />
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fas fa-users-class"></i> </span>
@@ -76,13 +64,7 @@ export default function CreateSection() {
                                 <option value="economy">ECONOMY</option>
                             </select>
                         </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-fingerprint"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} />
-                        </div>
+                        <FormGroupInput type='text' iconClass="fas fa-fingerprint" placeholder="FlightNumber" ref={flightNumberInput} />
 
                         <div className="form-group">
                             <LoadingButton type="submit" loadingSelector={getIsCreatingSection} text="Create" />

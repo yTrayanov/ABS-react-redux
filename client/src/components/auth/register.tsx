@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import {useHistory } from 'react-router-dom';
-import { useDispatch} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { getIsRegistering } from '../../store/slices/auth.slice';
 import { requestRegister } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import { ValidateEmail } from '../../utils/validator';
+import {FormGroupInput} from '../formInput';
 
 
 const initialState = {
@@ -71,13 +72,13 @@ export default function Register() {
                 return;
             }
 
-            const result:any = await reduxDispatch(requestRegister({
+            const result: any = await reduxDispatch(requestRegister({
                 username: usernameInput.current.value,
                 password: passwordInput.current.value,
                 email: emailInput.current.value,
             }));
 
-            if(result.type === requestRegister.fulfilled.type){
+            if (result.type === requestRegister.fulfilled.type) {
                 history.push('/login')
             }
         }
@@ -92,27 +93,15 @@ export default function Register() {
                     <h1>Sign Up</h1>
                     <form onSubmit={handleSubmit}>
 
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="Username" defaultValue="user2" ref={usernameInput} />
-                        </div>
+                        <FormGroupInput type="text" placeholder="Username" defaultValue='user2'  iconClass="fa fa-user" ref={usernameInput}/>
                         {state.usernameError ? <span>{state.usernameError}</span> : null}
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-envelope-square"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="Email" defaultValue="user2@user.bg" ref={emailInput} />
-                        </div>
+
+                        <FormGroupInput type='text' placeholder="Email" defaultValue="user2@user.bg" iconClass="fas fa-envelope-square"  ref={emailInput}/>
                         {state.emailError ? <span>{state.emailError}</span> : null}
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-unlock-alt"></i> </span>
-                            </div>
-                            <input type="password" className="form-control" placeholder="Password" defaultValue="user123" ref={passwordInput} />
-                        </div>
+
+                        <FormGroupInput type='password' placeholder='password' defaultValue="user123" iconClass="fas fa-unlock-alt" ref={passwordInput}/>
                         {state.passwordError ? <span>{state.passwordError}</span> : null}
+                        
                         <div className="form-group">
                             <LoadingButton text="Sign Up" loadingSelector={getIsRegistering} type="submit" />
                         </div>

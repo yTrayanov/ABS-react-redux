@@ -62,12 +62,8 @@ export function getInitialStat(dispatch: any) {
 
 export const requestForgottenPassword = createAsyncThunk(
     'auth/forgottenPassword',
-    (data: { email: string, setEmailLink: (link: string) => void }, thunkApi) => {
-
-        const { email, setEmailLink } = data;
-        postRequest(FORGOTTEN_PASSWORD_URL, { email }).then(response => {
-            setEmailLink(response.data);
-        }).catch(err => {
+    (data: { email: string}, thunkApi) => {
+        return postRequest(FORGOTTEN_PASSWORD_URL, data).catch(err => {
             return thunkApi.rejectWithValue(err.message);
         });
     }
@@ -77,7 +73,7 @@ export const requestChangePassword = createAsyncThunk(
     'auth/changePassword',
     (data: { password: string, requestId: string }, thunkApi) => {
         const { password, requestId } = data;
-        postRequest(getChangePasswordUrl(requestId), { password }).catch(err => {
+        return postRequest(getChangePasswordUrl(requestId), { password }).catch(err => {
             return thunkApi.rejectWithValue(err.message);
         });
     }

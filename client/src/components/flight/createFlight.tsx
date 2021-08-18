@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIsCreatingFlight, getHasCreatedFlight } from '../../store/slices/flight.slice';
 import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
+import { FormGroupInput } from '../formInput';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export default function CreateFlight() {
             const flightNumber = flightNumberInput.current.value
             const departureDate = departureDateInput.current.value
             const landingDate = landingDateInput.current.value;
-            
+
             dispatch(requestCreateFlight({
                 originAirport,
                 destinationAirport,
@@ -58,50 +59,12 @@ export default function CreateFlight() {
                 <div className="col-lg-4">
                     <h1>Create Flight</h1>
                     <form onSubmit={handleSubmit}>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-plane-departure"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="From" ref={originAirportInput} defaultValue="LAA" />
-                        </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-plane-arrival"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="To" ref={destinationAirportInput} defaultValue="NYC"/>
-                        </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-building"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="Airline" ref={airlineInput} defaultValue="DELTA" />
-                        </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-fingerprint"></i> </span>
-                            </div>
-                            <input type='text' className="form-control" placeholder="FlightNumber" ref={flightNumberInput} defaultValue="1"/>
-                        </div>
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
-                            </div>
-                            <input type='datetime-local' className="form-control" ref={departureDateInput}  defaultValue="2025-07-10T10:30"/>
-                        </div>
-
-
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fas fa-calendar-times"></i> </span>
-                            </div>
-                            <input type='datetime-local' className="form-control" ref={landingDateInput} defaultValue="2025-07-10T11:33"/>
-                        </div>
-
+                        <FormGroupInput type="text" iconClass='fas fa-plane-departure' placeholder="From" ref={originAirportInput} defaultValue="LAA" />
+                        <FormGroupInput type='text' iconClass="fas fa-plane-arrival" placeholder="To" ref={destinationAirportInput} defaultValue="NYC" />
+                        <FormGroupInput type='text' iconClass="fas fa-building" placeholder="Airline" ref={airlineInput} defaultValue="DELTA" />
+                        <FormGroupInput type='text' iconClass="fas fa-fingerprint" placeholder="FlightNumber" ref={flightNumberInput} defaultValue="1" />
+                        <FormGroupInput type='datetime-local' iconClass="fas fa-calendar-times" ref={departureDateInput} defaultValue="2025-07-10T10:30" />
+                        <FormGroupInput type='datetime-local' iconClass="fas fa-calendar-times" ref={landingDateInput} defaultValue="2025-07-10T11:33" />
                         <div className="form-group">
                             <LoadingButton type="submit" loadingSelector={getIsCreatingFlight} text="Create" />
                         </div>
