@@ -9,7 +9,7 @@ import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';
 
-export default function Home() {
+export default function Search() {
     const dispatch = useDispatch();
     const [oneWay, setOneWay] = React.useState<boolean>(true);
     const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
@@ -27,11 +27,11 @@ export default function Home() {
         setMappedFlights(
             flights?.map((flight, index) => (
                 <FlightView flights={flight}
-                    key={index} 
-                    oneWay = {oneWay}
-                    membersCount = { membersInput.current?.value || 1} />
+                    key={index}
+                    oneWay={oneWay}
+                    membersCount={membersInput.current?.value || 1} />
             )));
-    }, [flights , oneWay])
+    }, [flights, oneWay])
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,11 +44,11 @@ export default function Home() {
             }
 
             dispatch(requestFilteredFlights({
-                originAirport:originAirportInput.current.value, 
-                destinationAirport:destinationAirportInput.current.value, 
-                departureDate:departureDateInput.current.value, 
-                returnDate:returnDateInput.current.value,
-                membersCount:membersInput.current.value
+                originAirport: originAirportInput.current.value,
+                destinationAirport: destinationAirportInput.current.value,
+                departureDate: departureDateInput.current.value,
+                returnDate: returnDateInput.current.value,
+                membersCount: membersInput.current.value
             }));
         }
     }
@@ -63,18 +63,25 @@ export default function Home() {
         <div className="home">
             <div className="home_search center-horizontally">
                 <form onSubmit={handleSubmit}>
-
                     <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
                     <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
-                    <input type="Date" className="form-control short-input" ref={departureDateInput} defaultValue="2025-07-10" />
-                    <input disabled={oneWay} type="Date" className="form-control short-input" ref={returnDateInput} />
+                    <div className="short-input">
+                        <label htmlFor="departureDate">Departure Date</label>
+                        <input type="Date" id="departureDate" className="form-control" ref={departureDateInput} defaultValue="2025-07-10" />
+                    </div>
+
+                    <div className="short-input">
+                        <label htmlFor="returnDate">ReturnDate Date</label>
+                        <input id="returnDate" disabled={oneWay} type="Date" className="form-control" ref={returnDateInput} />
+                    </div>
+
                     <div className="checkbox-container">
                         <label htmlFor="oneWayCheck">One way</label>
                         <input type="checkbox" name="oneWayCheck" defaultChecked onClick={handleCheckOneWay} />
                     </div>
-                    <input type="Number" className="form-control" placeholder="Members" ref={membersInput}></input>
+                    <input type="Number" name="members" className="form-control" placeholder="Members" ref={membersInput}></input>
 
-                    <LoadingButton type="submit" text="Search" loadingSelector={getIsLoadingFilteredFlights}/>
+                    <LoadingButton type="submit" text="Search" loadingSelector={getIsLoadingFilteredFlights} />
                 </form>
             </div>
 

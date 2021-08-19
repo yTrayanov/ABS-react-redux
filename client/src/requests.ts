@@ -1,4 +1,4 @@
-export const postRequest = (url: string, data: object) => {
+export const postRequest = (url: string, data: object , isTest=false) => {
     const token = window.localStorage.getItem('token');
     return window.fetch(url, {
         method: 'POST',
@@ -11,7 +11,7 @@ export const postRequest = (url: string, data: object) => {
     }).then(response => checkResponse(response));
 }
 
-export const getRequest = (url: string) => {
+export const getRequest = (url: string , isTest = false) => {
     const token = window.localStorage.getItem('token');
     return window.fetch(url, {
         method: 'GET',

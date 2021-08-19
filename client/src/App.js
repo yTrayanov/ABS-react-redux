@@ -5,7 +5,7 @@ import Navigation from './components/navigation';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
 import CreateFlight from './components/flight/createFlight';
-import Home from './components/home';
+import Search from './components/search';
 import UserTickets from './components/ticket/userTickets';
 import CreateSection from './components/section/createSection';
 import AllFlights from './components/flight/allFlights';
@@ -34,7 +34,7 @@ function App() {
           <PublicRoute exact path='/register' component={Register} />
           <PublicRoute exact path='/forgotten-password/:id' component={ForgottenPassword}/>
           <Route exact path='/flight/reserve' component={SeatPicker} />
-          <Route exact path='/' component={Home} />
+          <Route exact path='/' component={Search} />
           <Route exact path="/forgotten-password" component={ForgottenPasswordForm} />
         </Switch>
     </div>

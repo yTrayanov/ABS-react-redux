@@ -25,6 +25,7 @@ export default function SeatPicker() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location: ILocation = useLocation();
+    
     const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
     const [mappedDetails, setMappedDetails] = React.useState<object[]>([]);
     const [toDestinationSeats, setToDestinationSeats] = React.useState<ISeat[]>([])
