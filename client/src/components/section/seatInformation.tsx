@@ -4,7 +4,7 @@ export default function SeatInformation({seat} : {seat:ISeat}) {
 
     return (
         <div>
-            <p>{seat.seatNumber} - {seat.ticket?.passengerName} , booked by {seat.ticket?.user.username}</p>
+            <p>{seat.seatNumber} - {seat.ticket?.passengerName} , booked by {seat.ticket?.username}</p>
         </div>
         )
 

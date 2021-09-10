@@ -25,8 +25,8 @@ export default function FlightInformation() {
 
     return (
         <div>
-            <p>FlightNumber: {flightInfo?.flightNumber}  Airline:{flightInfo?.airline.name}</p>
-            <p> {flightInfo?.originAirport.name} - {flightInfo?.destinationAirport.name} </p>
+            <p>FlightNumber: {flightInfo?.flightNumber}  Airline:{flightInfo?.airline}</p>
+            <p> {flightInfo?.originAirport} - {flightInfo?.destinationAirport} </p>
             {mappedSections ? mappedSections : null}
         </div>
     )

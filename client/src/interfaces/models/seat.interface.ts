@@ -1,4 +1,3 @@
-import ISection from "./section.interface";
 import ITicket from "./ticket.interface";
 
 
@@ -8,7 +7,8 @@ export default interface ISeat{
     column:number,
     isBooked:boolean,
     seatNumber:string,
-    section:ISection,
     passengerName:string,
-    ticket:ITicket | null
+    ticket:ITicket | null,
+    seatClass:string,
+    username:string
 }

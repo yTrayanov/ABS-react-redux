@@ -66,12 +66,12 @@ export default function Search() {
                     <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
                     <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
                     <div className="short-input">
-                        <label htmlFor="departureDate">Departure Date</label>
+                        {/* <label htmlFor="departureDate">Departure Date</label> */}
                         <input type="Date" id="departureDate" className="form-control" ref={departureDateInput} defaultValue="2025-07-10" />
                     </div>
 
                     <div className="short-input">
-                        <label htmlFor="returnDate">ReturnDate Date</label>
+                        {/* <label htmlFor="returnDate">ReturnDate Date</label> */}
                         <input id="returnDate" disabled={oneWay} type="Date" className="form-control" ref={returnDateInput} />
                     </div>
 

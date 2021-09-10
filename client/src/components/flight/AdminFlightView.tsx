@@ -14,7 +14,7 @@ export default function AdminFlightView({flight} : {flight:IFlight}) {
             <li className="all-flights_flight">
                 <p>{flight.flightNumber}</p>
                 <p>{flight.airline.name}</p>
-                <p>{flight.originAirport.name} - {flight.destinationAirport.name}</p>
+                <p>{flight.originAirport} - {flight.destinationAirport}</p>
                 <p>{departureDate.toLocaleDateString()}</p>
                 <p>{departureDate.toLocaleTimeString()} - {landingDate.toLocaleTimeString()}</p>
             </li>

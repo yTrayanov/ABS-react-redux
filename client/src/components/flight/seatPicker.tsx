@@ -48,7 +48,7 @@ export default function SeatPicker() {
             return <p key={index}
                 className={`${index === 0 ? (!selectedReturnSeats ? 'selected' : '') : (selectedReturnSeats ? 'selected' : '')}`}
                 onClick={() => { if (flightIds.length > 1) setSelectReturnSeats(!selectedReturnSeats) }}>
-                {flight.originAirport.name} {'->'} {flight.destinationAirport.name} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
+                {flight.originAirport} {'->'} {flight.destinationAirport} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
             </p>
         }));
 

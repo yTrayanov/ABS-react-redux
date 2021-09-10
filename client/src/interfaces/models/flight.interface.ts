@@ -1,12 +1,8 @@
 import ISection from "./section.interface";
 
 export default interface IFlight {
-    originAirport: {
-        name: string
-    },
-    destinationAirport: {
-        name: string
-    },
+    originAirport: string,
+    destinationAirport: string,
     airline: {
         name: string
     },
