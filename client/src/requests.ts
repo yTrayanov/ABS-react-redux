@@ -1,4 +1,4 @@
-export const postRequest = (url: string, data: object , isTest=false) => {
+export const postRequest = (url: string, data: object, isTest = false) => {
     const token = window.localStorage.getItem('token');
     return window.fetch(url, {
         method: 'POST',
@@ -11,7 +11,7 @@ export const postRequest = (url: string, data: object , isTest=false) => {
     }).then(response => checkResponse(response));
 }
 
-export const getRequest = (url: string , isTest = false) => {
+export const getRequest = (url: string, isTest = false) => {
     const token = window.localStorage.getItem('token');
     return window.fetch(url, {
         method: 'GET',
@@ -27,6 +27,11 @@ async function checkResponse(response: any) {
     const result = await response.json();
 
     if (!response.ok) {
+
+        if (response.status === 401) {
+            localStorage.clear();
+        }
+
         throw new Error(result.error);
     }
 
