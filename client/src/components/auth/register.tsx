@@ -15,7 +15,7 @@ const initialState = {
     emailError: ''
 };
 
-const reducer = (state = initialState, action: { type: string }) => {
+const reducer = (state = initialState, action: { type: 'password' | 'username' | 'email' | 'initial' }) => {
     switch (action.type) {
         case 'password':
             return { ...state, passwordError: 'Password should be at least 6 characters long and a combination of letters and numbers' }
@@ -47,7 +47,7 @@ export default function Register() {
         event.preventDefault();
         let error = false;
 
-        const passwordRegex = new RegExp(/[A-za-z]+[1-9]+/);
+        const passwordRegex = new RegExp(/[A-Za-z]+[1-9]+/);
 
         innerDispatch({ type: "initial" });
 

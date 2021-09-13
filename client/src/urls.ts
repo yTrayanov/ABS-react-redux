@@ -28,3 +28,7 @@ export const CREATE_SECTION_URL:string = CREATE_BASE_URL + 'section';
 export const USER_TICKETS_URL:string =  TICKET_BASE_URL + 'user';
 export const CREATE_TICKET_URL:string = TICKET_BASE_URL+'create';
 //export const REMOVE_TICKET_URL = TICKET_BASE_URL + 'remove';
+
+//airline/airport
+export const CREATE_AIRLINE_URL:string = CREATE_BASE_URL + 'airline';
+export const CREATE_AIRPORT_URL:string = CREATE_BASE_URL + 'airport';

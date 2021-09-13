@@ -26,11 +26,19 @@ export default function Navigation() {
                                 <Link to='/' className='logo'>AirlineBookingSystem</Link>
                             </li>
                             {(isLogged && !isAdmin) && <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li>}
-                            {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/create'>Create Flight</Link></li>}
-                            {(isLogged && isAdmin) && <li className='nav-link'><Link to="/section/create" >Create Section</Link></li>}
-                            {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/all'>All Flights</Link></li> }
-                        </div>
+                            {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/all'>All Flights</Link></li>}
+                            
+                            {(isLogged && isAdmin) &&  
+                            <li className="dropdown">
+                                <p className="dropbtn">Create</p>
+                                <div className="dropdown-content">
+                                <Link to='/flight/create'>Flight</Link>
+                                <Link to="/section/create" >Section</Link>
+                                <Link to="/create">Airline/Airport</Link>
+                                </div>
+                            </li>}
 
+                        </div>
                         <div className="link-container">
                             {!isLogged && <li className='nav-link'><Link to='/login'>Login</Link></li>}
                             {!isLogged && <li className='nav-link'><Link to='/register'>Register</Link></li>}
