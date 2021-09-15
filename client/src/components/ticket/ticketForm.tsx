@@ -43,6 +43,7 @@ export default function TicketForm({ currentSeat, index }: { currentSeat: ISeat,
                 <div className="col-lg-3">
                     <div className="checkbox-container">
                         <input type="checkbox" onClick={toggleReady} readOnly checked={checked} />
+                        <label>Mark as ready</label>
                     </div>
                 </div>
             </div>

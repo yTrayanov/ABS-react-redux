@@ -1,15 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingFlight, getHasCreatedFlight } from '../../store/slices/flight.slice';
+import { getCreateFlightError, getIsCreatingFlight } from '../../store/slices/flight.slice';
 import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
-
-    const flightWasCreated: boolean = useSelector(getHasCreatedFlight);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);
@@ -18,20 +16,19 @@ export default function CreateFlight() {
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const landingDateInput = React.useRef<HTMLInputElement>(null);
 
-    if (flightWasCreated)
-        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
-            originAirportInput.current.value = "";
-            destinationAirportInput.current.value = "";
-            airlineInput.current.value = "";
-            flightNumberInput.current.value = "";
-            departureDateInput.current.value = "";
-            landingDateInput.current.value = "";
-        }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const errorMessage = useSelector(getCreateFlightError);
+
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (originAirportInput.current && destinationAirportInput.current && airlineInput.current && flightNumberInput.current && departureDateInput.current && landingDateInput.current) {
+        if (originAirportInput.current 
+            && destinationAirportInput.current 
+            && airlineInput.current 
+            && flightNumberInput.current 
+            && departureDateInput.current 
+            && landingDateInput.current) {
 
             const originAirport = originAirportInput.current.value
             const destinationAirport = destinationAirportInput.current.value
@@ -40,7 +37,7 @@ export default function CreateFlight() {
             const departureDate = departureDateInput.current.value
             const landingDate = landingDateInput.current.value;
 
-            dispatch(requestCreateFlight({
+            const result: any = await dispatch(requestCreateFlight({
                 originAirport,
                 destinationAirport,
                 airline,
@@ -48,6 +45,16 @@ export default function CreateFlight() {
                 departureDate,
                 landingDate
             }));
+
+            if (result.type === requestCreateFlight.fulfilled.type) {
+                originAirportInput.current.value = "";
+                destinationAirportInput.current.value = "";
+                airlineInput.current.value = "";
+                flightNumberInput.current.value = "";
+                departureDateInput.current.value = "";
+                landingDateInput.current.value = "";
+            }
+
         }
 
     }
@@ -71,7 +78,9 @@ export default function CreateFlight() {
                     </form>
                 </div>
             </div>
-            <div className="col-lg-4"></div>
+                <div className="center-horizontally text-danger">
+                    <h3>{errorMessage}</h3>
+                </div>
         </div>
     );
 }

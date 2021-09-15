@@ -12,11 +12,11 @@ export default function FlightInformation() {
     const dispatch = useDispatch();
     const flightInfo: IFlight = useSelector(getFlightInformation);
     const [mappedSections, setMappedSections] = React.useState<object[] | undefined>([]);
-    const params:{id:string} = useParams();
-    const id: string =params.id;
+    const params: { id: string } = useParams();
+    const id: string = params.id;
 
     React.useEffect(() => {
-        dispatch(requestFlightInformation({id}));
+        dispatch(requestFlightInformation({ id }));
     }, [dispatch, id]);
 
     React.useEffect(() => {
@@ -25,9 +25,21 @@ export default function FlightInformation() {
 
     return (
         <div>
-            <p>FlightNumber: {flightInfo?.flightNumber}  Airline:{flightInfo?.airline}</p>
-            <p> {flightInfo?.originAirport} - {flightInfo?.destinationAirport} </p>
-            {mappedSections ? mappedSections : null}
+            <div className="row admin_flight_details">
+                <div>
+                    <div className="row">
+                        <h2>FlightNumber: {flightInfo?.flightNumber}  Airline:{flightInfo?.airline}</h2>
+                    </div>
+                    <div className="row center-horizontally">
+                        <h2> {flightInfo?.originAirport} - {flightInfo?.destinationAirport} </h2>
+                    </div>
+                </div>
+            </div>
+            <div className="center-horizontally">
+                <div className="row admin_flight_sections">
+                    {mappedSections ? mappedSections : null}
+                </div>
+            </div>
         </div>
     )
 }

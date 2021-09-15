@@ -27,12 +27,14 @@ const flightSlice = createSlice({
 //selectors
 export const getFilteredFlights = ({flights:{filterFlights}}: any) => filterFlights.data;
 export const getIsLoadingFilteredFlights = ({flights:{filterFlights}}: any) => filterFlights.isLoading;
+export const getFilterFlightsError = ({flights:{filterFlights}}: any) => filterFlights.error;
+;
 
 export const getFlightsByIds = ({flights:{flightsByIds}}: any) => flightsByIds.data;
 export const getIsGettingFlightsByIds = ({flights:{flightsByIds}}: any) => flightsByIds.isLoading;
 
 export const getIsCreatingFlight = ({flights:{createFlight}}: any) => createFlight.isLoading;
-export const getHasCreatedFlight = ({flights:{createFlight}}: any) => createFlight.loaded;
+export const getCreateFlightError = ({flights:{createFlight}}: any) => createFlight.error;
 
 export const getAllFlights = ({flights:{allFlights}}: any) => allFlights.data;
 

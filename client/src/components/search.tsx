@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FlightView from './flight/flightsViewer';
 import LoadingButton from './loadingButton';
 
-import { getFilteredFlights, getIsLoadingFilteredFlights } from '../store/slices/flight.slice';
+import { getFilteredFlights, getIsLoadingFilteredFlights , getFilterFlightsError } from '../store/slices/flight.slice';
 import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';
@@ -21,6 +21,7 @@ export default function Search() {
     const membersInput = React.useRef<HTMLInputElement>(null);
 
     const flights: IFlight[][] = useSelector(getFilteredFlights);
+    const errorMessage = useSelector(getFilterFlightsError);
 
 
     React.useEffect(() => {
@@ -83,6 +84,9 @@ export default function Search() {
 
                     <LoadingButton type="submit" text="Search" loadingSelector={getIsLoadingFilteredFlights} />
                 </form>
+            </div>
+            <div className="center-horizontally  text-danger">
+                <h3>{errorMessage}</h3>
             </div>
 
             <div className={`center-horizontally`}>

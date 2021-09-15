@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getIsCreatingSection, getHasCreatedSection, getCreateSectionError } from '../../store/slices/section.slice';
+import { getIsCreatingSection, getCreateSectionError } from '../../store/slices/section.slice';
 import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
@@ -14,19 +14,9 @@ export default function CreateSection() {
     const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
-    const hasCreatedSection = useSelector(getHasCreatedSection);
-    const error = useSelector(getCreateSectionError);
+    const errorMessage = useSelector(getCreateSectionError);
 
-    if (hasCreatedSection)
-        if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
-            rowsInput.current.value = '';
-            columnsInput.current.value = '';
-            seatClassInput.current.value = '';
-            flightNumberInput.current.value = '';
-        }
-
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (rowsInput.current && columnsInput.current && seatClassInput.current && flightNumberInput.current) {
@@ -35,12 +25,20 @@ export default function CreateSection() {
             const seatClass: string = seatClassInput.current.value;
             const flightNumber: string = flightNumberInput.current.value;
 
-            dispatch(requestCreateSection({
+            const result: any = await dispatch(requestCreateSection({
                 rows,
                 columns,
                 seatClass,
                 flightNumber
             }));
+
+
+            if (result.type === requestCreateSection.fulfilled.type) {
+                rowsInput.current.value = '';
+                columnsInput.current.value = '';
+                seatClassInput.current.value = '';
+                flightNumberInput.current.value = '';
+            }
         }
 
     }
@@ -69,7 +67,11 @@ export default function CreateSection() {
                         <div className="form-group">
                             <LoadingButton type="submit" loadingSelector={getIsCreatingSection} text="Create" />
                         </div>
-                        {error ? <p>{error}</p> : null}
+                        <div className="center-horizontally text-danger">
+                            <h3>
+                                {errorMessage}
+                            </h3>
+                        </div>
                     </form>
                 </div>
             </div>
