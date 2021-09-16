@@ -4,11 +4,11 @@ import SectionClassMapper from '../sectionClassMapper';
 
 
 const getTimeDiffrence = (departureDate:Date , landingDate:Date) => {
-    const diffrence:string = formatDistanceStrict(departureDate , landingDate ,{unit:'minute'});
-    const diffInMinutes:number = parseInt(diffrence.split(' ')[0]);
+    const difference:string = formatDistanceStrict(departureDate , landingDate ,{unit:'minute'});
+    const diffInMinutes:number = parseInt(difference.split(' ')[0]);
     const days = Math.floor(diffInMinutes/(24*60));
     const hours = Math.floor(diffInMinutes / 60 - days*24);
-    const minutes:number = hours===0 ? 0 : diffInMinutes -  hours*60;
+    const minutes:number = diffInMinutes - hours*60 - days*24*60;
 
     return `${days===0 ? '' : `${days} days`} ${hours === 0 ? '' : `${hours} hours `} ${minutes === 0 ? '' : `${minutes} minutes`}`;
 

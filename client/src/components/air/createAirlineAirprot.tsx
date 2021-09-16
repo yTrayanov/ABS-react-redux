@@ -17,7 +17,7 @@ export default function CreateAirlineAirport () {
     const createAirport = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const nameRegex = new RegExp(/[A-Z]+/);
+        const nameRegex = new RegExp(/^[A-Z]{3}$/);
 
         if(!airportNameInput.current)
             return;
@@ -39,7 +39,7 @@ export default function CreateAirlineAirport () {
     const createAirline = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const nameRegex = new RegExp(/[A-Z]+/);
+        const nameRegex = new RegExp(/^[A-Z]+$/);
 
         if(!airlineNameInput.current)
             return;

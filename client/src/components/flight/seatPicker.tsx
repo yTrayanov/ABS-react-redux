@@ -13,11 +13,11 @@ import { requestFlightsByIds } from '../../actions/flight.actions';
 
 import FlightDetails from './flightDetails';
 
-interface ILocation{
-    state:{
-        flightIds:string[],
-        oneWay:boolean,
-        membersCount:string
+interface ILocation {
+    state: {
+        flightIds: string[],
+        oneWay: boolean,
+        membersCount: string
     }
 }
 
@@ -25,7 +25,7 @@ export default function SeatPicker() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location: ILocation = useLocation();
-    
+
     const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
     const [mappedDetails, setMappedDetails] = React.useState<object[]>([]);
     const [toDestinationSeats, setToDestinationSeats] = React.useState<ISeat[]>([])
@@ -34,18 +34,18 @@ export default function SeatPicker() {
 
     const isLogged = useSelector(getIsLogged);
     const flights: IFlight[] = useSelector(getFlightsByIds);
-    const isLoading:boolean = useSelector(getIsGettingFlightsByIds);
+    const isLoading: boolean = useSelector(getIsGettingFlightsByIds);
 
     const { flightIds, oneWay, membersCount } = location.state;
 
     React.useEffect(() => {
-        dispatch(requestFlightsByIds({ids:flightIds}));
+        dispatch(requestFlightsByIds({ ids: flightIds }));
     }, [dispatch, flightIds])
 
 
     React.useEffect(() => {
         setMappedDetails(flights?.map((flight, index) => {
-            return <p key={index}
+            return <p key={flight.id}
                 className={`${index === 0 ? (!selectedReturnSeats ? 'selected' : '') : (selectedReturnSeats ? 'selected' : '')}`}
                 onClick={() => { if (flightIds.length > 1) setSelectReturnSeats(!selectedReturnSeats) }}>
                 {flight.originAirport} {'->'} {flight.destinationAirport} : {index === 0 ? (toDestinationSeats ? toDestinationSeats.length : 0) : (returnSeats ? returnSeats.length : 0)}
@@ -58,11 +58,11 @@ export default function SeatPicker() {
                 shouldShow={index === 0 ? (selectedReturnSeats ? false : true) : (selectedReturnSeats ? true : false)} />)
         }));
 
-    }, [toDestinationSeats, returnSeats, selectedReturnSeats, flightIds , flights]);
+    }, [toDestinationSeats, returnSeats, selectedReturnSeats, flightIds, flights]);
 
 
     const handleClick = () => {
-
+        
         if (!isLogged) {
             alert('Please login to continue reserving')
             history.push('/login');
@@ -104,7 +104,13 @@ export default function SeatPicker() {
                     <button className="btn btn-primary" onClick={handleClick}>Continue</button>
                 </div>
                 <div className="reserves_flights">
-                    {isLoading ? "Loading..." : mappedFlights ? mappedFlights : 'There are no flights'}
+                    {isLoading ?
+                        <div className="center-horizontally">
+                            <div className="spinner-border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        : mappedFlights ? mappedFlights : 'There are no flights'}
                 </div>
             </div>
         </div>
