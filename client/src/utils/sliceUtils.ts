@@ -1,3 +1,11 @@
+
+export const initialAsyncState = {
+    isLoading: false,
+    loaded: false,
+    error: null,
+    data: null,
+}
+
 export const generateActionCases = (builder: any, actions: any) => {
     for (let item of actions) {
         (() => {
@@ -18,12 +26,7 @@ export const generateActionCases = (builder: any, actions: any) => {
     }
 }
 
-export const initialAsyncState = {
-    isLoading: false,
-    loaded: false,
-    error: null,
-    data: null,
-}
+
 
 export const success = (state: any, action: any) => {
     state.isLoading = false;

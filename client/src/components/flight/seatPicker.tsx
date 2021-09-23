@@ -6,7 +6,6 @@ import IFlight from '../../interfaces/models/flight.interface';
 import ISeat from '../../interfaces/models/seat.interface';
 
 import { getFlightsByIds, getIsGettingFlightsByIds } from '../../store/slices/flight.slice';
-import { selectSeats } from '../../store/slices/ticket.slice';
 import { getIsLogged } from '../../store/slices/auth.slice';
 
 import { requestFlightsByIds } from '../../actions/flight.actions';
@@ -86,9 +85,7 @@ export default function SeatPicker() {
                 alert('Please select return seats');
                 return;
             }
-
-            dispatch(selectSeats([toDestinationSeats, returnSeats]));
-            history.push(`/flight/ticketsForms`, flightIds);
+            history.push(`/flight/ticketsForms`, {flightIds , seats:[toDestinationSeats , returnSeats]});
         }
         else {
             alert('Please select from origin to destination seats')

@@ -6,7 +6,6 @@ export default function Seat({ seat, toggleSelect } : {seat:ISeat , toggleSelect
     
     const [selected, setSelected] = React.useState<boolean>(false);
 
-
     const handleClick = () => {
         if (!seat.isBooked) {
             if (!selected) {

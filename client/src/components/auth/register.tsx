@@ -94,13 +94,13 @@ export default function Register() {
                     <form onSubmit={handleSubmit}>
 
                         <FormGroupInput type="text" placeholder="Username" defaultValue='user2'  iconClass="fa fa-user" ref={usernameInput}/>
-                        {state.usernameError ? <span>{state.usernameError}</span> : null}
+                        {state.usernameError ? <span className="text-danger">{state.usernameError}</span> : null}
 
                         <FormGroupInput type='text' placeholder="Email" defaultValue="user2@user.bg" iconClass="fas fa-envelope-square"  ref={emailInput}/>
-                        {state.emailError ? <span>{state.emailError}</span> : null}
+                        {state.emailError ? <span className="text-danger" >{state.emailError}</span> : null}
 
                         <FormGroupInput type='password' placeholder='password' defaultValue="user123" iconClass="fas fa-unlock-alt" ref={passwordInput}/>
-                        {state.passwordError ? <span>{state.passwordError}</span> : null}
+                        {state.passwordError ? <span className="text-danger" >{state.passwordError}</span> : null}
                         
                         <div className="form-group">
                             <LoadingButton text="Sign Up" loadingSelector={getIsRegistering} type="submit" />

@@ -1,0 +1,30 @@
+.popup{
+    width: 30%;
+    position: absolute;
+    left: 70%;
+    top: 7%;
+    border: 1px solid black;
+    background: rgb(30, 206, 68);
+    border-radius: 15px;
+    z-index: 10;
+
+    &_inner{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p{
+            padding-top:10px;
+            padding-left: 10px;
+        }
+
+        button{
+            background: none;
+            border: none;
+            height: 100%;
+            padding-right: 20px;
+        }
+    }
+
+    
+}

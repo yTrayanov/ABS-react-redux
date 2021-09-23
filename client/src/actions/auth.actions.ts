@@ -23,9 +23,13 @@ export const requestLogin = createAsyncThunk(
 export const requestLogout = createAsyncThunk(
     'auth/logStatus/logout',
     (data?: any, thunkApi?): any => {
-        return getRequest(LOGOUT_URL).then(() => {
+        return getRequest(LOGOUT_URL).then(async () => {
             window.localStorage.clear();
-            clearStore(thunkApi.dispatch);
+            
+            thunkApi.dispatch(clearAuthSlice);
+            thunkApi.dispatch(clearFlightSlice);
+            thunkApi.dispatch(clearTicketSlice);
+            thunkApi.dispatch(clearSectionSlice);
         }).catch(err => {
             return thunkApi.rejectWithValue(err.message);
         })
@@ -78,13 +82,6 @@ export const requestChangePassword = createAsyncThunk(
         });
     }
 )
-
-function clearStore(dispatch:any){
-    dispatch(clearAuthSlice());
-    dispatch(clearFlightSlice());
-    dispatch(clearSectionSlice());
-    dispatch(clearTicketSlice());
-}
 
 
 export const actions = [

@@ -5,6 +5,7 @@ import { getIsCreatingSection, getCreateSectionError } from '../../store/slices/
 import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
+import { PopupContext } from '../../App';
 
 export default function CreateSection() {
     const dispatch = useDispatch();
@@ -14,6 +15,8 @@ export default function CreateSection() {
     const seatClassInput = React.useRef<HTMLSelectElement>(null);
     const flightNumberInput = React.useRef<HTMLInputElement>(null);
 
+    
+    const {setPopupText , setShowPopup} = React.useContext(PopupContext);
     const errorMessage = useSelector(getCreateSectionError);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +41,9 @@ export default function CreateSection() {
                 columnsInput.current.value = '';
                 seatClassInput.current.value = '';
                 flightNumberInput.current.value = '';
+
+                setPopupText('Section created successfully!')
+                setShowPopup(true);
             }
         }
 

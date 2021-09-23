@@ -5,6 +5,7 @@ import { getCreateFlightError, getIsCreatingFlight } from '../../store/slices/fl
 import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
+import { PopupContext } from '../../App';
 
 export default function CreateFlight() {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function CreateFlight() {
     const departureDateInput = React.useRef<HTMLInputElement>(null);
     const landingDateInput = React.useRef<HTMLInputElement>(null);
 
-
+    const {setPopupText , setShowPopup} = React.useContext(PopupContext);
     const errorMessage = useSelector(getCreateFlightError);
 
 
@@ -53,6 +54,9 @@ export default function CreateFlight() {
                 flightNumberInput.current.value = "";
                 departureDateInput.current.value = "";
                 landingDateInput.current.value = "";
+
+                setPopupText('Flight created successfully');
+                setShowPopup(true);
             }
 
         }

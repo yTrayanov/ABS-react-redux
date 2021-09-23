@@ -1,34 +1,38 @@
 import React from "react";
 import ISeat from "../../interfaces/models/seat.interface";
-import { addSeat, removeSeat } from "../../store/slices/ticket.slice";
-import { useDispatch } from "react-redux";
 import { TicketContext } from "./ticketRegistrationForms";
 import { FormGroupInput } from "../formInput";
 import SectionClassMapper from "../sectionClassMapper";
 
 
-export default function TicketForm({ currentSeat, index }: { currentSeat: ISeat, index: number }) {
-    const dispatch = useDispatch();
+interface Props {
+    currentSeat: ISeat;
+    seatIndex:number;
+    direction:number;
+}
+
+export default function TicketForm({ currentSeat , seatIndex , direction}: Props) {
     const nameInput = React.useRef<HTMLInputElement>(null);
-    const [checked, setChecked] = React.useState<boolean>(false);
 
-    const { incrementCount } = React.useContext(TicketContext);
+    const { incrementCount , changeSeat } = React.useContext(TicketContext);
 
-    const toggleReady = (e: any) => {
-        if (nameInput.current && nameInput.current.value.length > 0) {
-            setChecked(e.target.checked);
-            const newSeat = { ...currentSeat, passengerName: nameInput.current.value }
-            if (e.target.checked) {
-                dispatch(addSeat({ seat: newSeat, index }));
+    const handleChange = () => {
+
+        if (nameInput.current)
+            if (nameInput.current.value.length === 1) {
                 incrementCount(1);
             }
-            else {
-                dispatch(removeSeat({ seat: newSeat, index }));
+            else if (nameInput.current.value.length === 0) {
                 incrementCount(-1);
             }
-
-        }
     }
+
+    const handleBlur = () => {
+        if(nameInput.current)
+            changeSeat(direction , seatIndex , nameInput.current.value);
+    }
+
+
 
     return (
         <div className="container seat-form" >
@@ -38,13 +42,13 @@ export default function TicketForm({ currentSeat, index }: { currentSeat: ISeat,
 
                 </div>
                 <div className="col-lg-5">
-                    <FormGroupInput disabled={checked} type='text' iconClass="fa fa-user" placeholder="Seat holder full name" ref={nameInput} />
-                </div>
-                <div className="col-lg-3">
-                    <div className="checkbox-container">
-                        <input type="checkbox" onClick={toggleReady} readOnly checked={checked} />
-                        <label>Mark as ready</label>
-                    </div>
+                    <FormGroupInput
+                        type='text'
+                        iconClass="fa fa-user"
+                        placeholder="Seat holder full name"
+                        ref={nameInput}
+                        onChange={handleChange}
+                        onBlur={handleBlur} />
                 </div>
             </div>
         </div>

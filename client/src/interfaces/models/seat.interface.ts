@@ -7,7 +7,7 @@ export default interface ISeat{
     column:number,
     isBooked:boolean,
     seatNumber:string,
-    passengerName:string,
+    passengerName:string | undefined,
     ticket:ITicket | null,
     seatClass:string,
     username:string

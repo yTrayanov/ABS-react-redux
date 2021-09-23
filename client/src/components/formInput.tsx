@@ -5,7 +5,9 @@ interface PropsType{
     iconClass:string
     placeholder?:string,
     defaultValue?:string,
-    disabled?:boolean
+    disabled?:boolean,
+    onChange?:any,
+    onBlur?:any
 }
 
 export const FormGroupInput = React.forwardRef((props:PropsType , ref:any) => {
@@ -15,7 +17,14 @@ export const FormGroupInput = React.forwardRef((props:PropsType , ref:any) => {
             <div className="input-group-prepend">
                 <span className="input-group-text"> <i className={props.iconClass}></i> </span>
             </div>
-            <input type={props.type} disabled={props.disabled} className="form-control" placeholder={props.placeholder} defaultValue={props.defaultValue} ref={ref} />
+            <input type={props.type} 
+            disabled={props.disabled}
+             className="form-control" 
+             placeholder={props.placeholder}
+              defaultValue={props.defaultValue} 
+              ref={ref} 
+              onChange={props.onChange} 
+              onBlur={props.onBlur} />
         </div>
     )
 })

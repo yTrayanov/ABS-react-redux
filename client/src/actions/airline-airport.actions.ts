@@ -3,6 +3,7 @@ import { postRequest } from "../requests";
 import { CREATE_AIRLINE_URL, CREATE_AIRPORT_URL } from "../urls";
 
 
+
 export const requestCreate = createAsyncThunk(
     'create/create',
     (data:{objectName:string ,objectType:'AIRPORT'| 'AIRLINE' }, thunkApi) => {

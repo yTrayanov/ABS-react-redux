@@ -34,7 +34,8 @@ export default function Navigation() {
                                 <div className="dropdown-content">
                                 <Link to='/flight/create'>Flight</Link>
                                 <Link to="/section/create" >Section</Link>
-                                <Link to="/create">Airline/Airport</Link>
+                                <Link to="/airline/create">Airline</Link>
+                                <Link to="/airport/create">Airport</Link>
                                 </div>
                             </li>}
 
