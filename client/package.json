@@ -15,25 +15,28 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
-    "cypress": "^8.3.0",
+    "chai": "^4.3.6",
+    "cypress": "^9.6.0",
     "date-fns": "^2.22.1",
     "eslint-plugin-cypress": "^2.11.3",
     "hookrouter": "^1.2.5",
-    "node-sass": "^6.0.1",
+    "mocha": "^9.2.2",
+    "node-sass": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-popup-alert": "^2.0.0",
+    "react-popup-alert": "^1.0.7",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.3.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts  start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -41,8 +44,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

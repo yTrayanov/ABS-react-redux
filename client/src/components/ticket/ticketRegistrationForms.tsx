@@ -28,8 +28,6 @@ export default function TicketRegistrationForms() {
     const [mappedForms, setMappedForms] = React.useState<object[]>([]);
     const filledFormsCount = React.useRef<number>(0);
 
-
-
     const changeSeat = React.useCallback((direction:number , seatIndex:number , passangerName:string) => {
         let newSeats = [...seats]
         newSeats[direction][seatIndex] = {...newSeats[direction][seatIndex] , passengerName:passangerName};

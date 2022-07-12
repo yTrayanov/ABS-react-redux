@@ -3,5 +3,7 @@
     "component": {
         "testFiles": "**/*.test.{js,ts,jsx,tsx}",
         "componentFolder": "cypress/integration"
-      }
+      },
+      "viewportWidth": 1200,
+      "viewportHeight": 1000
 }

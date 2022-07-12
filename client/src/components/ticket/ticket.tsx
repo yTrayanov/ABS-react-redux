@@ -16,11 +16,11 @@ const getTimeDiffrence = (departureDate:Date , landingDate:Date) => {
 
 export default function Ticket({ ticket } : {ticket:ITicket}) {
 
-    const departureDate = new Date(ticket.flight.departureDate);
-    const landingDate = new Date(ticket.flight.landingDate);
+    const departureDate = new Date(ticket.flight?.departureDate);
+    const landingDate = new Date(ticket.flight?.landingDate);
 
     const departureTime = departureDate.toLocaleTimeString();
-    const landingTime = new Date(ticket.flight.landingDate).toLocaleTimeString();
+    const landingTime = new Date(ticket.flight?.landingDate).toLocaleTimeString();
 
     
     const timeDiffrence = getTimeDiffrence(departureDate , landingDate);
@@ -29,17 +29,17 @@ export default function Ticket({ ticket } : {ticket:ITicket}) {
         <>
             <li className="tickets_ticket">
                 <div className="ticket_part">
-                    <p>{ticket.flight.airline}</p>
-                    <p>{ticket.flight.flightNumber}</p>
+                    <p>{ticket.flight?.airline}</p>
+                    <p>{ticket.flight?.flightNumber}</p>
                     <p>{departureDate.toLocaleDateString()}</p>
                 </div>
                 <div className="ticket_part">
                     <p>{ticket.passengerName}</p>
-                    <p>{ticket.seat.seatNumber} / <SectionClassMapper seatClass={ticket.seat.seatClass} /></p>
+                    <p>{ticket.seat?.seatNumber} / <SectionClassMapper seatClass={ticket.seat?.seatClass} /></p>
                     <div className="date-container">
-                        <p>{departureTime} {ticket.flight.originAirport}</p>
+                        <p>{departureTime} {ticket.flight?.originAirport}</p>
                         <p>{"->"}</p>
-                        <p>{landingTime} {ticket.flight.destinationAirport}</p>
+                        <p>{landingTime} {ticket.flight?.destinationAirport}</p>
                     </div>
                     <p>{timeDiffrence}</p>
                 </div>

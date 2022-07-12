@@ -3,86 +3,14 @@
     "data": [
         [
             {
-                "flightNumber": "12",
-                "airlineId": 1,
-                "airline": {
-                    "name": "TEST AIRLINE",
-                    "flights": [],
-                    "id": 1
-                },
-                "originAirport": {
-                    "name": "ORIGIN",
-                    "incomingFlights": [],
-                    "departingFlights": [],
-                    "id": 1
-                },
-                "originAirportId": 1,
-                "destinationAirport": {
-                    "name": "DESTINATION",
-                    "incomingFlights": [],
-                    "departingFlights": [],
-                    "id": 2
-                },
-                "destinationAirportId": 2,
-                "sections": [
-                    {
-                        "seats": [],
-                        "availableSeatsCount": 9,
-                        "rows": 3,
-                        "columns": 3,
-                        "seatClass": 0,
-                        "flightId": 2,
-                        "hasAvailableSeats": true,
-                        "id": 1
-                    }
-                ],
+                "id": "0",
+                "flightNumber": "0",
+                "airline": "TEST AIRLINE",
+                "originAirport": "ORIGIN",
+                "destinationAirport": "DESTINATION",
                 "departureDate": "2025-07-10T10:30:00",
                 "landingDate": "2025-07-10T11:33:00",
-                "isAvailable": true,
-                "tickets": [],
-                "id": 2
-            }
-        ],
-        [
-            {
-                "flightNumber": "123",
-                "airlineId": 1,
-                "airline": {
-                    "name": "TEST AIRLINE",
-                    "flights": [],
-                    "id": 1
-                },
-                "originAirport": {
-                    "name": "ORIGIN",
-                    "incomingFlights": [],
-                    "departingFlights": [],
-                    "id": 1
-                },
-                "originAirportId": 1,
-                "destinationAirport": {
-                    "name": "DESTINATION",
-                    "incomingFlights": [],
-                    "departingFlights": [],
-                    "id": 2
-                },
-                "destinationAirportId": 2,
-                "sections": [
-                    {
-                        "seats": [],
-                        "availableSeatsCount": 25,
-                        "rows": 5,
-                        "columns": 5,
-                        "seatClass": 0,
-                        "flightId": 3,
-                        "hasAvailableSeats": true,
-                        "id": 2
-                    }
-                ],
-                "departureDate": "2025-07-10T10:30:00",
-                "landingDate": "2025-07-10T11:33:00",
-                "isAvailable": true,
-                "tickets": [],
-                "id": 3
+                "sections": null
             }
         ]
     ],

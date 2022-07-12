@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FlightView from './flight/flightsViewer';
 import LoadingButton from './loadingButton';
 
-import { getFilteredFlights, getIsLoadingFilteredFlights , getFilterFlightsError } from '../store/slices/flight.slice';
+import { getFilteredFlights, getIsLoadingFilteredFlights , getFilterFlightsError, clearFlightSlice } from '../store/slices/flight.slice';
 import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';
@@ -51,6 +51,7 @@ export default function Search() {
                 returnDate: returnDateInput.current.value,
                 membersCount: membersInput.current.value
             }));
+
         }
     }
 
@@ -67,18 +68,16 @@ export default function Search() {
                     <input type='text' className="form-control long-input" placeholder="From" ref={originAirportInput} defaultValue='LAA' />
                     <input type="text" className="form-control long-input" placeholder="To" ref={destinationAirportInput} defaultValue='NYC' />
                     <div className="short-input">
-                        {/* <label htmlFor="departureDate">Departure Date</label> */}
-                        <input type="Date" id="departureDate" className="form-control" ref={departureDateInput} defaultValue="2025-07-10" />
+                        <input type="Date" id="departureDate" data-cy='departureDate' className="form-control" ref={departureDateInput} defaultValue="2025-07-10" />
                     </div>
 
                     <div className="short-input">
-                        {/* <label htmlFor="returnDate">ReturnDate Date</label> */}
-                        <input id="returnDate" disabled={oneWay} type="Date" className="form-control" ref={returnDateInput} />
+                        <input id="returnDate" disabled={oneWay} type="Date" data-cy='returnDate' className="form-control" ref={returnDateInput} />
                     </div>
 
                     <div className="checkbox-container">
                         <label htmlFor="oneWayCheck">One way</label>
-                        <input type="checkbox" name="oneWayCheck" defaultChecked onClick={handleCheckOneWay} />
+                        <input type="checkbox" name="oneWayCheck" data-cy='onewayCheck' defaultChecked onClick={handleCheckOneWay} />
                     </div>
                     <input type="Number" name="members" className="form-control" placeholder="Members" ref={membersInput}></input>
 
