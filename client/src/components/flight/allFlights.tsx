@@ -5,13 +5,14 @@ import IFlight from "../../interfaces/models/flight.interface";
 import { getAllFlights } from "../../store/slices/flight.slice";
 import { requestAllFlights } from "../../actions/flight.actions";
 
-import AdminFlightView from "./adminFlightView";
+import AdminFlightView from "./AdminFlightView";
+import { AppDispatch } from "../../store/store";
 
 
 export default function AllFlights() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const flights: IFlight[] = useSelector(getAllFlights);
-    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<React.ReactNode>([]);
 
     React.useEffect(() => {
         dispatch(requestAllFlights());

@@ -12,7 +12,7 @@ interface Props{
 export default function SeatHoldersForm({ seats , direction } : Props) {
 
 
-    const [mappedSeats, setMappedSeats] = React.useState<object[]>([]);
+    const [mappedSeats, setMappedSeats] = React.useState<React.ReactNode>([]);
 
 
     React.useEffect(() => {

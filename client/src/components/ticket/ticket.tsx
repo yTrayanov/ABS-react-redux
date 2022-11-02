@@ -29,7 +29,7 @@ export default function Ticket({ ticket } : {ticket:ITicket}) {
         <>
             <li className="tickets_ticket">
                 <div className="ticket_part">
-                    <p>{ticket.flight?.airline}</p>
+                    <p>{ticket.flight?.airline.name}</p>
                     <p>{ticket.flight?.flightNumber}</p>
                     <p>{departureDate.toLocaleDateString()}</p>
                 </div>

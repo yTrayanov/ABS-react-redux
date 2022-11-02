@@ -6,9 +6,10 @@ import { requestLogin } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import  {getIsLogging, getLogginError } from '../../store/slices/auth.slice';
 import { FormGroupInput } from '../formInput';
+import { AppDispatch } from '../../store/store';
 
 export default function Login() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);

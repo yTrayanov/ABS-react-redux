@@ -7,16 +7,18 @@ import SectionInformation from '../section/sectionInformation';
 import { getFlightInformation } from "../../store/slices/flight.slice";
 import { requestFlightInformation } from '../../actions/flight.actions';
 import { useParams } from 'react-router-dom';
+import { AppDispatch } from '../../store/store';
 
 export default function FlightInformation() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const flightInfo: IFlight = useSelector(getFlightInformation);
-    const [mappedSections, setMappedSections] = React.useState<object[] | undefined>([]);
-    const params: { id: string } = useParams();
-    const id: string = params.id;
+    const [mappedSections, setMappedSections] = React.useState<React.ReactNode | undefined>([]);
+    const {id} = useParams();
 
     React.useEffect(() => {
-        dispatch(requestFlightInformation({ id }));
+        if(id){
+            dispatch(requestFlightInformation({ id }));
+        }
     }, [dispatch, id]);
 
     React.useEffect(() => {
@@ -28,7 +30,7 @@ export default function FlightInformation() {
             <div className="row admin_flight_details">
                 <div>
                     <div className="row">
-                        <h2>FlightNumber: {flightInfo?.flightNumber}  Airline:{flightInfo?.airline}</h2>
+                        <h2>{`FlightNumber: ${flightInfo?.flightNumber}  Airline:${flightInfo?.airline}`}</h2>
                     </div>
                     <div className="row center-horizontally">
                         <h2> {flightInfo?.originAirport} - {flightInfo?.destinationAirport} </h2>

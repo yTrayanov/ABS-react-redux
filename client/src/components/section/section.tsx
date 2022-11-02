@@ -7,7 +7,7 @@ import SectionClassMapper from '../sectionClassMapper';
 
 export default function Section({ section , toggleSelect}:{section:ISection , toggleSelect:(seat:ISeat , selected:boolean) => void}) {
 
-    const [mappedSeats , setMappedSeats] = React.useState<object[]>([]);
+    const [mappedSeats , setMappedSeats] = React.useState<React.ReactNode>([]);
 
 
     React.useEffect(() => {

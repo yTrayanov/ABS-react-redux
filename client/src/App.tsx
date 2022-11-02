@@ -1,5 +1,5 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import {useState ,createContext} from 'react';
+import {Navigate, Route , Routes } from 'react-router-dom';
 
 import './App.scss';
 import Navigation from './components/navigation';
@@ -19,19 +19,24 @@ import CreateAirline from './components/air/createAirline';
 import CreateAirport from './components/air/createAirport';
 import Popup from './components/popup';
 
-import { AdminRoute, PrivateRoute, PublicRoute } from './routes';
+import {getIsAdmin, getIsLogged} from './store/slices/auth.slice';
+import { useSelector } from 'react-redux';
 
 interface IContextProps{
   setShowPopup?:any,
   setPopupText?:any
 }
 
-export const PopupContext = React.createContext<IContextProps>({});
+export const PopupContext = createContext<IContextProps>({});
 
-function App() {
+export default function App() {
 
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [popupText, setPopupText] = React.useState('Success');
+  const isAdmin = useSelector(getIsAdmin);
+  const isLogged = useSelector(getIsLogged);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupText, setPopupText] = useState('Success');
+
 
   const handlePopupClose = () => {
     setShowPopup(false);
@@ -47,25 +52,36 @@ function App() {
       }}>
         <Navigation />
         <Popup text={popupText} shouldShow={showPopup} handleClose={handlePopupClose} />
-        <Switch>
-          <AdminRoute exact path='/section/create' component={CreateSection} />
-          <AdminRoute exact path='/flight/create' component={CreateFlight} />
-          <AdminRoute exact path='/flight/all' component={AllFlights} />
-          <AdminRoute exact path='/flight/information/:id' component={FlightInformation} />
-          <AdminRoute exact path='/airline/create' component={CreateAirline} />
-          <AdminRoute exact path='/airport/create' component={CreateAirport} />
-          <PrivateRoute exact path='/user/tickets' component={UserTickets} />
-          <PrivateRoute exact path='/flight/ticketsForms' component={TicketRegistrationForms} />
-          <PublicRoute exact path='/login' component={Login} />
-          <PublicRoute exact path='/register' component={Register} />
-          <PublicRoute exact path='/forgotten-password/:id' component={ForgottenPassword} />
-          <Route exact path='/flight/reserve' component={SeatPicker} />
-          <Route exact path='/' component={Search} />
-          <Route exact path="/forgotten-password" component={ForgottenPasswordForm} />
-        </Switch>
+        <Routes>
+          <Route path='/section/create' element={RequireAuth((isAdmin), <CreateSection/>, getRedirection(isLogged))} />
+          <Route path='/flight/create' element={RequireAuth((isAdmin), <CreateFlight/>, getRedirection(isLogged))} />
+          <Route path='/flight/all' element={RequireAuth((isAdmin), <AllFlights/>, getRedirection(isLogged))} />
+          <Route path='/flight/information/:id' element={RequireAuth((isAdmin), <FlightInformation/>, getRedirection(isLogged))} />
+          <Route path='/airline/create' element={RequireAuth((isAdmin), <CreateAirline/>, getRedirection(isLogged))} />
+          <Route path='/airport/create' element={RequireAuth((isAdmin), <CreateAirport/>, getRedirection(isLogged))} />
+          <Route path='/user/tickets' element={RequireAuth((isLogged), <UserTickets/>, "/login")} />
+          <Route path='/flight/ticketsForms' element={<TicketRegistrationForms/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/register' element={<Register/>} />
+          <Route path='/forgotten-password/:id' element={<ForgottenPassword/>} />
+          <Route path='/flight/reserve' element={<SeatPicker/>} />
+          <Route path='/' element={<Search/>} />
+          <Route path="/forgotten-password" element={<ForgottenPasswordForm/>} />
+        </Routes>
       </PopupContext.Provider>
     </div>
   )
 }
 
-export default App;
+function RequireAuth(requirement:boolean,children:React.ReactNode , redirectTo:string) : React.ReactNode{
+  return requirement ? children : <Navigate to={redirectTo} />;
+}
+
+function getRedirection(isLoggedIn:boolean){
+  if(isLoggedIn){
+    return "/";
+  }
+  else{
+    return "/login";
+  }
+}

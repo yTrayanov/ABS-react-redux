@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import SeatHoldersForm from './seatHoldersForm';
 
@@ -8,6 +8,7 @@ import ISeat from '../../interfaces/models/seat.interface';
 import {getIsCreatingTickets } from '../../store/slices/ticket.slice';
 import { requestCreateTickets } from '../../actions/ticket.actions';
 import LoadingButton from '../loadingButton';
+import { AppDispatch } from '../../store/store';
 
 interface ILocation {
     state: {
@@ -19,13 +20,13 @@ interface ILocation {
 export const TicketContext = React.createContext<any>(null);
 
 export default function TicketRegistrationForms() {
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const location: ILocation = useLocation();
     const { flightIds} = location.state;
     const [seats,setSeats] = React.useState<ISeat[][]>(location.state.seats);
 
-    const [mappedForms, setMappedForms] = React.useState<object[]>([]);
+    const [mappedForms, setMappedForms] = React.useState<React.ReactNode>([]);
     const filledFormsCount = React.useRef<number>(0);
 
     const changeSeat = React.useCallback((direction:number , seatIndex:number , passangerName:string) => {
@@ -63,7 +64,7 @@ export default function TicketRegistrationForms() {
         const result: any = await dispatch(requestCreateTickets({ flightIds, seats: seats }));
 
         if (result.type === requestCreateTickets.fulfilled.type) {
-            history.push('/');
+            navigate('/');
         }
     }
 

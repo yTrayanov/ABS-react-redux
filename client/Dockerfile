@@ -6,7 +6,7 @@ ENV NODE_ENV "${NODE_ENV:-production}"
 FROM base as deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install --force
+RUN npm install
 
 
 FROM base

@@ -7,10 +7,10 @@ export default function Flight({ flight}
     return (
         <div className="home_flights_flight">
             <div className="flight-details">
-                <p>{flight.airline} {'->'}</p>
-                <p>{flight.originAirport} - {flight.destinationAirport}</p>
+                <p>{`${flight.airline} ->`}</p>
+                <p>{`${flight.originAirport} - ${flight.destinationAirport}`}</p>
             </div>
-            <div>{new Date(flight.departureDate).toLocaleString()} {" -> "} {new Date(flight.landingDate).toLocaleString()}</div>
+            <div>{`${new Date(flight.departureDate).toLocaleString()} -> ${new Date(flight.landingDate).toLocaleString()}`}</div>
         </div>
     )
 }

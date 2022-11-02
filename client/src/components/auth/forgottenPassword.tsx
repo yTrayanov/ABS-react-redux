@@ -1,16 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { requestChangePassword } from '../../actions/auth.actions';
 import { getIsChangingPassowrd } from '../../store/slices/auth.slice';
+import { AppDispatch } from '../../store/store';
 import { FormGroupInput } from '../formInput';
 import LoadingButton from '../loadingButton';
 
 export default function ForgottenPassword() {
-    const params: { id: string } = useParams();
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const id = params.id;
+    const {id} = useParams();
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
 
     const passwordInput = React.useRef<HTMLInputElement>(null);
     const confirmPasswordInput = React.useRef<HTMLInputElement>(null);
@@ -18,11 +18,11 @@ export default function ForgottenPassword() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (passwordInput.current && confirmPasswordInput.current && passwordInput.current.value === confirmPasswordInput.current.value) {
+        if (passwordInput.current && confirmPasswordInput.current && passwordInput.current.value === confirmPasswordInput.current.value && id) {
             const result: any = await dispatch(requestChangePassword({ password: passwordInput.current.value, requestId: id }));
 
             if (result.type === requestChangePassword.fulfilled.type) {
-                history.push('/login');
+                navigate('/login');
             }
         }
     }

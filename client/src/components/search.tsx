@@ -4,15 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import FlightView from './flight/flightsViewer';
 import LoadingButton from './loadingButton';
 
-import { getFilteredFlights, getIsLoadingFilteredFlights , getFilterFlightsError, clearFlightSlice } from '../store/slices/flight.slice';
+import { getFilteredFlights, getIsLoadingFilteredFlights , getFilterFlightsError } from '../store/slices/flight.slice';
 import { requestFilteredFlights } from '../actions/flight.actions';
 
 import IFlight from '../interfaces/models/flight.interface';
+import { AppDispatch } from '../store/store';
 
 export default function Search() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [oneWay, setOneWay] = React.useState<boolean>(true);
-    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<React.ReactNode>([]);
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);

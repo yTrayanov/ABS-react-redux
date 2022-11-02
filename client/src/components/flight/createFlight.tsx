@@ -6,9 +6,10 @@ import { requestCreateFlight } from '../../actions/flight.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
 import { PopupContext } from '../../App';
+import { AppDispatch } from '../../store/store';
 
 export default function CreateFlight() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const originAirportInput = React.useRef<HTMLInputElement>(null);
     const destinationAirportInput = React.useRef<HTMLInputElement>(null);

@@ -6,9 +6,10 @@ import { requestCreateSection } from '../../actions/section.actions';
 import LoadingButton from '../loadingButton';
 import { FormGroupInput } from '../formInput';
 import { PopupContext } from '../../App';
+import { AppDispatch } from '../../store/store';
 
 export default function CreateSection() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const rowsInput = React.useRef<HTMLInputElement>(null);
     const columnsInput = React.useRef<HTMLInputElement>(null);

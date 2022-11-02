@@ -6,9 +6,10 @@ import LoadingButton from '../loadingButton';
 import { PopupContext } from '../../App';
 import { getIsCreating, getCreateError } from '../../store/slices/create.slice';
 import { requestCreate } from '../../actions/airline-airport.actions';
+import { AppDispatch } from '../../store/store';
 
 export default function CreateAirport() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const airportNameInput = React.useRef<HTMLInputElement>(null);
     const { setShowPopup, setPopupText } = React.useContext(PopupContext);
     const errorMessage = useSelector(getCreateError);

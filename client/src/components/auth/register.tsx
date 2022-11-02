@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getIsRegistering } from '../../store/slices/auth.slice';
@@ -7,6 +7,7 @@ import { requestRegister } from '../../actions/auth.actions';
 import LoadingButton from '../loadingButton';
 import { ValidateEmail } from '../../utils/validator';
 import {FormGroupInput} from '../formInput';
+import { AppDispatch } from '../../store/store';
 
 
 const initialState = {
@@ -33,9 +34,9 @@ const reducer = (state = initialState, action: { type: 'password' | 'username' |
 
 
 export default function Register() {
-    const reduxDispatch = useDispatch();
+    const reduxDispatch = useDispatch<AppDispatch>();
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
@@ -79,7 +80,7 @@ export default function Register() {
             }));
 
             if (result.type === requestRegister.fulfilled.type) {
-                history.push('/login')
+                navigate('/login')
             }
         }
 

@@ -6,11 +6,12 @@ import Ticket from './ticket';
 import { getUserTickets, getIsLoadingUserTickets } from '../../store/slices/ticket.slice';
 import { requestUserTickets } from '../../actions/ticket.actions';
 import ITicket from '../../interfaces/models/ticket.interface';
+import { AppDispatch } from '../../store/store';
 
 
 export default function UserTickets() {
-    const dispatch = useDispatch();
-    const [mappedTickets, setMappedTickets] = React.useState<object[]>([]);
+    const dispatch = useDispatch<AppDispatch>();
+    const [mappedTickets, setMappedTickets] = React.useState<React.ReactNode>([]);
 
     const tickets: ITicket[] = useSelector(getUserTickets);
     const isLoading: boolean = useSelector(getIsLoadingUserTickets);

@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsLogged, getIsAdmin } from '../store/slices/auth.slice';
 import { requestLogout } from '../actions/auth.actions';
+import { AppDispatch } from '../store/store';
 
 export default function Navigation() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const isLogged: boolean = useSelector(getIsLogged);
     const isAdmin: boolean = useSelector(getIsAdmin);
@@ -27,17 +28,17 @@ export default function Navigation() {
                             </li>
                             {(isLogged && !isAdmin) && <li className='nav-link'><Link to="/user/tickets" >Tickets</Link></li>}
                             {(isLogged && isAdmin) && <li className='nav-link'><Link to='/flight/all'>All Flights</Link></li>}
-                            
-                            {(isLogged && isAdmin) &&  
-                            <li className="dropdown">
-                                <p className="dropbtn">Create</p>
-                                <div className="dropdown-content">
-                                <Link to='/flight/create'>Flight</Link>
-                                <Link to="/section/create" >Section</Link>
-                                <Link to="/airline/create">Airline</Link>
-                                <Link to="/airport/create">Airport</Link>
-                                </div>
-                            </li>}
+
+                            {(isLogged && isAdmin) &&
+                                <li className="dropdown">
+                                    <p className="dropbtn">Create</p>
+                                    <div className="dropdown-content">
+                                        <Link to='/flight/create'>Flight</Link>
+                                        <Link to="/section/create" >Section</Link>
+                                        <Link to="/airline/create">Airline</Link>
+                                        <Link to="/airport/create">Airport</Link>
+                                    </div>
+                                </li>}
 
                         </div>
                         <div className="link-container">

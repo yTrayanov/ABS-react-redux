@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { requestForgottenPassword } from '../../actions/auth.actions';
 import { getIsSendingEmail } from '../../store/slices/auth.slice';
+import { AppDispatch } from '../../store/store';
 import { ValidateEmail } from '../../utils/validator';
 import { FormGroupInput } from '../formInput';
 
@@ -9,7 +10,7 @@ import LoadingButton from '../loadingButton';
 
 export default function ForgottenPasswordForm() {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const [emailLink, setEmailLink] = React.useState("");
 

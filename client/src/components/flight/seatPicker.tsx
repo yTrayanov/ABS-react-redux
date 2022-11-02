@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useHistory } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import IFlight from '../../interfaces/models/flight.interface';
 import ISeat from '../../interfaces/models/seat.interface';
@@ -11,6 +11,7 @@ import { getIsLogged } from '../../store/slices/auth.slice';
 import { requestFlightsByIds } from '../../actions/flight.actions';
 
 import FlightDetails from './flightDetails';
+import { AppDispatch } from '../../store/store';
 
 interface ILocation {
     state: {
@@ -21,12 +22,12 @@ interface ILocation {
 }
 
 export default function SeatPicker() {
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const location: ILocation = useLocation();
 
-    const [mappedFlights, setMappedFlights] = React.useState<object[]>([]);
-    const [mappedDetails, setMappedDetails] = React.useState<object[]>([]);
+    const [mappedFlights, setMappedFlights] = React.useState<React.ReactNode>([]);
+    const [mappedDetails, setMappedDetails] = React.useState<React.ReactNode>([]);
     const [toDestinationSeats, setToDestinationSeats] = React.useState<ISeat[]>([])
     const [returnSeats, setReturnSeats] = React.useState<ISeat[]>([]);
     const [selectedReturnSeats, setSelectReturnSeats] = React.useState<boolean>(false)
@@ -64,7 +65,7 @@ export default function SeatPicker() {
         
         if (!isLogged) {
             alert('Please login to continue reserving')
-            history.push('/login');
+            navigate('/login');
             return;
         }
 
@@ -85,7 +86,7 @@ export default function SeatPicker() {
                 alert('Please select return seats');
                 return;
             }
-            history.push(`/flight/ticketsForms`, {flightIds , seats:[toDestinationSeats , returnSeats]});
+            navigate(`/flight/ticketsForms`, {state:{flightIds , seats:[toDestinationSeats , returnSeats]}});
         }
         else {
             alert('Please select from origin to destination seats')
